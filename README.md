@@ -43,3 +43,7 @@ Simulation = {
   'seed': long int 
 }
 ```
+
+# Questions
+- Is CG/MD supported?
+- Is covalent bonding (b/w ligand and receptor) supported?
