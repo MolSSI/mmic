@@ -4,6 +4,15 @@
 
 <img src="https://www.oist.jp/sites/default/files/photos/docking%20simulation.png" width="500">
 
+Applications of docking include:
+
+- Virtual screening (hit identification)
+- Drug discovery (lead optimization)
+- Binding site identification (blind docking)
+- Protein-protein interactions
+- Enzymatic reaction mechanisms
+- Protein engineering
+
 
 # Schema
 
@@ -43,6 +52,10 @@ Refinement = {
   'add_residues (False)': True/False,
   'extract (None)': group_name,
   'isomers (False)': True/False
+}
+
+Minimization = {
+   'MMparams': ...
 }
 ```
 ## Simulation 
