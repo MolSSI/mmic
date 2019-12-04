@@ -14,6 +14,9 @@ Applications of docking include:
 - Protein engineering
 
 
+<img src="docking-soft.png" width="500">
+
+
 # Schema
 
 ## System definition -> MMSchema
@@ -41,6 +44,7 @@ Molecule = {
   'concentration (None)': float,
   'positions (None)': [x,y,z],
   'bonds (None)': [[index1, index2], ...],
+  'bond_order (None)': [bo1, bo2, ...],
   'forcefield': ['amber99', 'charmm36', ...]
 }
 ```
