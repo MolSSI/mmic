@@ -7,6 +7,7 @@
 
 # Schema
 
+## System definition -> MMSchema
 ```
 System = {
   'box': definition of a simulation box,
@@ -33,21 +34,28 @@ Molecule = {
   'bonds (None)': [[index1, index2], ...],
   'forcefield': ['amber99', 'charmm36', ...]
 }
+```
 
+## System preparation
+```
 Refinement = {
   'hydrogens (None)': True/False,
   'add_residues (False)': True/False,
   'extract (None)': group_name,
   'isomers (False)': True/False
 }
-
+```
+## Simulation 
+```
 Simulation = {
   'target': receptor1,
   'ligand': [ligand1, ligand2, ...],
   'search_region (None)': [[region1_ligand1, region2_ligand1, ...], [region1_ligand2, ...], ...],
   'interaction': 'all-atom i.e. pairwise', 'coarse-grained e.g. grid', ...,
   'rigid': [receptor1, ligand1, ...],
-  'seed': long int 
+  'seed': long int, 
+  'MCparams': ...,
+  'MMparams': ...
 }
 ```
 
