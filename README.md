@@ -1,6 +1,6 @@
 
  # Problem
- Given the 3D structures of 2 (or more) molecules, we need to determine the optimal binding modes. This requires computing a "score" function corresponding to each "pose" or 3D conformation of the complex. This is commonly referred to as a "docking" simulation. If molecular docking is applied to a series of ligand molecules, then this is referred to as "virtual screening". Virtual screening is frequently employed in structure-based drug design because it enables the identification of a drug in a certain 3D conformation that binds optimally to a specific target molecule such as a protein.
+ Given the 3D structures of 2 (or more) molecules, we need to determine the optimal binding modes. This requires computing a "score" function corresponding to each "pose" or 3D conformation of the complex. This is commonly referred to as a "docking" simulation. If molecular docking is applied to a series of ligand molecules, then this is referred to as "virtual screening". Virtual screening is frequently employed in structure-based drug design because it enables the identification of a drug that binds optimally to a specific target molecule such as a protein.
 
 <img src="https://www.oist.jp/sites/default/files/photos/docking%20simulation.png" width="500">
 
@@ -16,6 +16,31 @@ Applications of docking include:
 
 <img src="docking-soft.png" width="500">
 
+
+# MVPs
+
+## Components
+
+### Component 1:
+    Take fragalysis file as input
+    Provide DockingModel Output
+
+### Component 2:
+    Take DockingModel input
+    Provide DockingResult output
+
+### Component3:
+    Take DockingModel and DockingResult input
+    Provide affinity (float)
+
+## Models
+### DockingModel:
+    Ligand(Molecule)
+    Protein/Target(Molecule)
+    
+### DockingOutput:
+    Poses(List[Molecule])
+    Scores(List[float])
 
 # Schema
 
