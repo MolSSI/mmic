@@ -1,14 +1,15 @@
 from qcelemental import models
-from typing import List, Optional
-
+from typing import List, Optional, Tuple
 
 class DockingInputData(models.ProtoModel):
     LigandPath: str
-    ProteinPath: str
-    SearchBox: Optional[List[float]] = None
-    
+    ReceptorPath: str
 
 class DockingInput(models.ProtoModel):
-	Ligand: models.Molecule
-	Receptor: models.Molecule
-	SearchBox: Optional[List[float]] = None
+    Ligand: models.Molecule
+    Receptor: models.Molecule
+    Solvent: Optional[models.Molecule] = None
+    Ions: Optional[models.Molecule] = None
+
+class Simulation(models.ProtoModel):
+    SearchBox: Optional[List[Tuple[float]]] = None
