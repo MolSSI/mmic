@@ -9,7 +9,7 @@ import os
 class OpenBabel(ProgramHarness):
 
     @classmethod
-    def compute(cls, input_data: Dict[str, Any]) -> str:
+    def compute(cls, input_data: Dict[str, str]) -> str:
         inp = input_data['input']
         inp_ext = inp.split('.')[-1]
 
