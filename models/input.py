@@ -10,3 +10,8 @@ class DockingInput(models.ProtoModel):
     Ligand: models.Molecule
     Receptor: models.Molecule
     BindingSite: Optional[List[Tuple[float]]] = None
+
+class OpenBabelInput(models.ProtoModel):
+    Input: str
+    Output: str
+    Args: Optional[List[str]]
