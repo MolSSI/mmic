@@ -21,7 +21,10 @@ docking_input_data = input.DockingInputData(
 					)
 
 from components.openbabel_component import OpenBabel
+from components.autodock_prep_component import AutoDockPrep
+
 
 # testing 
 pdb_file = os.path.abspath('data/PHIPA_C2/PHIPA_C2_apo.pdb')
 OpenBabel.compute(input_data={'input': pdb_file, 'output': 'test.pdbqt'})
+ADP = AutoDockPrep.compute(input_data={'filename':pdb_file})
