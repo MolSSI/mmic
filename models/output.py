@@ -8,5 +8,5 @@ class DockingOutput(models.ProtoModel):
     Scores: Optional[List[float]] = None
 
 class Affinity(models.ProtoModel):
-	Docking_Output: DockingOutput
+    Docking_Output: DockingOutput
     Affinity: float
