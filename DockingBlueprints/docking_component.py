@@ -1,34 +1,20 @@
 import abc
 from typing import Any, Dict, List, Optional, Tuple
-
 import sys
 sys.path.insert(0, '..')
+from models.input import DockingInput
+from models.output import DockingOutput
+
+from base_component.base_component import ProgramHarness
 from config import TaskConfig
 
-from qcelemental import models
-
-class ProgramHarness(models.ProtoModel, abc.ABC):
-
-    _defaults: Dict[str, Any] = {}
-    name: str
-    scratch: bool
-    thread_safe: bool
-    thread_parallel: bool
-    node_parallel: bool
-    managed_memory: bool
-    extras: Optional[Dict[str, Any]]
-
-    class Config:
-        allow_mutation: False
-        extra: "forbid"
-
-    def __init__(self, **kwargs):
-        super().__init__(**{**self._defaults, **kwargs})
-
+class DockingComponent(ProgramHarness, abc.ABC):
+    
+    @classmethod
     @abc.abstractmethod
-    def compute(self, input_data: "ProtoModel", config: "TaskConfig") -> "ProtoModel":
+    def compute(cls, input_data: "DockingInput", config: "TaskConfig") -> "DockingOutput":
         pass
-
+        
     @staticmethod
     @abc.abstractmethod
     def found(raise_error: bool = False) -> bool:
@@ -43,21 +29,11 @@ class ProgramHarness(models.ProtoModel, abc.ABC):
         bool
             Returns True if the program was found, False otherwise.
         """
-
-    ## Utility
-
-    def get_version(self) -> str:
-        """Finds program, extracts version, returns normalized version string.
-        Returns
-        -------
-        str
-            Return a valid, safe python version string.
-        """
-
+    
     ## Computers
 
     def build_input(
-        self, input_model: "ProtoModel", config: "TaskConfig", template: Optional[str] = None
+        self, input_model: "DockingInput", config: "TaskConfig", template: Optional[str] = None
     ) -> Dict[str, Any]:
         raise ValueError("build_input is not implemented for {}.", self.__class__)
 
@@ -71,5 +47,5 @@ class ProgramHarness(models.ProtoModel, abc.ABC):
     ) -> Tuple[bool, Dict[str, Any]]:
         raise ValueError("execute is not implemented for {}.", self.__class__)
 
-    def parse_output(self, outfiles: Dict[str, str], input_model: "ProtoModel") -> "ProtoModel":
+    def parse_output(self, outfiles: Dict[str, str], input_model: "DockingInput") -> "DockingOutput":
         raise ValueError("parse_output is not implemented for {}.", self.__class__)

@@ -1,6 +1,6 @@
 import sys
 sys.path.insert(0, '..')
-from components.docking_input_component import DockingInputPrepComponent
+from DockingBlueprints.docking_input_component import DockingInputPrepComponent
 from models.input import DockingInputData, DockingInput
 from config import TaskConfig
 from qcelemental.models.molecule import Molecule

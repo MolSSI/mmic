@@ -5,13 +5,13 @@ sys.path.insert(0, '..')
 from models.output import DockingOutput, Affinity
 from config import TaskConfig
 
-from base_component import ProgramHarness
+from base_component.base_component import ProgramHarness
 
 class DockingAffinityComponent(ProgramHarness, abc.ABC):
     
     @classmethod
     @abc.abstractmethod
-    def compute(self, input_data: "DockingOutput", config: "TaskConfig") -> "Affinity":
+    def compute(cls, input_data: "DockingOutput", config: "TaskConfig") -> "Affinity":
         pass
         
     @staticmethod
