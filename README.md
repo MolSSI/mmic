@@ -14,7 +14,7 @@ Applications of docking include:
 - Protein engineering
 
 
-<img src="docking-soft.png" width="500">
+<img src="imgs/docking-soft.png" width="500">
 
 
 # MVPs
