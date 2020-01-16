@@ -2,8 +2,8 @@ import sys
 sys.path.insert(0, '..')
 
 from qcengine.util import temporary_directory, execute
-from components.base_component import ProgramHarness
-from components.openbabel_component import OpenBabel
+from base_component.base_component import ProgramHarness
+from DockingApps.openbabel_component import OpenBabel
 
 from typing import Any, Dict, List, Optional, Tuple
 import os
