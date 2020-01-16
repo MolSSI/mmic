@@ -20,7 +20,7 @@ docking_input_data = input.DockingInputData(
 					ReceptorPath='data/PHIPA_C2/PHIPA_C2_apo.pdb'
 					)
 
-from components.openbabel import OpenBabel
+from components.openbabel_component import OpenBabel
 
 # testing 
 pdb_file = os.path.abspath('data/PHIPA_C2/PHIPA_C2_apo.pdb')
