@@ -10,3 +10,6 @@ class DockingOutput(models.ProtoModel):
 class Affinity(models.ProtoModel):
     Docking_Output: DockingOutput
     Affinity: float
+
+class OpenBabelOutput(models.ProtoModel):
+    FileContents: str
