@@ -16,7 +16,9 @@ class OpenBabel(ProgramHarness):
         outp = input_data['output']
         outp_ext = outp.split('.')[-1]
 
-        input_model = {'input': inp, 'input_ext': inp_ext, 'output': outp, 'output_ext': outp_ext}
+        args = input_data.get('args')
+
+        input_model = {'input': inp, 'input_ext': inp_ext, 'output': outp, 'output_ext': outp_ext, 'args': args}
 
         execute_input = cls.build_input(input_model)
         exe_success, proc = cls.execute(execute_input)
@@ -27,8 +29,14 @@ class OpenBabel(ProgramHarness):
         cls, input_model: Dict[str, Any], template: Optional[str] = None
     ) -> Dict[str, Any]:
         
+        cmd = ["obabel", "-i{}".format(input_model['input_ext']), input_model['input'], \
+                        "-o{}".format(input_model['output_ext']), "-O{}".format(input_model['output'])]
+
+        if input_model['args']:
+            cmd.append(input_model['args'])
+
         return {
-            "command": ["obabel", "-i{}".format(input_model['input_ext']), input_model['input'], "-o{}".format(input_model['output_ext']), "-O{}".format(input_model['output'])],
+            "command": cmd,
             "infiles": {"-i": input_model['input_ext']},
             "outfiles": [input_model['output']],
             "scratch_directory": None,
