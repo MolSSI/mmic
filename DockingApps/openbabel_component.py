@@ -2,45 +2,65 @@ import sys
 sys.path.insert(0, '..')
 
 from qcengine.util import temporary_directory, execute
-from .base_component import ProgramHarness
+from qcelemental import models
+from base_component.base_component import ProgramHarness
 from typing import Any, Dict, List, Optional, Tuple
 import os
+from models.input import OpenBabelInput
 
 class OpenBabel(ProgramHarness):
 
+    _defaults = {
+        "name": "OpenBabel",
+        "scratch": False,
+        "thread_safe": True,
+        "thread_parallel": False,
+        "node_parallel": False,
+        "managed_memory": True,
+    }
+
     @classmethod
-    def compute(cls, input_data: Dict[str, str]) -> str:
-        inp = input_data['input']
+    def compute(cls, input_data: OpenBabelInput, config: "TaskConfig") -> str:
+        inp = input_data.Input
         inp_ext = inp.split('.')[-1]
 
-        outp = input_data['output']
+        outp = input_data.Output
         outp_ext = outp.split('.')[-1]
 
-        args = input_data.get('args')
+        args = input_data.Args
 
         input_model = {'input': inp, 'input_ext': inp_ext, 'output': outp, 'output_ext': outp_ext, 'args': args}
 
-        execute_input = cls.build_input(input_model)
+        execute_input = cls.build_input(input_model, config)
         exe_success, proc = cls.execute(execute_input)
-        cls.parse_output(proc['outfiles'], input_model)
+
+        if exe_success:
+            cls.parse_output(proc['outfiles'], input_model)
+        else:
+            raise ValueError(proc["stderr"])
 
     @classmethod
     def build_input(
-        cls, input_model: Dict[str, Any], template: Optional[str] = None
+        cls, input_model: Dict[str, Any], config: "TaskConfig", template: Optional[str] = None
     ) -> Dict[str, Any]:
         
         cmd = ["obabel", "-i{}".format(input_model['input_ext']), input_model['input'], \
                         "-o{}".format(input_model['output_ext']), "-O{}".format(input_model['output'])]
 
         if input_model['args']:
-            cmd.append(input_model['args'])
+            for arg in input_model['args']:
+                cmd.append(arg)
+
+        env = os.environ.copy()
+        env["MKL_NUM_THREADS"] = str(config.ncores)
+        env["OMP_NUM_THREADS"] = str(config.ncores)
 
         return {
             "command": cmd,
             "infiles": None,
             "outfiles": [input_model['output']],
-            "scratch_directory": None,
-            "environment": os.environ.copy()
+            "scratch_directory": config.scratch_directory,
+            "environment": env
         }
 
     @classmethod
