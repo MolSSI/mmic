@@ -7,6 +7,7 @@ from base_component.base_component import ProgramHarness
 from typing import Any, Dict, List, Optional, Tuple
 import os
 from models.input import OpenBabelInput
+from models.output import OpenBabelOutput
 
 class OpenBabel(ProgramHarness):
 
@@ -20,7 +21,7 @@ class OpenBabel(ProgramHarness):
     }
 
     @classmethod
-    def compute(cls, input_data: OpenBabelInput, config: "TaskConfig") -> str:
+    def compute(cls, input_data: OpenBabelInput, config: "TaskConfig") -> OpenBabelOutput:
         inp = input_data.Input
         inp_ext = inp.split('.')[-1]
 
@@ -35,7 +36,7 @@ class OpenBabel(ProgramHarness):
         exe_success, proc = cls.execute(execute_input)
 
         if exe_success:
-            cls.parse_output(proc['outfiles'], input_model)
+            return cls.parse_output(proc['outfiles'], input_model)
         else:
             raise ValueError(proc["stderr"])
 
@@ -95,9 +96,8 @@ class OpenBabel(ProgramHarness):
         return exe_success, proc
 
     @classmethod
-    def parse_output(cls, outfiles: Dict[str, str], input_model: Dict[str, Any]) -> Any:
+    def parse_output(cls, outfiles: Dict[str, str], input_model: Dict[str, Any]) -> OpenBabelOutput:
         
         output_file = outfiles[input_model['output']]
 
-        with open(input_model['output'], 'w') as fp:
-            fp.write(output_file)
+        return OpenBabelOutput(FileContents=output_file)
