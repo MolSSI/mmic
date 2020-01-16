@@ -37,7 +37,7 @@ class OpenBabel(ProgramHarness):
 
         return {
             "command": cmd,
-            "infiles": {"-i": input_model['input_ext']},
+            "infiles": None,
             "outfiles": [input_model['output']],
             "scratch_directory": None,
             "environment": os.environ.copy()
