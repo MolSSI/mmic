@@ -25,6 +25,7 @@ class ProgramHarness(models.ProtoModel, abc.ABC):
     def __init__(self, **kwargs):
         super().__init__(**{**self._defaults, **kwargs})
 
+    @classmethod
     @abc.abstractmethod
     def compute(cls, input_data: "ProtoModel", config: "TaskConfig") -> "ProtoModel":
         pass
