@@ -1,9 +1,9 @@
 from qcelemental import models
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Union
 
 class DockingInputData(models.ProtoModel):
-    Ligand: str
-    Receptor: str
+    Ligand: Union[models.Molecule, str]
+    Receptor: Union[models.Molecule, str]
     BindingSitePath: Optional[str] = None
 
 class DockingInput(models.ProtoModel):
