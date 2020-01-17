@@ -2,8 +2,8 @@ from qcelemental import models
 from typing import List, Optional, Tuple
 
 class DockingInputData(models.ProtoModel):
-    LigandPath: str
-    ReceptorPath: str
+    Ligand: str
+    Receptor: str
     BindingSitePath: Optional[str] = None
 
 class DockingInput(models.ProtoModel):
