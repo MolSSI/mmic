@@ -11,7 +11,7 @@ class DockingInputPrepComponent(ProgramHarness, abc.ABC):
     
     @classmethod
     @abc.abstractmethod
-    def compute(cls, input_data: "DockingInputData", config: "TaskConfig") -> "DockingInput":
+    def compute(cls, input_data: "DockingInputData", config: "TaskConfig" = None) -> "DockingInput":
         pass
         
     @staticmethod
@@ -32,7 +32,7 @@ class DockingInputPrepComponent(ProgramHarness, abc.ABC):
     ## Computers
 
     def build_input(
-        self, input_model: "DockingInputData", config: "TaskConfig", template: Optional[str] = None
+        self, input_model: "DockingInputData", config: "TaskConfig" = None, template: Optional[str] = None
     ) -> Dict[str, Any]:
         raise ValueError("build_input is not implemented for {}.", self.__class__)
 

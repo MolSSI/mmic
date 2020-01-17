@@ -10,7 +10,7 @@ from Bio.PDB import *
 class MolSSIInputPrep(DockingInputPrepComponent):
         
     @classmethod
-    def compute(cls, input_data: "DockingInputData", config: "TaskConfig") -> "DockingInput":
+    def compute(cls, input_data: "DockingInputData", config: "TaskConfig" = None) -> "DockingInput":
         ligand = Molecule(symbols=['H'], geometry=[0.0, 0.0, 0.0], identifiers={'smiles': input_data.Ligand})
 
         parser = PDBParser()

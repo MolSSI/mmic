@@ -27,7 +27,7 @@ class ProgramHarness(models.ProtoModel, abc.ABC):
 
     @classmethod
     @abc.abstractmethod
-    def compute(cls, input_data: "ProtoModel", config: "TaskConfig") -> "ProtoModel":
+    def compute(cls, input_data: "ProtoModel", config: "TaskConfig" = None) -> "ProtoModel":
         pass
 
     @staticmethod
@@ -58,7 +58,7 @@ class ProgramHarness(models.ProtoModel, abc.ABC):
     ## Computers
 
     def build_input(
-        self, input_model: "ProtoModel", config: "TaskConfig", template: Optional[str] = None
+        self, input_model: "ProtoModel", config: "TaskConfig" = None, template: Optional[str] = None
     ) -> Dict[str, Any]:
         raise ValueError("build_input is not implemented for {}.", self.__class__)
 
