@@ -1,10 +1,10 @@
 from qcelemental import models
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from .input import DockingInput
 
 class DockingOutput(models.ProtoModel):
     Docking_Input: DockingInput
-    Poses: List[models.Molecule]
+    Poses: List[Tuple[models.Molecule, models.Molecule]]
     Scores: Optional[List[float]] = None
 
 class Affinity(models.ProtoModel):
