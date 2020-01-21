@@ -7,7 +7,7 @@ from base_component.base_component import ProgramHarness
 from typing import Any, Dict, List, Optional, Tuple
 import os
 from models.input import OpenBabelInput
-from models.output import OpenBabelOutput
+from models.output import CmdOutput
 
 class OpenBabel(ProgramHarness):
 
@@ -21,16 +21,15 @@ class OpenBabel(ProgramHarness):
     }
 
     @classmethod
-    def compute(cls, input_data: OpenBabelInput, config: "TaskConfig" = None) -> OpenBabelOutput:
+    def compute(cls, input_data: OpenBabelInput, config: "TaskConfig" = None) -> CmdOutput:
         inp = input_data.Input
         inp_ext = inp.split('.')[-1]
 
-        outp = input_data.Output
-        outp_ext = outp.split('.')[-1]
+        outp_ext = input_data.OutputExt
 
         args = input_data.Args
 
-        input_model = {'input': inp, 'input_ext': inp_ext, 'output': outp, 'output_ext': outp_ext, 'args': args}
+        input_model = {'input': inp, 'input_ext': inp_ext, 'output': 'tmp.' + outp_ext, 'output_ext': outp_ext, 'args': args}
 
         execute_input = cls.build_input(input_model, config)
         exe_success, proc = cls.execute(execute_input)
@@ -100,8 +99,8 @@ class OpenBabel(ProgramHarness):
         return exe_success, proc
 
     @classmethod
-    def parse_output(cls, outfiles: Dict[str, str], input_model: Dict[str, Any]) -> OpenBabelOutput:
+    def parse_output(cls, outfiles: Dict[str, str], input_model: Dict[str, Any]) -> CmdOutput:
         
         output_file = outfiles[input_model['output']]
 
-        return OpenBabelOutput(FileContents=output_file)
+        return CmdOutput(FileContents=output_file)
