@@ -3,7 +3,7 @@ sys.path.insert(0, '..')
 
 from qcengine.util import temporary_directory, execute
 from base_component.base_component import ProgramHarness
-from DockingApps.openbabel_component import OpenBabel
+from DockingImplementation.openbabel_component import OpenBabel
 
 from typing import Any, Dict, List, Optional, Tuple
 import os

@@ -21,7 +21,7 @@ class OpenBabel(ProgramHarness):
     }
 
     @classmethod
-    def compute(cls, input_data: OpenBabelInput, config: "TaskConfig") -> OpenBabelOutput:
+    def compute(cls, input_data: OpenBabelInput, config: "TaskConfig" = None) -> OpenBabelOutput:
         inp = input_data.Input
         inp_ext = inp.split('.')[-1]
 
@@ -42,7 +42,7 @@ class OpenBabel(ProgramHarness):
 
     @classmethod
     def build_input(
-        cls, input_model: Dict[str, Any], config: "TaskConfig", template: Optional[str] = None
+        cls, input_model: Dict[str, Any], config: "TaskConfig" = None, template: Optional[str] = None
     ) -> Dict[str, Any]:
         
         cmd = ["obabel", "-i{}".format(input_model['input_ext']), input_model['input'], \
@@ -53,14 +53,18 @@ class OpenBabel(ProgramHarness):
                 cmd.append(arg)
 
         env = os.environ.copy()
-        env["MKL_NUM_THREADS"] = str(config.ncores)
-        env["OMP_NUM_THREADS"] = str(config.ncores)
+
+        if config:
+            env["MKL_NUM_THREADS"] = str(config.ncores)
+            env["OMP_NUM_THREADS"] = str(config.ncores)
+
+        scratch_directory = config.scratch_directory if config else None
 
         return {
             "command": cmd,
             "infiles": None,
             "outfiles": [input_model['output']],
-            "scratch_directory": config.scratch_directory,
+            "scratch_directory": scratch_directory,
             "environment": env
         }
 
