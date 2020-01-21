@@ -12,7 +12,7 @@ class DockingInput(models.ProtoModel):
     BindingSite: Optional[List[Tuple[float]]] = None
 
 class CmdInput(models.ProtoModel):
-    Input: str
+    Input: Union[str, List[str]]
     Args: Optional[List[str]]
 
 class OpenBabelInput(CmdInput):
@@ -20,4 +20,4 @@ class OpenBabelInput(CmdInput):
     InputExt: Optional[str]
     
 class GrepInput(CmdInput):
-    Pattern: str
+    Patterns: str
