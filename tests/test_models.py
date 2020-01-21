@@ -19,16 +19,22 @@ docking_input_data = input.DockingInputData(
 					)
 
 from DockingImplementation.openbabel_component import OpenBabel
+from DockingImplementation.grep_component import Grep
 from DockingImplementation.autodock_prep_component import AutoDockPrep
 from config import TaskConfig
 
 # testing 
 pdb_file = os.path.abspath('data/PHIPA_C2/PHIPA_C2_apo.pdb')
 
-obabel_input = input.OpenBabelInput(Input=pdb_file, Output='test.pdbqt')
+obabel_input = input.OpenBabelInput(Input=pdb_file, OutputExt='pdbqt')
 obabel_output = OpenBabel.compute(input_data=obabel_input)
 
 with open('test.pdbqt', 'w') as fp:
 	fp.write(obabel_output.FileContents)
 
+grep_input = input.GrepInput(Input=pdb_file, Patterns='REMARK')
+grep_output = Grep.compute(input_data=grep_input)
+
+with open('test.grep', 'w') as fp:
+	fp.write(grep_output.FileContents)
 #ADP = AutoDockPrep.compute(input_data={'filename':pdb_file})
