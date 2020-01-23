@@ -4,12 +4,12 @@ from typing import List, Optional, Tuple, Union
 class DockingInputData(models.ProtoModel):
     Ligand: Union[models.Molecule, str]
     Receptor: Union[models.Molecule, str]
-    BindingSite: Optional[Union[List[Tuple[float, float, float]], str]] = None
+    BindingSite: Optional[Union[List[Tuple[float, float, float]], str]]
 
 class DockingInput(models.ProtoModel):
     Ligand: models.Molecule
     Receptor: models.Molecule
-    BindingSite: Optional[List[Tuple[float]]] = None
+    BindingSite: Optional[List[Tuple[float]]]
 
 class CmdInput(models.ProtoModel):
     Input: Union[str, List[str]]
@@ -20,4 +20,7 @@ class OpenBabelInput(CmdInput):
     InputExt: Optional[str]
     
 class GrepInput(CmdInput):
-    Patterns: str
+    Pattern: str
+
+class AutoDockPrepInput(DockingInputData):
+	pass
