@@ -13,3 +13,6 @@ class Affinity(models.ProtoModel):
 
 class CmdOutput(models.ProtoModel):
     FileContents: str
+
+class AutoDockPrepOutput(CmdOutput):
+	pass
