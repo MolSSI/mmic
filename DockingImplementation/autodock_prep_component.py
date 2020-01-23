@@ -3,6 +3,11 @@ sys.path.insert(0, '..')
 
 from qcengine.util import temporary_directory, execute
 from base_component.base_component import ProgramHarness
+from models import input
+from models import output
+
+# Import utility components
+from DockingImplementation.grep_component import Grep
 from DockingImplementation.openbabel_component import OpenBabel
 
 from typing import Any, Dict, List, Optional, Tuple
@@ -13,74 +18,69 @@ import pymol
 
 class AutoDockPrep(ProgramHarness):
 
+
+    _defaults = {
+        "name": "AutoDockPrep",
+        "scratch": False,
+        "thread_safe": True,
+        "thread_parallel": False,
+        "node_parallel": False,
+        "managed_memory": True,
+    }
+
     @classmethod
-    def compute(cls, input_data: Dict[str, str]) -> str:
-        filename = input_data['filename']
+    def compute(cls, input_data: input.AutoDockPrepInput, config: "TaskConfig" = None) -> output.AutoDockPrepOutput:
 
-        execute_input = cls.build_input(filename)
-        exe_success, proc = cls.execute(execute_input)
-
-        cls.cleanup(['temp.pdbqt', 'protein.pdb'])
-        cls.parse_output(proc['stdout'], 'receptor.pdbqt')
+        return cls.build_input(input_data)
 
     @classmethod
-    def build_input(
-        cls, filename: str, template: Optional[str] = None
-    ) -> Dict[str, Any]:
+    def build_input(cls, input_model: Dict[str, Any], template: Optional[str] = None) -> Dict[str, Any]:
         
+        ligand = cls.ligand_prep(smiles = input_model.Ligand)
+        receptor = cls.receptor_prep(filename = input_model.Receptor)
+
+        return {
+            "ligand": ligand,
+            "receptor": receptor
+        }
+
+    @classmethod
+    def receptor_prep(cls, filename: str) -> str:
         pymol.cmd.load(filename)
         pymol.cmd.remove('resn HOH')
         pymol.cmd.h_add(selection='acceptors or donors')
         pymol.cmd.save('protein.pdb')
-        OpenBabel.compute(input_data={'input':os.path.abspath('protein.pdb'), 'output':'temp.pdbqt', 'args':'-xh'})
+        obabel_input = input.OpenBabelInput(Input=os.path.abspath('protein.pdb'), OutputExt='pdbqt', Args=['-xh'])
+        os.remove('protein.pdb')
 
-        return {
-            "command": ['grep', 'ATOM', os.path.abspath('temp.pdbqt')],
-            "infiles": None,
-            "outfiles": None,
-            "scratch_directory": None,
-            "environment": os.environ.copy()
-        }
+        return OpenBabel.compute(input_data=obabel_input)
 
     @classmethod
-    def execute(
-        cls,
-        inputs: Dict[str, Any],
-        extra_outfiles: Optional[List[str]] = None,
-        extra_commands: Optional[List[str]] = None,
-        scratch_name: Optional[str] = None,
-        timeout: Optional[int] = None,
-    ) -> Tuple[bool, Dict[str, Any]]:
+    def ligand_prep(cls, smiles: str) -> str:
 
+        pdbqt_file = os.path.abspath('tmp.pdbqt')
 
-        infiles = inputs["infiles"]
+        with open(pdbqt_file, 'w') as fp:
+            fp.write(cls.smi_to_pdbqt(smiles))
 
-        outfiles = inputs["outfiles"]
-        if extra_outfiles is not None:
-            outfiles.extend(extra_outfiles)
+        grep_input = input.GrepInput(Input=pdbqt_file, Pattern='ATOM')
+        grep_output = Grep.compute(input_data=grep_input)
 
-        command = inputs["command"]
-        if extra_commands is not None:
-            command.extend(extra_commands)
+        os.remove(pdbqt_file)
 
-        exe_success, proc = execute(
-            command,
-            infiles=infiles,
-            outfiles=outfiles,
-            scratch_directory=inputs["scratch_directory"],
-            scratch_name=scratch_name,
-            timeout=timeout,
-            environment=inputs.get("environment", None),
-        )
-        return exe_success, proc
+        return grep_output.FileContents
 
     @classmethod
-    def cleanup(cls, files: List[str]):
-        for file in files:
-            os.remove(file)
+    def smi_to_pdbqt(cls, smiles: str) -> str:
 
-    @classmethod
-    def parse_output(cls, outfile: str, filename: str) -> Any:
+        smi_file = os.path.abspath('tmp.smi')
 
-        with open(filename, 'w') as fp:
-            fp.write(outfile)
+        with open(smi_file, 'w') as fp:
+            fp.write(smiles)
+
+        obabel_input = input.OpenBabelInput(Input=smi_file, OutputExt='pdbqt', Args=['--gen3d', '-h'])
+        obabel_output = OpenBabel.compute(input_data=obabel_input)
+
+        os.remove(smi_file)
+
+        return obabel_output.FileContents        
