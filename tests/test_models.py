@@ -14,7 +14,7 @@ receptor = models.Molecule(geometry=numpy.random.rand(natoms,3) * 10, symbols=['
 docking_input = input.DockingInput(Ligand=ligand, Receptor=receptor)
 
 docking_input_data = input.DockingInputData(
-					Ligand='data/PHIPA_C2/fragments_screened.csv', 
+					Ligand='CCC', 
 					Receptor='data/PHIPA_C2/PHIPA_C2_apo.pdb'
 					)
 
@@ -23,18 +23,24 @@ from DockingImplementation.grep_component import Grep
 from DockingImplementation.autodock_prep_component import AutoDockPrep
 from config import TaskConfig
 
-# testing 
+# Test input file
 pdb_file = os.path.abspath('data/PHIPA_C2/PHIPA_C2_apo.pdb')
 
+# Test for openbabel
 obabel_input = input.OpenBabelInput(Input=pdb_file, OutputExt='pdbqt')
 obabel_output = OpenBabel.compute(input_data=obabel_input)
 
-with open('test.pdbqt', 'w') as fp:
-	fp.write(obabel_output.FileContents)
+#with open('test.pdbqt', 'w') as fp:
+#	fp.write(obabel_output.FileContents)
 
-grep_input = input.GrepInput(Input=pdb_file, Patterns='REMARK')
+# Test for grep
+grep_input = input.GrepInput(Input=pdb_file, Pattern='REMARK')
 grep_output = Grep.compute(input_data=grep_input)
 
-with open('test.grep', 'w') as fp:
-	fp.write(grep_output.FileContents)
-#ADP = AutoDockPrep.compute(input_data={'filename':pdb_file})
+#with open('test.grep', 'w') as fp:
+#	fp.write(grep_output.FileContents)
+
+# Test for AutodockPrep
+ADP = AutoDockPrep.compute(input_data=docking_input_data)
+
+print(ADP.keys())
