@@ -25,7 +25,7 @@ class Grep(ProgramHarness):
 
         args = input_data.Args
 
-        input_model = {'input': input_data.Input, 'patterns': input_data.Patterns, 'args': args}
+        input_model = {'input': input_data.Input, 'pattern': input_data.Pattern, 'args': args}
 
         execute_input = cls.build_input(input_model, config)
         exe_success, proc = cls.execute(execute_input)
@@ -46,7 +46,7 @@ class Grep(ProgramHarness):
             for arg in input_model['args']:
                 cmd.append(arg)
 
-        cmd.append(input_model['patterns']) 
+        cmd.append(input_model['pattern']) 
 
         if isinstance(input_model['input'], list):
             for ginput in input_model['input']:
@@ -55,8 +55,6 @@ class Grep(ProgramHarness):
             cmd.append(input_model['input'])
         else:
             raise Exception
-
-        print("cmd = ", cmd)
 
         env = os.environ.copy()
 
