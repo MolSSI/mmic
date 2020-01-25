@@ -22,5 +22,7 @@ class OpenBabelInput(CmdInput):
 class GrepInput(CmdInput):
     Pattern: str
 
-class AutoDockPrepInput(DockingInputData):
-	pass
+class DockingSim(models.ProtoModel):
+	Exhaustiveness: int
+	Seed: int
+	SearchSpace: Tuple[float, float, float, float, float, float]
