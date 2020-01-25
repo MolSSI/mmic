@@ -16,3 +16,6 @@ class CmdOutput(models.ProtoModel):
 
 class AutoDockPrepOutput(CmdOutput):
 	pass
+
+class AutoDockOutput(DockingOutput):
+	Log: str
