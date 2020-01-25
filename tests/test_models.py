@@ -7,24 +7,25 @@ import numpy
 import os
 from qcelemental import models
 
-natoms = 10
-ligand = models.Molecule(geometry=numpy.random.rand(natoms,3) * 10, symbols=['C' for i in range(natoms)])
-receptor = models.Molecule(geometry=numpy.random.rand(natoms,3) * 10, symbols=['C' for i in range(natoms)])
-
-docking_input = input.DockingInput(Ligand=ligand, Receptor=receptor)
+# Test input file
+pdb_file = os.path.abspath('data/dialanine/dialanine.pdb')
 
 docking_input_data = input.DockingInputData(
 					Ligand='CCC', 
-					Receptor='data/PHIPA_C2/PHIPA_C2_apo.pdb'
+					Receptor=pdb_file
 					)
 
 from DockingImplementation.openbabel_component import OpenBabel
 from DockingImplementation.grep_component import Grep
 from DockingImplementation.autodock_prep_component import AutoDockPrep
+from DockingImplementation.input_prep_component import MolSSIInputPrep
+
 from config import TaskConfig
 
-# Test input file
-pdb_file = os.path.abspath('data/PHIPA_C2/PHIPA_C2_apo.pdb')
+
+# Test MolSSIInputPrep
+docking_input = MolSSIInputPrep.compute(docking_input_data)
+docking_input.Receptor.write_pdb('tmp.pdb')
 
 # Test for openbabel
 obabel_input = input.OpenBabelInput(Input=pdb_file, OutputExt='pdbqt')
@@ -41,6 +42,4 @@ grep_output = Grep.compute(input_data=grep_input)
 #	fp.write(grep_output.FileContents)
 
 # Test for AutodockPrep
-ADP = AutoDockPrep.compute(input_data=docking_input_data)
-
-print(ADP.keys())
+# ADP = AutoDockPrep.compute(input_data=docking_input_data)
