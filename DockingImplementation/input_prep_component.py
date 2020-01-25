@@ -3,7 +3,8 @@ sys.path.insert(0, '..')
 from DockingBlueprints.docking_input_component import DockingInputPrepComponent
 from models.input import DockingInputData, DockingInput
 from config import TaskConfig
-from qcelemental.models.molecule import Molecule
+from models.molecule import MMolecule
+import os
 
 from Bio.PDB import *
 
@@ -11,7 +12,7 @@ class MolSSIInputPrep(DockingInputPrepComponent):
         
     @classmethod
     def compute(cls, input_data: "DockingInputData", config: "TaskConfig" = None) -> "DockingInput":
-        ligand = Molecule(symbols=['H'], geometry=[0.0, 0.0, 0.0], identifiers={'smiles': input_data.Ligand})
+        ligand = MMolecule(symbols=['H'], geometry=[0.0, 0.0, 0.0], identifiers={'smiles': input_data.Ligand})
 
         parser = PDBParser()
         filename = input_data.Receptor.split('/')[-1]
@@ -28,7 +29,12 @@ class MolSSIInputPrep(DockingInputPrepComponent):
             geom.append(atom_x)
             geom.append(atom_y)
             geom.append(atom_z)
-        
-        receptor = Molecule(symbols=symb, geometry=geom)
+
+        if os.path.isfile(input_data.Receptor):
+            residues = MMolecule.store_residues(input_data.Receptor)
+
+            receptor = MMolecule(symbols=symb, geometry=geom, substructures=residues)
+        else:
+            receptor = MMolecule(symbols=symb, geometry=geom)
         
         return DockingInput(Ligand=ligand, Receptor=receptor)
