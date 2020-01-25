@@ -14,6 +14,8 @@ from typing import Any, Dict, List, Optional, Tuple
 import os
 import pymol
 
+from models.input import DockingInput
+from qcelemental.models.molecule import Molecule
 
 
 class AutoDockPrep(ProgramHarness):
@@ -29,18 +31,18 @@ class AutoDockPrep(ProgramHarness):
     }
 
     @classmethod
-    def compute(cls, input_data: input.AutoDockPrepInput, config: "TaskConfig" = None) -> output.AutoDockPrepOutput:
+    def compute(cls, input_data: input.DockingInput, config: "TaskConfig" = None) -> output.AutoDockPrepOutput:
 
         return cls.build_input(input_data)
 
     @classmethod
-    def build_input(cls, input_model: Dict[str, Any], template: Optional[str] = None) -> Dict[str, Any]:
+    def build_input(cls, input_model: DockingInput, template: Optional[str] = None) -> Dict[str, Any]:
         
         ligand = cls.ligand_prep(smiles = input_model.Ligand)
         receptor = cls.receptor_prep(filename = input_model.Receptor)
 
         return {
-            "ligand": ligand,
+            "ligand": input_model.identifiers['smiles'],
             "receptor": receptor
         }
 
