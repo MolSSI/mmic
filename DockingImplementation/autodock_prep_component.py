@@ -3,7 +3,7 @@ sys.path.insert(0, '..')
 
 from qcengine.util import temporary_directory, execute
 from base_component.base_component import ProgramHarness
-from models import input
+from models import input, molecule
 from models import output
 
 # Import utility components
@@ -14,12 +14,8 @@ from typing import Any, Dict, List, Optional, Tuple
 import os
 import pymol
 
-from models.input import DockingInput
-from qcelemental.models.molecule import Molecule
-
 
 class AutoDockPrep(ProgramHarness):
-
 
     _defaults = {
         "name": "AutoDockPrep",
@@ -33,29 +29,35 @@ class AutoDockPrep(ProgramHarness):
     @classmethod
     def compute(cls, input_data: input.DockingInput, config: "TaskConfig" = None) -> output.AutoDockPrepOutput:
 
-        return cls.build_input(input_data)
+        binput =  cls.build_input(input_data)
+        ligand = output.FileOutput(Contents=binput['ligand'])
+        receptor = output.FileOutput(Contents=binput['receptor'])
+        return output.AutoDockPrepOutput(Ligand=ligand, Receptor=receptor)
 
     @classmethod
-    def build_input(cls, input_model: DockingInput, template: Optional[str] = None) -> Dict[str, Any]:
-        
-        ligand = cls.ligand_prep(smiles = input_model.Ligand)
-        receptor = cls.receptor_prep(filename = input_model.Receptor)
+    def build_input(cls, input_model: input.DockingInput, template: Optional[str] = None) -> Dict[str, Any]:
+
+        ligand = cls.ligand_prep(smiles = input_model.Ligand.identifiers.smiles)
+        receptor = cls.receptor_prep(receptor = input_model.Receptor)
 
         return {
-            "ligand": input_model.identifiers['smiles'],
+            "ligand": ligand,
             "receptor": receptor
         }
 
     @classmethod
-    def receptor_prep(cls, filename: str) -> str:
+    def receptor_prep(cls, receptor: molecule.MMolecule) -> str:
+        filename = molecule.MMolecule.randomString() + '.pdb'
+        receptor.write_pdb(filename)
         pymol.cmd.load(filename)
         pymol.cmd.remove('resn HOH')
         pymol.cmd.h_add(selection='acceptors or donors')
         pymol.cmd.save('protein.pdb')
         obabel_input = input.OpenBabelInput(Input=os.path.abspath('protein.pdb'), OutputExt='pdbqt', Args=['-xh'])
         os.remove('protein.pdb')
+        os.remove(os.path.abspath(filename))
 
-        return OpenBabel.compute(input_data=obabel_input)
+        return OpenBabel.compute(input_data=obabel_input).Contents
 
     @classmethod
     def ligand_prep(cls, smiles: str) -> str:
@@ -70,10 +72,10 @@ class AutoDockPrep(ProgramHarness):
 
         os.remove(pdbqt_file)
 
-        return grep_output.FileContents
+        return grep_output.Contents
 
     @classmethod
-    def smi_to_pdbqt(cls, smiles: str) -> str:
+    def smi_to_pdbqt(cls, smiles: str) -> input.DockingSimInput:
 
         smi_file = os.path.abspath('tmp.smi')
 
@@ -85,4 +87,4 @@ class AutoDockPrep(ProgramHarness):
 
         os.remove(smi_file)
 
-        return obabel_output.FileContents        
+        return obabel_output.Contents        
