@@ -7,7 +7,7 @@ from base_component.base_component import ProgramHarness
 from typing import Any, Dict, List, Optional, Tuple
 import os
 from models.input import CmdInput
-from models.output import CmdOutput
+from models.output import FileOutput
 
 class Grep(ProgramHarness):
 
@@ -21,7 +21,7 @@ class Grep(ProgramHarness):
     }
 
     @classmethod
-    def compute(cls, input_data: CmdInput, config: Optional["TaskConfig"] = None) -> CmdOutput:
+    def compute(cls, input_data: CmdInput, config: Optional["TaskConfig"] = None) -> FileOutput:
 
         args = input_data.Args
 
@@ -104,8 +104,8 @@ class Grep(ProgramHarness):
         return exe_success, proc
 
     @classmethod
-    def parse_output(cls, outfiles: Dict[str, str], input_model: Dict[str, Any]) -> CmdOutput:
+    def parse_output(cls, outfiles: Dict[str, str], input_model: Dict[str, Any]) -> FileOutput:
         
         output_file = outfiles['stdout']
 
-        return CmdOutput(FileContents=output_file)
+        return FileOutput(Contents=output_file)
