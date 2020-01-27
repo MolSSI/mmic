@@ -11,11 +11,13 @@ class Affinity(models.ProtoModel):
     Docking_Output: DockingOutput
     Affinity: float
 
-class CmdOutput(models.ProtoModel):
-    FileContents: str
+class FileOutput(models.ProtoModel):
+    Contents: str
 
-class AutoDockPrepOutput(CmdOutput):
-	pass
+class AutoDockPrepOutput(models.ProtoModel):
+	Ligand: FileOutput
+	Receptor: FileOutput
+	BindingSite: Optional[List[Tuple[float]]]
 
 class AutoDockOutput(DockingOutput):
-	Log: str
+	Log: FileOutput
