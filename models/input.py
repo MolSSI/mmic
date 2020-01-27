@@ -1,14 +1,15 @@
 from qcelemental import models
 from typing import List, Optional, Tuple, Union
+from models.molecule import MMolecule
 
 class DockingInputData(models.ProtoModel):
-    Ligand: Union[models.Molecule, str]
-    Receptor: Union[models.Molecule, str]
+    Ligand: Union[MMolecule, str]
+    Receptor: Union[MMolecule, str]
     BindingSite: Optional[Union[List[Tuple[float, float, float]], str]]
 
 class DockingInput(models.ProtoModel):
-    Ligand: models.Molecule
-    Receptor: models.Molecule
+    Ligand: MMolecule
+    Receptor: MMolecule
     BindingSite: Optional[List[Tuple[float]]]
 
 class CmdInput(models.ProtoModel):
@@ -22,7 +23,7 @@ class OpenBabelInput(CmdInput):
 class GrepInput(CmdInput):
     Pattern: str
 
-class DockingSim(models.ProtoModel):
-	Exhaustiveness: int
-	Seed: int
-	SearchSpace: Tuple[float, float, float, float, float, float]
+class DockingSimInput(models.ProtoModel):
+	Exhaustiveness: Optional[int] = None
+	Seed: Optional[int] = None
+	SearchSpace: Optional[Tuple[float, float, float, float, float, float]] = None
