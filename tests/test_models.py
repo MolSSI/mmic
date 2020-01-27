@@ -42,4 +42,4 @@ grep_output = Grep.compute(input_data=grep_input)
 #	fp.write(grep_output.FileContents)
 
 # Test for AutodockPrep
-# ADP = AutoDockPrep.compute(input_data=docking_input_data)
+ADP = AutoDockPrep.compute(input_data=docking_input)
