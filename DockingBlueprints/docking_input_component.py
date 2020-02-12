@@ -8,14 +8,17 @@ from config import TaskConfig
 from base_component.base_component import ProgramHarness
 
 class DockingInputPrepComponent(ProgramHarness, abc.ABC):
-    
+
     @classmethod
-    @abc.abstractmethod
-    def compute(cls, input_data: "DockingInputData", config: "TaskConfig" = None) -> "DockingInput":
-        pass
-        
-    @staticmethod
-    @abc.abstractmethod
+    def input(cls):
+        return DockingInputData
+
+    @classmethod
+    def output(cls):
+        return DockingInput
+
+#    @staticmethod
+#    @abc.abstractmethod
     def found(raise_error: bool = False) -> bool:
         """
         Checks if the program can be found.

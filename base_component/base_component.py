@@ -26,9 +26,36 @@ class ProgramHarness(models.ProtoModel, abc.ABC):
         super().__init__(**{**self._defaults, **kwargs})
 
     @classmethod
-    @abc.abstractmethod
+    def input(cls):
+        return ProtoModel
+
+    @classmethod
+    def output(cls):
+        return ProtoModel
+
+    @classmethod
     def compute(cls, input_data: "ProtoModel", config: "TaskConfig" = None) -> "ProtoModel":
-        pass
+        #Validate the input model
+        if isinstance(input_data, cls.input()):
+            cls.input()(**input_data.dict())
+        elif isinstance(input_data, dict):
+            cls.input()(**input_data)
+        else:
+            raise TypeError("{0} is not a valid input type for the {1} component.".format(type(input_data), cls.__name__))
+
+        #Perform the execution
+        program = cls(name = cls.__name__, scratch = False, thread_safe = False, thread_parallel = False, node_parallel = False, managed_memory = False)
+        exec_output = program.execute(input_data)
+
+        #Validate the output model
+        if isinstance(exec_output[-1], cls.output()):
+            cls.output()(**(exec_output[-1]).dict())
+        elif isinstance(exec_output[-1], dict):
+            cls.output()(**exec_output[-1])
+        else:
+            raise TypeError("{0} is not a valid output type for the {1} component.".format(type(exec_output[-1]), cls.__name__))
+
+        return exec_output[-1]
 
     @staticmethod
     @abc.abstractmethod
