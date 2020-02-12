@@ -11,9 +11,12 @@ from config import TaskConfig
 class DockingComponent(ProgramHarness, abc.ABC):
     
     @classmethod
-    @abc.abstractmethod
-    def compute(cls, input_data: "DockingInput", config: "TaskConfig" = None) -> "DockingOutput":
-        pass
+    def input(cls):
+        return DockingInput
+
+    @classmethod
+    def output(cls):
+        return DockingOutput
         
     @staticmethod
     @abc.abstractmethod

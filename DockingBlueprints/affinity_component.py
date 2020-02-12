@@ -10,9 +10,12 @@ from base_component.base_component import ProgramHarness
 class DockingAffinityComponent(ProgramHarness, abc.ABC):
     
     @classmethod
-    @abc.abstractmethod
-    def compute(cls, input_data: "DockingOutput", config: "TaskConfig" = None) -> "Affinity":
-        pass
+    def input(cls):
+        return DockingOutput
+
+    @classmethod
+    def output(cls):
+        return Affinity
         
     @staticmethod
     @abc.abstractmethod
