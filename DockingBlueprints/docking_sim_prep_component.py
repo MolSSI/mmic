@@ -4,7 +4,7 @@ sys.path.insert(0, '..')
 
 from base_component.base_component import ProgramHarness
 from models.input import DockingInput
-from models.output import DockPrepOutput
+from models.output import DockingPrepOutput
 
 from typing import Any, Dict, List, Optional, Tuple
 
