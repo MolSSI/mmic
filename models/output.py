@@ -1,6 +1,7 @@
 from qcelemental import models
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Union
 from .input import DockingInput
+from models.molecule import MMolecule
 
 class DockingOutput(models.ProtoModel):
     Docking_Input: DockingInput
@@ -14,10 +15,10 @@ class Affinity(models.ProtoModel):
 class FileOutput(models.ProtoModel):
     Contents: str
 
-class AutoDockPrepOutput(models.ProtoModel):
-	Ligand: FileOutput
-	Receptor: FileOutput
-	BindingSite: Optional[List[Tuple[float]]]
-
-class AutoDockOutput(DockingOutput):
-	Log: FileOutput
+class DockingPrepOutput(models.ProtoModel):
+    Ligand: Union[FileOutput, MMolecule]
+    Receptor: Union[FileOutput, MMolecule]
+    Log: Optional[FileOutput] = None
+    Exhaustiveness: Optional[int] = None
+    Seed: Optional[int] = None
+    SearchSpace: Optional[Tuple[float, float, float, float, float, float]] = None
