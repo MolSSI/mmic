@@ -6,38 +6,41 @@ from qcelemental import models
 from base_component.base_component import ProgramHarness
 from typing import Any, Dict, List, Optional, Tuple
 import os
-from models.input import CmdInput
+from models.input import GrepInput
 from models.output import FileOutput
 
 class Grep(ProgramHarness):
 
-    _defaults = {
-        "name": "Grep",
-        "scratch": False,
-        "thread_safe": True,
-        "thread_parallel": False,
-        "node_parallel": False,
-        "managed_memory": True,
-    }
+    @classmethod
+    def input(cls):
+        return GrepInput
 
     @classmethod
-    def compute(cls, input_data: CmdInput, config: Optional["TaskConfig"] = None) -> FileOutput:
+    def output(cls):
+        return FileOutput
 
-        args = input_data.Args
+    def execute(self,
+        inputs: Dict[str, Any],
+        extra_outfiles: Optional[List[str]] = None,
+        extra_commands: Optional[List[str]] = None,
+        scratch_name: Optional[str] = None,
+        timeout: Optional[int] = None,) -> Tuple[bool, Dict[str, Any]]:
 
-        input_model = {'input': input_data.Input, 'pattern': input_data.Pattern, 'args': args}
+        args = inputs.Args
 
-        execute_input = cls.build_input(input_model, config)
-        exe_success, proc = cls.execute(execute_input)
+        input_model = {'input': inputs.Input, 'pattern': inputs.Pattern, 'args': args}
+
+        execute_input = self.build_input(input_model)
+
+        exe_success, proc = self.run(execute_input)
 
         if exe_success:
-            return cls.parse_output(proc, input_model)
+            return True, self.parse_output(proc, input_model)
         else:
             raise ValueError(proc["stderr"])
 
-    @classmethod
     def build_input(
-        cls, input_model: Dict[str, Any], config: Optional["TaskConfig"] = None, template: Optional[str] = None
+        self, input_model: Dict[str, Any], config: Optional["TaskConfig"] = None, template: Optional[str] = None
     ) -> Dict[str, Any]:
         
         cmd = ["grep"]
@@ -72,9 +75,27 @@ class Grep(ProgramHarness):
             "environment": env
         }
 
-    @classmethod
-    def execute(
-        cls,
+    def found(raise_error: bool = False) -> bool:
+        """
+        Checks if the program can be found.
+        Parameters
+        ----------
+        raise_error : bool, optional
+            If True, raises an error if the program cannot be found.
+        Returns
+        -------
+        bool
+            Returns True if the program was found, False otherwise.
+        """
+
+    def parse_output(self, outfiles: Dict[str, str], input_model: Dict[str, Any]) -> FileOutput:
+        
+        output_file = outfiles['stdout']
+
+        return FileOutput(Contents=output_file)
+
+    def run(
+        self,
         inputs: Dict[str, Any],
         extra_outfiles: Optional[List[str]] = None,
         extra_commands: Optional[List[str]] = None,
@@ -101,11 +122,5 @@ class Grep(ProgramHarness):
             timeout=timeout,
             environment=inputs.get("environment", None),
         )
+
         return exe_success, proc
-
-    @classmethod
-    def parse_output(cls, outfiles: Dict[str, str], input_model: Dict[str, Any]) -> FileOutput:
-        
-        output_file = outfiles['stdout']
-
-        return FileOutput(Contents=output_file)
