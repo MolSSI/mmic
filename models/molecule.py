@@ -44,6 +44,6 @@ class MMolecule(models.Molecule):
 
             myspace = {'set_resn': set_resn}
             pymol.cmd.iterate('(all)', 'set_resn(index)', space=myspace)
-            pymol.cmd.save(pdbfname)
-
+        
+        pymol.cmd.save(pdbfname)
         os.remove(filename)
