@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, '..')
 from DockingBlueprints.docking_input_component import DockingInputPrepComponent
-from models.input import DockingInputData, DockingInput
+from models.input import DockingInput
 from config import TaskConfig
 from models.molecule import MMolecule
 import os
@@ -10,6 +10,7 @@ from typing import Dict, Any, Tuple, Optional, List
 from Bio.PDB import *
 
 class MolSSIInputPrep(DockingInputPrepComponent):
+
     def execute(
         self,
         inputs: Dict[str, Any],
@@ -29,15 +30,13 @@ class MolSSIInputPrep(DockingInputPrepComponent):
         
         for atom in structure.get_atoms():
             symb.append(atom.element)
-            atom_x = atom.get_coord()[0]
-            atom_y = atom.get_coord()[1]
-            atom_z = atom.get_coord()[2]
+            atom_x, atom_y, atom_z = atom.get_coord()
             geom.append(atom_x)
             geom.append(atom_y)
             geom.append(atom_z)
 
         if os.path.isfile(inputs.Receptor):
-            residues = MMolecule.store_residues(input_data.Receptor)
+            residues = MMolecule.store_residues(inputs.Receptor)
 
             receptor = MMolecule(symbols=symb, geometry=geom, substructures=residues)
         else:
