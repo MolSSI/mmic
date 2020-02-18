@@ -1,15 +1,13 @@
 import sys
 sys.path.insert(0, '..')
 
-from qcengine.util import temporary_directory, execute
-from qcelemental import models
-from base_component.base_component import ProgramHarness
+from DockingBlueprints.cmd_component import CmdComponent
 from typing import Any, Dict, List, Optional, Tuple
 import os
 from models.input import OpenBabelInput
 from models.output import FileOutput
 
-class OpenBabel(ProgramHarness):
+class OpenBabel(CmdComponent):
 
     @classmethod
     def input(cls):
@@ -42,49 +40,6 @@ class OpenBabel(ProgramHarness):
             return True, self.parse_output(proc['outfiles'], input_model)
         else:
             raise ValueError(proc["stderr"]) 
-
-    def found(raise_error: bool = False) -> bool:
-        """
-        Checks if the program can be found.
-        Parameters
-        ----------
-        raise_error : bool, optional
-            If True, raises an error if the program cannot be found.
-        Returns
-        -------
-        bool
-            Returns True if the program was found, False otherwise.
-        """
-
-    def run(
-        self,
-        inputs: Dict[str, Any],
-        extra_outfiles: Optional[List[str]] = None,
-        extra_commands: Optional[List[str]] = None,
-        scratch_name: Optional[str] = None,
-        timeout: Optional[int] = None) -> Tuple[bool, Dict[str, Any]]:
-
-        infiles = inputs["infiles"]
-
-        outfiles = inputs["outfiles"]
-        if extra_outfiles is not None:
-            outfiles.extend(extra_outfiles)
-
-        command = inputs["command"]
-        if extra_commands is not None:
-            command.extend(extra_commands)
-
-        exe_success, proc = execute(
-            command,
-            infiles=infiles,
-            outfiles=outfiles,
-            scratch_directory=inputs["scratch_directory"],
-            scratch_name=scratch_name,
-            timeout=timeout,
-            environment=inputs.get("environment", None),
-        )
-        
-        return exe_success, proc
 
     def build_input(
         self, input_model: Dict[str, Any], config: "TaskConfig" = None, template: Optional[str] = None
