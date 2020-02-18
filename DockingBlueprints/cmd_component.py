@@ -5,7 +5,6 @@ from qcengine.util import execute
 from qcelemental import models
 from base_component.base_component import ProgramHarness
 from typing import Any, Dict, List, Optional, Tuple
-import os
 from qcelemental import models
 
 
