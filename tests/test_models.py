@@ -5,15 +5,17 @@ sys.path.insert(0, '..')
 from models import input
 import numpy
 import os
-from qcelemental import models
+
+# Test MMolecule
+from models.molecule import MMolecule
 
 # Test input file
 pdb_file = os.path.abspath('data/dialanine/dialanine.pdb')
 
 docking_input_data = input.DockingInputData(
-					Ligand='CCC', 
-					Receptor=pdb_file
-					)
+			Ligand='CCC',
+			Receptor=pdb_file
+		)
 
 from DockingImplementation.openbabel_component import OpenBabel
 from DockingImplementation.grep_component import Grep
@@ -25,21 +27,20 @@ from config import TaskConfig
 
 # Test MolSSIInputPrep
 docking_input = MolSSIInputPrep.compute(docking_input_data)
-docking_input.Receptor.write_pdb('tmp.pdb')
 
 # Test for openbabel
 obabel_input = input.OpenBabelInput(Input=pdb_file, OutputExt='pdbqt')
-obabel_output = OpenBabel.compute(input_data=obabel_input)
+obabel_output = OpenBabel.compute(obabel_input)
 
-#with open('test.pdbqt', 'w') as fp:
-#	fp.write(obabel_output.FileContents)
+with open('test.pdbqt', 'w') as fp:
+	fp.write(obabel_output.Contents)
 
 # Test for grep
-grep_input = input.GrepInput(Input=pdb_file, Pattern='REMARK')
-grep_output = Grep.compute(input_data=grep_input)
+grep_input = input.GrepInput(Input=pdb_file, Pattern='ATOM')
+grep_output = Grep.compute(grep_input)
 
-#with open('test.grep', 'w') as fp:
-#	fp.write(grep_output.FileContents)
+with open('test.grep', 'w') as fp:
+	fp.write(grep_output.Contents)
 
 # Test for AutodockPrep
 ADP = AutoDockPrep.compute(input_data=docking_input)
