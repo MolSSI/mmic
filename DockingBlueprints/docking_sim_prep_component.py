@@ -3,8 +3,7 @@ import abc
 sys.path.insert(0, '..')
 
 from base_component.base_component import ProgramHarness
-from models.input import DockingInput
-from models.output import DockingPrepOutput
+from models.input import DockingInput, DockingSimInput
 
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -17,7 +16,7 @@ class DockSimPrepComponent(ProgramHarness, abc.ABC):
 
     @classmethod
     def output(cls):
-        return DockingPrepOutput
+        return DockingSimInput
 
     def found(raise_error: bool = False) -> bool:
         """
