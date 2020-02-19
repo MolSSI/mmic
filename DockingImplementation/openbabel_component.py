@@ -24,32 +24,23 @@ class OpenBabel(CmdComponent):
         scratch_name: Optional[str] = None,
         timeout: Optional[int] = None,) -> Tuple[bool, Dict[str, Any]]:
 
-        inp = inputs.Input
-        inp_ext = inp.split('.')[-1]
-
-        outp_ext = inputs.OutputExt
-
-        args = inputs.Args
-
-        input_model = {'input': inp, 'input_ext': inp_ext, 'output': 'tmp.' + outp_ext, 'output_ext': outp_ext, 'args': args}
-
-        execute_input = self.build_input(input_model)
+        execute_input = self.build_input(inputs)
         exe_success, proc = self.run(execute_input)
 
         if exe_success:
-            return True, self.parse_output(proc['outfiles'], input_model)
+            return True, self.parse_output(proc['outfiles'], inputs)
         else:
             raise ValueError(proc["stderr"]) 
 
     def build_input(
-        self, input_model: Dict[str, Any], config: "TaskConfig" = None, template: Optional[str] = None
+        self, input_model: OpenBabelInput, config: "TaskConfig" = None, template: Optional[str] = None
     ) -> Dict[str, Any]:
         
-        cmd = ["obabel", "-i{}".format(input_model['input_ext']), input_model['input'], \
-                        "-o{}".format(input_model['output_ext']), "-O{}".format(input_model['output'])]
+        output = 'tmp.' + input_model.OutputExt
+        cmd = ["obabel", input_model.Input, "-O" + output]
 
-        if input_model['args']:
-            for arg in input_model['args']:
+        if input_model.Args:
+            for arg in input_model.Args:
                 cmd.append(arg)
 
         env = os.environ.copy()
@@ -63,13 +54,13 @@ class OpenBabel(CmdComponent):
         return {
             "command": cmd,
             "infiles": None,
-            "outfiles": [input_model['output']],
+            "outfiles": [output],
             "scratch_directory": scratch_directory,
             "environment": env
         }
 
-    def parse_output(self, outfiles: Dict[str, str], input_model: Dict[str, Any]) -> FileOutput:
+    def parse_output(self, outfiles: Dict[str, str], input_model: OpenBabelInput) -> FileOutput:
         
-        output_file = outfiles[input_model['output']]
+        output_file = outfiles['tmp.' + input_model.OutputExt]
 
         return FileOutput(Contents=output_file)
