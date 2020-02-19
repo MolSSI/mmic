@@ -33,7 +33,7 @@ class Grep(CmdComponent):
         exe_success, proc = self.run(execute_input)
 
         if exe_success:
-            return True, self.parse_output(proc, input_model)
+            return True, self.parse_output(proc, inputs)
         else:
             raise ValueError(proc["stderr"])
 
@@ -73,7 +73,7 @@ class Grep(CmdComponent):
             "environment": env
         }
 
-    def parse_output(self, outfiles: Dict[str, str], input_model: Dict[str, Any]) -> FileOutput:
+    def parse_output(self, outfiles: Dict[str, str], input_model: GrepInput) -> FileOutput:
         
         output_file = outfiles['stdout']
 
