@@ -14,11 +14,3 @@ class Affinity(models.ProtoModel):
 
 class FileOutput(models.ProtoModel):
     Contents: str
-
-class DockingPrepOutput(models.ProtoModel):
-    Ligand: Union[FileOutput, MMolecule]
-    Receptor: Union[FileOutput, MMolecule]
-    Log: Optional[FileOutput] = None
-    Exhaustiveness: Optional[int] = None
-    Seed: Optional[int] = None
-    SearchSpace: Optional[Tuple[float, float, float, float, float, float]] = None
