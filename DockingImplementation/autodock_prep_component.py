@@ -32,9 +32,6 @@ class AutoDockPrep(DockSimPrepComponent):
     # helper functions
     def receptor_prep(self, receptor: molecule.MMolecule) -> str:
         
-        filename = molecule.MMolecule.randomString() + '.pdb'
-        receptor.write_pdb(filename)
-        pymol.cmd.load(filename)
         pymol.cmd.remove('resn HOH')
         pymol.cmd.h_add(selection='acceptors or donors')
 
@@ -42,10 +39,12 @@ class AutoDockPrep(DockSimPrepComponent):
 
         pymol.cmd.save(pdb_name)
         obabel_input = input.OpenBabelInput(Input=os.path.abspath(pdb_name), OutputExt='pdbqt', Args=['-xh'])
-        os.remove(pdb_name)
-        os.remove(os.path.abspath(filename))
+        final_receptor = OpenBabel.compute(input_data=obabel_input).Contents
 
-        return OpenBabel.compute(input_data=obabel_input).Contents
+        os.remove(pdb_name)
+        receptor.clear_pdb()
+
+        return final_receptor
 
     def ligand_prep(self, smiles: str) -> str:
 
