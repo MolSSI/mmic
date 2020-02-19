@@ -15,7 +15,7 @@ Applications of docking include:
 
 # Example: AutoDock Component
 
-<img src="imgs/autodock.png" width="900">
+<img src="imgs/autodock.png">
 
 ```python
 from MMComponents.models.input import DockingInput
