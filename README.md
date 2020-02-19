@@ -13,9 +13,6 @@ Applications of docking include:
 - Enzymatic reaction mechanisms
 - Protein engineering
 
-<img src="imgs/docking-soft.png" width="500">
-
-
 # Example: AutoDock Component
 
 <img src="imgs/autodock.png" width="900">
