@@ -35,11 +35,6 @@ class MolSSIInputPrep(DockingInputPrepComponent):
             geom.append(atom_y)
             geom.append(atom_z)
 
-        if os.path.isfile(inputs.Receptor):
-            residues = MMolecule.store_residues(inputs.Receptor)
+        receptor = MMolecule(symbols=symb, geometry=geom, extras={'pdbfname':inputs.Receptor})
 
-            receptor = MMolecule(symbols=symb, geometry=geom, substructures=residues)
-        else:
-            receptor = MMolecule(symbols=symb, geometry=geom)
-        
         return True, DockingInput(Ligand=ligand, Receptor=receptor)
