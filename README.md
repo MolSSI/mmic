@@ -1,6 +1,9 @@
+# What is MMComponents?
 
- # Problem
- Given the 3D structures of 2 (or more) molecules, we need to determine the optimal binding modes. This requires computing a "score" function corresponding to each "pose" or 3D conformation of the complex. This is commonly referred to as a "docking" simulation. If molecular docking is applied to a series of ligand molecules, then this is referred to as "virtual screening". Virtual screening is frequently employed in structure-based drug design because it enables the identification of a drug that binds optimally to a specific target molecule such as a protein.
+....
+ 
+# Molecular Docking
+Given the 3D structures of 2 (or more) molecules, we need to determine the optimal binding modes. This requires computing a "score" function corresponding to each "pose" or 3D conformation of the complex. This is commonly referred to as a "docking" simulation.
 
 <img src="imgs/docking-sys.png" width="500">
 
