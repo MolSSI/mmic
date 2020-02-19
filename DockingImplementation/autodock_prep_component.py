@@ -16,26 +16,22 @@ import pymol
 
 class AutoDockPrep(DockSimPrepComponent):
 
-    def execute(self, input_data: input.DockingInput, config: "TaskConfig" = None) -> output.DockingPrepOutput:
+    def execute(self, input_data: input.DockingInput, config: "TaskConfig" = None) -> input.DockingSimInput:
+        
+        binput = self.build_input(input_data)
+        return True, input.DockingSimInput(Ligand=binput['ligand'], Receptor=binput['receptor'])
 
-        binput =  self.build_input(input_data)
-        ligand = output.FileOutput(Contents=binput['ligand'])
-        receptor = output.FileOutput(Contents=binput['receptor'])
-
-        return True, output.DockingPrepOutput(Ligand=ligand, Receptor=receptor)
 
     def build_input(self, input_model: input.DockingInput, template: Optional[str] = None) -> Dict[str, Any]:
 
         ligand = self.ligand_prep(smiles = input_model.Ligand.identifiers.smiles)
         receptor = self.receptor_prep(receptor = input_model.Receptor)
 
-        return {
-            "ligand": ligand,
-            "receptor": receptor
-        }
+        return {'ligand': ligand, 'receptor': receptor}
 
     # helper functions
     def receptor_prep(self, receptor: molecule.MMolecule) -> str:
+        
         filename = molecule.MMolecule.randomString() + '.pdb'
         receptor.write_pdb(filename)
         pymol.cmd.load(filename)
