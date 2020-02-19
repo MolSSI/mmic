@@ -20,9 +20,11 @@ Applications of docking include:
 ```python
 from MMComponents.models.input import DockingInput
 
-dockingIn = DockingInputData(Ligand=Molecule, Receptor=Molecule)
+dockingIn = DockingInput(Ligand, Receptor)
 
 from MMComponents.implementation.autodock_component import AutoDockComponent
 
 dockingOut = AutoDockComponent.compute(dockingIn)
+
+scores, poses = dockingOut.scores, dockingOut.poses
 ```
