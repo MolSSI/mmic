@@ -18,9 +18,9 @@ Applications of docking include:
 
 # Example: AutoDock Component
 
-<img src="imgs/autodock.png" width="500">
+<img src="imgs/autodock.png" width="900">
 
-```
+```python
 from MMComponents.models.input import DockingInput
 
 dockingIn = DockingInputData(Ligand=Molecule, Receptor=Molecule)
