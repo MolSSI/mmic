@@ -8,7 +8,6 @@ This allows reproducibility from statically defined and shareable components, ex
 </p>
 
 We construct an apstract Base Component that is inherited by all MMComponent blueprints. For each scientific problem, a blueprint is defined that specifies what the component seeks to achieve, along with the necessary inputs and outputs. This component is implemented to satisfy the scientific problem by any number of users/developers.
-....
  
 # Molecular Docking
 Given the 3D structures of 2 (or more) molecules, we need to determine the optimal binding modes. This requires computing a "score" function corresponding to each "pose" or 3D conformation of the complex. This is commonly referred to as a "docking" simulation.
