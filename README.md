@@ -3,7 +3,9 @@ The Molecular Mechanics Components (MMComponents) project is a standard for inpu
 
 This allows reproducibility from statically defined and shareable components, experimentation to find a quality series of components for specific problems and systems, and a mechanism for quality methodological assessment rather than scientist expertise.
 
-<img src="imgs/mm_component_hierarchy.png" width="500">
+<p align="center">
+    <img src="imgs/mm_component_hierarchy.png" width="500">
+</p>
 
 We construct an apstract Base Component that is inherited by all MMComponent blueprints. For each scientific problem, a blueprint is defined that specifies what the component seeks to achieve, along with the necessary inputs and outputs. This component is implemented to satisfy the scientific problem by any number of users/developers.
 ....
