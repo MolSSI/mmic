@@ -1,16 +1,13 @@
-from qcelemental import models
 from typing import List, Optional, Tuple, Union
 from .input import DockingInput
 from models.molecule import MMolecule
+from qcelemental import models
 
 class DockingOutput(models.ProtoModel):
     Docking_Input: DockingInput
-    Poses: List[Tuple[models.Molecule, models.Molecule]]
+    Poses: List[MMolecule]
+    Flexible: Optional[List[MMolecule]] = None
     Scores: Optional[List[float]] = None
 
-class Affinity(models.ProtoModel):
-    Docking_Output: DockingOutput
-    Affinity: float
-
-class FileOutput(models.ProtoModel):
-    Contents: str
+class DockingSimOutput(models.ProtoModel):
+    pass
