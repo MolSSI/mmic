@@ -1,12 +1,12 @@
-REMARK  Name = ligand.pdb
+REMARK  Name = structs/ligand.pdb
 REMARK  6 active torsions:
 REMARK  status: ('A' for Active; 'I' for Inactive)
-REMARK    1  A    between atoms: _5  and  _7
-REMARK    2  A    between atoms: _13  and  _14
-REMARK    3  A    between atoms: _16  and  _21
-REMARK    4  A    between atoms: _22  and  _23
-REMARK    5  A    between atoms: _26  and  _30
-REMARK    6  A    between atoms: _30  and  _31
+REMARK    1  I    between atoms: _5  and  _7
+REMARK    2  I    between atoms: _13  and  _14
+REMARK    3  I    between atoms: _16  and  _21
+REMARK    4  I    between atoms: _22  and  _23
+REMARK    5  I    between atoms: _26  and  _30
+REMARK    6  I    between atoms: _30  and  _31
 REMARK                            x       y       z     vdW  Elec       q    Type
 REMARK                         _______ _______ _______ _____ _____    ______ ____
 ROOT
