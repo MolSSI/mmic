@@ -1,23 +1,25 @@
-import sys
 import abc
-sys.path.insert(0, '..')
-
-from base_component.base_component import ProgramHarness
-from models.input import DockingInput, DockingSimInput
-
 from typing import Any, Dict, List, Optional, Tuple
+import sys
+sys.path.insert(0, '..')
+from models.components.docking.output import DockingOutput
+from models.components.affinity.output import AffinityOutput
+from config import TaskConfig
 
+from base.base_component import ProgramHarness
 
-class DockSimPrepComponent(ProgramHarness, abc.ABC):
-
+class DockingAffinityComponent(ProgramHarness, abc.ABC):
+    
     @classmethod
     def input(cls):
-        return DockingInput
+        return DockingOutput
 
     @classmethod
     def output(cls):
-        return DockingSimInput
-
+        return AffinityOutput
+        
+    @staticmethod
+    @abc.abstractmethod
     def found(raise_error: bool = False) -> bool:
         """
         Checks if the program can be found.
@@ -34,7 +36,7 @@ class DockSimPrepComponent(ProgramHarness, abc.ABC):
     ## Computers
 
     def build_input(
-        self, input_model: "DockingInput", config: "TaskConfig" = None, template: Optional[str] = None
+        self, input_model: "DockingOutput", config: "TaskConfig" = None, template: Optional[str] = None
     ) -> Dict[str, Any]:
         raise ValueError("build_input is not implemented for {}.", self.__class__)
 
@@ -48,5 +50,5 @@ class DockSimPrepComponent(ProgramHarness, abc.ABC):
     ) -> Tuple[bool, Dict[str, Any]]:
         raise ValueError("execute is not implemented for {}.", self.__class__)
 
-    def parse_output(self, outfiles: Dict[str, str], input_model: "DockingInput") -> "DockPrepOutput":
-        raise ValueError("parse_output is not implemented for {}.", self.__class__)  
+    def parse_output(self, outfiles: Dict[str, str], input_model: "DockingOutput") -> "AffinityOutput":
+        raise ValueError("parse_output is not implemented for {}.", self.__class__)

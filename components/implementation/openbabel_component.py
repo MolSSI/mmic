@@ -1,11 +1,11 @@
 import sys
 sys.path.insert(0, '..')
 
-from DockingBlueprints.cmd_component import CmdComponent
+from components.blueprints.cmd_component import CmdComponent
 from typing import Any, Dict, List, Optional, Tuple
 import os
-from models.input import OpenBabelInput
-from models.output import FileOutput
+from models.components.utils.input import OpenBabelInput
+from models.components.utils.output import CmdOutput
 
 class OpenBabel(CmdComponent):
 
@@ -15,7 +15,7 @@ class OpenBabel(CmdComponent):
 
     @classmethod
     def output(cls):
-        return FileOutput
+        return CmdOutput
 
     def execute(self,
         inputs: Dict[str, Any],
@@ -59,8 +59,8 @@ class OpenBabel(CmdComponent):
             "environment": env
         }
 
-    def parse_output(self, outfiles: Dict[str, str], input_model: OpenBabelInput) -> FileOutput:
+    def parse_output(self, outfiles: Dict[str, str], input_model: OpenBabelInput) -> CmdOutput:
         
         output_file = outfiles['tmp.' + input_model.OutputExt]
 
-        return FileOutput(Contents=output_file)
+        return CmdOutput(Contents=output_file)

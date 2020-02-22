@@ -5,7 +5,7 @@ sys.path.insert(0, '..')
 from models.input import DockingInput
 from models.output import DockingOutput
 
-from base_component.base_component import ProgramHarness
+from base.base_component import ProgramHarness
 from config import TaskConfig
 
 class DockingComponent(ProgramHarness, abc.ABC):

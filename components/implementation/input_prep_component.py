@@ -1,9 +1,9 @@
 import sys
 sys.path.insert(0, '..')
-from DockingBlueprints.docking_input_component import DockingInputPrepComponent
-from models.input import DockingInput
+from components.blueprints.docking_input_component import DockingInputPrepComponent
+from models.components.docking.input import DockingInput
 from config import TaskConfig
-from models.molecule import MMolecule
+from models.domains.docking.molecule import MMolecule
 import os
 from typing import Dict, Any, Tuple, Optional, List
 

@@ -1,11 +1,11 @@
 import sys
 sys.path.insert(0, '..')
 
-from DockingBlueprints.cmd_component import CmdComponent
+from components.blueprints.cmd_component import CmdComponent
 from typing import Any, Dict, List, Optional, Tuple
 import os
-from models.input import GrepInput
-from models.output import FileOutput
+from models.components.utils.input import GrepInput
+from models.components.utils.output import CmdOutput
 
 class Grep(CmdComponent):
 
@@ -15,7 +15,7 @@ class Grep(CmdComponent):
 
     @classmethod
     def output(cls):
-        return FileOutput
+        return CmdOutput
 
     def execute(self,
         inputs: Dict[str, Any],
@@ -73,8 +73,8 @@ class Grep(CmdComponent):
             "environment": env
         }
 
-    def parse_output(self, outfiles: Dict[str, str], input_model: GrepInput) -> FileOutput:
+    def parse_output(self, outfiles: Dict[str, str], input_model: GrepInput) -> CmdOutput:
         
         output_file = outfiles['stdout']
 
-        return FileOutput(Contents=output_file)
+        return CmdOutput(Contents=output_file)

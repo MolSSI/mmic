@@ -3,7 +3,7 @@ sys.path.insert(0, '..')
 
 from qcengine.util import execute
 from qcelemental import models
-from base_component.base_component import ProgramHarness
+from components.base.base_component import ProgramHarness
 from typing import Any, Dict, List, Optional, Tuple
 from qcelemental import models
 
