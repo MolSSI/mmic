@@ -9,8 +9,9 @@ This allows reproducibility from statically defined and shareable components, ex
 
 We construct an abstract Base Component that is inherited by all MMComponent blueprints. For each scientific problem, a blueprint is defined that specifies what the component seeks to achieve, along with the necessary inputs and outputs. This component is implemented to satisfy the scientific problem by any number of users/developers.
  
-# Molecular Docking
-Docking is used to determine the optimal binding modes of a ligand-receptor system. A ligand is typically a small (e.g. organic) molecule that binds to a macromolecular receptor such as a protein. A docking simulation estimates the strength of binding (or the "score") in the vicinity of the receptor's binding site. Each score corresponds to the 3D conformation and orientation (or "pose") of the ligand relative to the receptor.
+# MMComponent Example: Molecular Docking
+## What is Docking?
+Docking is used to determine the optimal binding modes of a ligand-receptor system. A ligand is typically a small (e.g. drug) molecule that binds to a macromolecular receptor such as a protein. A docking simulation estimates the strength of the binding (or a quantitative "score") in the vicinity of the receptor's binding site. Each score corresponds to the 3D conformation and orientation (or "pose") of the ligand relative to the receptor.
 
 <img src="imgs/docking-sys.png" width="500">
 
@@ -23,7 +24,7 @@ Applications of docking include:
 - Enzymatic reaction mechanisms
 - Protein engineering
 
-# Example: AutoDock Component
+## AutoDock Component
 
 <img src="imgs/autodock.png">
 
