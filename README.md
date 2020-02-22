@@ -11,10 +11,12 @@ We construct an abstract Base Component that is inherited by all MMComponent blu
  
 # MMComponent Example: Molecular Docking
 ## What is Docking?
-Docking is used to determine the optimal binding modes of a ligand-receptor system. A ligand is typically a small (e.g. drug) molecule that binds to a macromolecular receptor such as a protein. A docking simulation estimates the strength of the binding (or a quantitative "score") in the vicinity of the receptor's binding site. Each score corresponds to the 3D conformation and orientation (or "pose") of the ligand relative to the receptor.
+Docking is a computational technique used to determine the optimal binding modes of a ligand-receptor system. A ligand is typically a small (e.g. drug) molecule that binds to a macromolecular receptor such as a protein. A docking simulation estimates the strength of the binding (or a quantitative "score") in the vicinity of the receptor's binding site. Each score corresponds to the 3D conformation and orientation (or "pose") of the ligand relative to the receptor.
 
+<p align="center">
 <img src="imgs/docking-sys.png" width="500">
-
+</p>
+    
 Applications of docking include:
 
 - Virtual screening (hit identification)
@@ -26,7 +28,9 @@ Applications of docking include:
 
 ## AutoDock Component
 
+<p align="center">
 <img src="imgs/autodock.png">
+</p>
 
 ```python
 from models.components.docking.input import DockingInput
