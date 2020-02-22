@@ -7,10 +7,10 @@ This allows reproducibility from statically defined and shareable components, ex
     <img src="imgs/mm_component_hierarchy.png" width="500">
 </p>
 
-We construct an apstract Base Component that is inherited by all MMComponent blueprints. For each scientific problem, a blueprint is defined that specifies what the component seeks to achieve, along with the necessary inputs and outputs. This component is implemented to satisfy the scientific problem by any number of users/developers.
+We construct an abstract Base Component that is inherited by all MMComponent blueprints. For each scientific problem, a blueprint is defined that specifies what the component seeks to achieve, along with the necessary inputs and outputs. This component is implemented to satisfy the scientific problem by any number of users/developers.
  
 # Molecular Docking
-Docking is used to determine the optimal binding modes of a ligand-receptor system. A docking simulation estimates the strength of binding between the 2 molecules (i.e. the "score") that corresponds to the 3D conformation and orientation of the ligand relative to the receptor (i.e. the ligand "pose").
+Docking is used to determine the optimal binding modes of a ligand-receptor system. A ligand is typically a small (e.g. organic) molecule that binds to a macromolecular receptor such as a protein. A docking simulation estimates the strength of binding (or the "score") in the vicinity of the receptor's binding site. Each score corresponds to the 3D conformation and orientation (or "pose") of the ligand relative to the receptor.
 
 <img src="imgs/docking-sys.png" width="500">
 
