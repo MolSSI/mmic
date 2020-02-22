@@ -28,11 +28,11 @@ Applications of docking include:
 <img src="imgs/autodock.png">
 
 ```python
-from MMComponents.models.input import DockingInput
+from models.components.docking.input import DockingInput
+
+from components.implementation.autodock_component import AutoDockComponent
 
 dockingIn = DockingInput(Ligand, Receptor)
-
-from MMComponents.implementation.autodock_component import AutoDockComponent
 
 dockingOut = AutoDockComponent.compute(dockingIn)
 
