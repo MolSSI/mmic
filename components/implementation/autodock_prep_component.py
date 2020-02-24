@@ -18,10 +18,14 @@ import pymol
 
 class AutoDockPrep(DockSimPrepComponent):
 
+    @classmethod
+    def output(cls):
+        return AutoDockSimInput
+
     def execute(self, input_data: DockingInput, config: "TaskConfig" = None) -> AutoDockSimInput:
         
         binput = self.build_input(input_data)
-        return True, AutoDockSimInput(Ligand=binput['ligand_pdbqt'], Receptor=binput['receptor_pdbqt'])
+        return True, AutoDockSimInput(ligand=binput['ligand_pdbqt'], receptor=binput['receptor_pdbqt'])
 
 
     def build_input(self, input_model: DockingInput, template: Optional[str] = None) -> Dict[str, Any]:
@@ -33,20 +37,16 @@ class AutoDockPrep(DockSimPrepComponent):
 
     # helper functions
     def receptor_prep(self, receptor: molecule.MMolecule) -> str:
-        
-        pymol.cmd.remove('resn HOH')
-        pymol.cmd.h_add(selection='acceptors or donors')
 
         pdb_name = molecule.MMolecule.randomString() + '.pdb'
 
-        pymol.cmd.save(pdb_name)
+        receptor.write(pdb_name)
 
         # Assume protein is rigid and ass missing hydrogens
         obabel_input = OpenBabelInput(Input=os.path.abspath(pdb_name), OutputExt='pdbqt', Args=['-xrh'])
         final_receptor = OpenBabel.compute(input_data=obabel_input).Contents
 
         os.remove(pdb_name)
-        receptor.clear_pdb()
 
         return final_receptor
 
