@@ -46,5 +46,5 @@ print("==============================")
 print(grep_output.Contents)
 
 # Test for AutodockPrep
-# ADP = AutoDockPrep.compute(input_data=docking_input)
+ADP = AutoDockPrep.compute(input_data=docking_input)
 
