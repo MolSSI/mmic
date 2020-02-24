@@ -35,6 +35,6 @@ class MolSSIInputPrep(DockingInputPrepComponent):
             geom.append(atom_y)
             geom.append(atom_z)
 
-        receptor = MMolecule(symbols=symb, geometry=geom, extras={'pdbfname':inputs.Receptor})
+        receptor = MMolecule(symbols=symb, geometry=geom, extras={'filename':inputs.Receptor, 'removeResidues': ['HOH']})
 
         return True, DockingInput(Ligand=ligand, Receptor=receptor)
