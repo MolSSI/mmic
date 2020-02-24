@@ -1,9 +1,10 @@
 from typing import List, Optional, Tuple, Union
 from models.domains.docking.molecule import MMolecule
-from ..input import DockingInput, DockingSimInput
+from qcelemental import models 
 
-class AutoDockSimInput(DockingSimInput):
-    Docking_Input: DockingInput
+class AutoDockSimInput(models.ProtoModel):
+    ligand: str
+    receptor: str
     Exhaustiveness: Optional[int] = 8
     Seed: Optional[int] = None
     BindingModes: Optional[int] = 9
