@@ -16,9 +16,6 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 
 """
 
-
-import logging
-
 import numpy as np
 import os
 from io import StringIO
@@ -74,7 +71,7 @@ def add_hydrogens_to_mol(mol):
     return Chem.MolFromPDBBlock(
         hydrogenated_io.read(), sanitize=False, removeHs=False)
   except ValueError as e:
-    logging.warning("Unable to add hydrogens %s", e)
+    print("Warning: Unable to add hydrogens %s", e)
     raise MoleculeLoadException(e)
   finally:
     try:
@@ -101,7 +98,7 @@ def compute_charges(mol):
   try:
     AllChem.ComputeGasteigerCharges(mol)
   except Exception as e:
-    logging.exception("Unable to compute charges for mol")
+    print("Unable to compute charges for mol")
     raise MoleculeLoadException(e)
   return mol
 
@@ -137,7 +134,7 @@ def load_molecule(molecule_file,
     raise ValueError("Unrecognized file type")
 
   if my_mol is None:
-    raise ValueError("Unable to read non None Molecule Object")
+    raise ValueError("Unable to read None Molecule Object")
 
   if add_hydrogens or calc_charges:
     my_mol = add_hydrogens_to_mol(my_mol)
@@ -153,7 +150,7 @@ def load_molecule(molecule_file,
   return xyz, my_mol
 
 
-def pdbqt_file_hack_protein(mol, outfile):
+def pdbqt_file_hack_protein(mol, outfile) -> str:
   """
   Hack to convert a pdb protein into a pdbqt protein
   :param mol: rdkit Mol of protein
@@ -172,9 +169,8 @@ def pdbqt_file_hack_protein(mol, outfile):
     atom = mol.GetAtoms()[atom_index - 1]
     line = "%s    +0.000 %s\n" % (line, atom.GetSymbol().ljust(2))
     out_lines.append(line)
-  with open(outfile, 'w') as fout:
-    for line in out_lines:
-      fout.write(line)
+  
+  return out_lines
 
 
 def pdbqt_file_hack_ligand(mol, outfile):
@@ -183,36 +179,40 @@ def pdbqt_file_hack_ligand(mol, outfile):
   :param mol: rdkit Mol Object
   :param outfile: filename which already has a valid pdb representation of mol
   """
-  PdbqtLigandWriter(mol, outfile).convert()
+  return PdbqtLigandWriter(mol, outfile).convert()
 
 
-def write_molecule(mol, outfile, is_protein=False):
+def molToPDBQT(mol, is_protein = False):
   """
    Write molecule to a file
-  :param mol: rdkit Mol object
+  :param mol: molecule
+  :type mol: rdkit.Chem.rdchem.Mol
+
   :param outfile: filename to write mol to
+  :type outfile: str
+
   :param is_protein: is this molecule a protein?
+  :type is_protein: bool
   """
   from rdkit import Chem
-  if ".pdbqt" in outfile:
-    writer = Chem.PDBWriter(outfile)
-    writer.write(mol)
-    writer.close()
-    if is_protein:
-      pdbqt_file_hack_protein(mol, outfile)
-    else:
-      pdbqt_file_hack_ligand(mol, outfile)
-  elif ".pdb" in outfile:
-    writer = Chem.PDBWriter(outfile)
-    writer.write(mol)
-    writer.close()
-  elif ".sdf" in outfile:
-    writer = Chem.SDWriter(outfile)
-    writer.write(mol)
-    writer.close()
-  else:
-    raise ValueError("Unsupported Format")
 
+  try:
+    tmpFile = 'tmp.pdb'
+    writer = Chem.PDBWriter(tmpFile)
+    writer.write(mol)
+    writer.close()
+
+    if is_protein:
+      pdbqt = pdbqt_file_hack_protein(mol, tmpFile)
+    else:
+      pdbqt = pdbqt_file_hack_ligand(mol, tmpFile)
+
+    os.remove(tmpFile)
+    
+  except:
+    raise ValueError
+
+  return pdbqt
 
 def pdbqt_to_pdb(filename):
   pdbqt_data = open(filename).readlines()
@@ -255,7 +255,7 @@ class PdbqtLigandWriter(object):
     import networkx as nx
     self._create_pdb_map()
     self._mol_to_graph()
-    self._get_rotatable_bonds()
+    self.rotatable_bonds = self._get_rotatable_bonds()
 
     for bond in self.rotatable_bonds:
       self.graph.remove_edge(bond[0], bond[1])
@@ -276,9 +276,8 @@ class PdbqtLigandWriter(object):
         continue
       self._dfs(next_partition, bond)
     self.lines.append("TORSDOF %s" % len(self.rotatable_bonds))
-    with open(self.outfile, 'w') as fout:
-      for line in self.lines:
-        fout.write(line)
+
+    return self.lines
 
   def _dfs(self, current_partition, bond):
     """
@@ -387,19 +386,25 @@ class PdbqtLigandWriter(object):
       G.add_edge(from_idx, to_idx)
     self.graph = G
 
-  def _get_rotatable_bonds(self):
+  def _get_rotatable_bonds(self, bonds: "Tuple[Tuple]" = None):
     """
+    Sets rotatable bonds indices ((from_atom, to_atom), ...()).
+    
     https://github.com/rdkit/rdkit/blob/f4529c910e546af590c56eba01f96e9015c269a6/Code/GraphMol/Descriptors/Lipinski.cpp#L107
     Taken from rdkit source to find which bonds are rotatable
-    store rotatable bonds in (from_atom, to_atom)
     """
-    from rdkit import Chem
-    from rdkit.Chem import rdmolops
-    pattern = Chem.MolFromSmarts(
-        "[!$(*#*)&!D1&!$(C(F)(F)F)&!$(C(Cl)(Cl)Cl)&!$(C(Br)(Br)Br)&!$(C([CH3])("
-        "[CH3])[CH3])&!$([CD3](=[N,O,S])-!@[#7,O,S!D1])&!$([#7,O,S!D1]-!@[CD3]="
-        "[N,O,S])&!$([CD3](=[N+])-!@[#7!D1])&!$([#7!D1]-!@[CD3]=[N+])]-!@[!$(*#"
-        "*)&!D1&!$(C(F)(F)F)&!$(C(Cl)(Cl)Cl)&!$(C(Br)(Br)Br)&!$(C([CH3])([CH3])"
-        "[CH3])]")
-    rdmolops.FastFindRings(self.mol)
-    self.rotatable_bonds = self.mol.GetSubstructMatches(pattern)
+
+    if not bonds:
+      from rdkit import Chem
+      from rdkit.Chem import rdmolops
+      pattern = Chem.MolFromSmarts(
+          "[!$(*#*)&!D1&!$(C(F)(F)F)&!$(C(Cl)(Cl)Cl)&!$(C(Br)(Br)Br)&!$(C([CH3])("
+          "[CH3])[CH3])&!$([CD3](=[N,O,S])-!@[#7,O,S!D1])&!$([#7,O,S!D1]-!@[CD3]="
+          "[N,O,S])&!$([CD3](=[N+])-!@[#7!D1])&!$([#7!D1]-!@[CD3]=[N+])]-!@[!$(*#"
+          "*)&!D1&!$(C(F)(F)F)&!$(C(Cl)(Cl)Cl)&!$(C(Br)(Br)Br)&!$(C([CH3])([CH3])"
+          "[CH3])]")
+      rdmolops.FastFindRings(self.mol)
+
+      return self.mol.GetSubstructMatches(pattern)
+    else:
+      return bonds
