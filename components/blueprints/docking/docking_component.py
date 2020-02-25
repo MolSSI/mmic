@@ -1,17 +1,39 @@
+import abc
 from typing import Any, Dict, List, Optional, Tuple
-from models.components.docking.autodock.input import AutoDockSimInput
-from models.component.docking.autodock.output import AutoDockOutput
-from blueprints.docking_sim_component import DockSimComponent
+import sys
+sys.path.insert(0, '..')
+from models.input import DockingInput
+from models.output import DockingOutput
 
-class AutoDock(DockSimComponent):
+from base.base_component import ProgramHarness
+from config import TaskConfig
+
+class DockingComponent(ProgramHarness, abc.ABC):
     
     @classmethod
     def input(cls):
-        return DockingSimInput
+        return DockingInput
 
     @classmethod
     def output(cls):
         return DockingOutput
+        
+    @staticmethod
+    @abc.abstractmethod
+    def found(raise_error: bool = False) -> bool:
+        """
+        Checks if the program can be found.
+        Parameters
+        ----------
+        raise_error : bool, optional
+            If True, raises an error if the program cannot be found.
+        Returns
+        -------
+        bool
+            Returns True if the program was found, False otherwise.
+        """
+    
+    ## Computers
 
     def build_input(
         self, input_model: "DockingInput", config: "TaskConfig" = None, template: Optional[str] = None
