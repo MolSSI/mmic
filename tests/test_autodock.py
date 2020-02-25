@@ -19,12 +19,12 @@ docking_input_data = DockingPrepInput(ligand=ligand, receptor=receptor)
 from components.implementation.utils.openbabel_component import OpenBabel
 from components.implementation.utils.grep_component import Grep
 from components.implementation.docking.autodock_prep_component import AutoDockPrep
-from components.implementation.docking.input_prep_component import MolSSIInputPrep
+from components.implementation.docking.autodock_convert_component import ConvertAutoDockComponent
 
 from config import TaskConfig
 
-# Test MolSSIInputPrep
-docking_input = MolSSIInputPrep.compute(docking_input_data)
+# Test for ConvertAutoDockComponent
+docking_input = ConvertAutoDockComponent.compute(docking_input_data)
 
 # Test for openbabel
 obabel_input = OpenBabelInput(fileInput=receptor, outputExt='pdbqt')
