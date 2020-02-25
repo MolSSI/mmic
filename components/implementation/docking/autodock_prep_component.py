@@ -1,5 +1,4 @@
 import sys
-sys.path.insert(0, '../..')
 
 from models.components.docking.autodock.input import AutoDockSimInput
 from models.components.docking.input import DockingInput
@@ -15,6 +14,8 @@ from components.implementation.utils.openbabel_component import OpenBabel
 from typing import Any, Dict, List, Optional, Tuple
 import os
 import pymol
+import random
+import string
 
 class AutoDockPrep(DockSimPrepComponent):
 
@@ -38,7 +39,7 @@ class AutoDockPrep(DockSimPrepComponent):
     # helper functions
     def receptor_prep(self, receptor: molecule.MMolecule) -> str:
 
-        pdb_name = molecule.MMolecule.randomString() + '.pdb'
+        pdb_name = AutoDockPrep.randomString() + '.pdb'
 
         receptor.write(pdb_name)
 
@@ -56,7 +57,7 @@ class AutoDockPrep(DockSimPrepComponent):
 
     def smi_to_pdbqt(self, smiles: str) -> str:
 
-        smi_file = os.path.abspath(molecule.MMolecule.randomString() + '.smi')
+        smi_file = os.path.abspath(AutoDockPrep.randomString() + '.smi')
 
         with open(smi_file, 'w') as fp:
             fp.write(smiles)
@@ -67,3 +68,8 @@ class AutoDockPrep(DockSimPrepComponent):
         os.remove(smi_file)
 
         return obabel_output.Contents        
+
+    @staticmethod
+    def randomString(stringLength=10) -> str:
+       letters = string.ascii_lowercase
+       return ''.join(random.choice(letters) for i in range(stringLength))
