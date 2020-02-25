@@ -24,9 +24,9 @@ class Grep(CmdComponent):
         scratch_name: Optional[str] = None,
         timeout: Optional[int] = None,) -> Tuple[bool, Dict[str, Any]]:
 
-        args = inputs.Args
+        args = inputs.args
 
-        input_model = {'input': inputs.Input, 'pattern': inputs.Pattern, 'args': args}
+        input_model = {'input': inputs.fileInput.path, 'pattern': inputs.pattern, 'args': args}
 
         execute_input = self.build_input(input_model)
 
