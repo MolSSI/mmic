@@ -1,11 +1,14 @@
 import sys
+import numpy
+import os
+
 sys.path.insert(0, '..')
 
+# import models
 from models.components.docking.input import DockingPrepInput
 from models.components.utils.input import OpenBabelInput
 from models.components.utils.input import GrepInput
-import numpy
-import os
+
 
 # Test MMolecule
 from models.domains.docking.molecule import MMolecule
@@ -18,10 +21,10 @@ docking_input_data = DockingPrepInput(
 			Receptor=pdb_file
 		)
 
-from components.implementation.openbabel_component import OpenBabel
-from components.implementation.grep_component import Grep
-from components.implementation.autodock_prep_component import AutoDockPrep
-from components.implementation.input_prep_component import MolSSIInputPrep
+from components.implementation.utils.openbabel_component import OpenBabel
+from components.implementation.utils.grep_component import Grep
+from components.implementation.docking.autodock_prep_component import AutoDockPrep
+from components.implementation.docking.input_prep_component import MolSSIInputPrep
 
 from config import TaskConfig
 
