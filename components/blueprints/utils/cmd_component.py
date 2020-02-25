@@ -32,7 +32,7 @@ class CmdComponent(ProgramHarness):
         """
 
     def build_input(
-        self, input_model: "DockingInputData", config: "TaskConfig" = None, template: Optional[str] = None
+        self, input_model: models.ProtoModel, config: "TaskConfig" = None, template: Optional[str] = None
     ) -> Dict[str, Any]:
         raise ValueError("build_input is not implemented for {}.", self.__class__)
 
@@ -76,5 +76,5 @@ class CmdComponent(ProgramHarness):
         
         return exe_success, proc
 
-    def parse_output(self, outfiles: Dict[str, str], input_model: "DockingInputData") -> "DockingInput":
+    def parse_output(self, outfiles: Dict[str, str], input_model: models.ProtoModel) -> models.ProtoModel:
         raise ValueError("parse_output is not implemented for {}.", self.__class__)
