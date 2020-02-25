@@ -35,31 +35,27 @@ class ProgramHarness(models.ProtoModel, abc.ABC):
 
     @classmethod
     def compute(cls, input_data: models.ProtoModel, config: "TaskConfig" = None) -> models.ProtoModel:
+        
         #Validate the input model
-
-        #print("input types = ", type(input_data), type(cls.input()), models.ProtoModel)
-
-        #if isinstance(input_data, cls.input()):
-        #    cls.input()(**input_data.dict())
-        #elif isinstance(input_data, dict):
-        #    cls.input()(**input_data)
-        #else:
-        #    raise TypeError("{0} is not a valid input type for the {1} component.".format(type(input_data), cls.__name__))
+        if isinstance(input_data, cls.input()):
+            cls.input()(**input_data.dict())
+        elif isinstance(input_data, dict):
+            cls.input()(**input_data)
+        else:
+            raise TypeError("{0} is not a valid input type for the {1} component.".format(type(input_data), cls.__name__))
 
         #Perform the execution
         program = cls(name = cls.__name__, scratch = False, thread_safe = False, thread_parallel = False, node_parallel = False, managed_memory = False)
 
         _, exec_output = program.execute(input_data)
 
-        #print("output types = ", type(exec_output[-1]), type(cls.output()))
-
         #Validate the output model
-        #if isinstance(exec_output, cls.output()):
-        #    cls.output()(**exec_output.dict())
-        #elif isinstance(exec_output, dict):
-        #    cls.output()(**exec_output)
-        #else:
-        #    raise TypeError("{0} is not a valid output type for the {1} component.".format(type(exec_output), cls.__name__))
+        if isinstance(exec_output, cls.output()):
+            cls.output()(**exec_output.dict())
+        elif isinstance(exec_output, dict):
+            cls.output()(**exec_output)
+        else:
+            raise TypeError("{0} is not a valid output type for the {1} component.".format(type(exec_output), cls.__name__))
 
         return exec_output
 
