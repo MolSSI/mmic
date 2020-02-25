@@ -117,11 +117,6 @@ class MMolecule(models.Molecule):
     def writeXYZ(self, xyzfname):
         Chem.rdmolfiles.MolToXYZFile
 
-    @staticmethod
-    def randomString(stringLength=10) -> str:
-       letters = string.ascii_lowercase
-       return ''.join(random.choice(letters) for i in range(stringLength))
-
     def write(self, filename):
 
         ext = filename.split('.')[-1]
