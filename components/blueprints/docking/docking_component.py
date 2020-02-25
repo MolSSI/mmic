@@ -1,11 +1,11 @@
 import abc
 from typing import Any, Dict, List, Optional, Tuple
 import sys
-sys.path.insert(0, '..')
-from models.input import DockingInput
-from models.output import DockingOutput
+sys.path.insert(0, '../..')
+from models.components.docking.input import DockingInput
+from models.components.docking.output import DockingOutput
 
-from base.base_component import ProgramHarness
+from components.base.base_component import ProgramHarness
 from config import TaskConfig
 
 class DockingComponent(ProgramHarness, abc.ABC):
