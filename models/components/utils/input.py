@@ -3,6 +3,8 @@ from qcelemental import models
 from pydantic import validator
 import os
 
+from .output import FileOutput
+
 class FileInput(models.ProtoModel):
     path: str
 
@@ -10,16 +12,6 @@ class FileInput(models.ProtoModel):
     def exists(cls, v):
         if not os.path.isfile(v):
             raise IOError(f'Input file {v} does not eixst.')
-
-        return v
-
-class FileOutput(models.ProtoModel):
-    path: str
-
-    @validator('path')
-    def exists(cls, v):
-        if os.path.isfile(v):
-            raise IOError(f'File {v} already eixsts.')
 
         return v
 
