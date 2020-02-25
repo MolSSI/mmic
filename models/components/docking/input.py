@@ -1,24 +1,24 @@
 from typing import List, Optional, Tuple, Union
 from qcelemental import models
 from models.domains.docking.molecule import MMolecule
+from models.domains.classmech.molecule import ChemCode
+from models.components.utils.input import FileInput
+
 
 class DockingInput(models.ProtoModel):
-    Ligand: MMolecule
-    Receptor: MMolecule
-    RotLigBonds: Optional[List[Tuple[int, int]]] = None 
-    RotRecBonds: Optional[List[Tuple[int, int]]] = None
-    SearchSpace: Optional[List[Tuple[float, float, float, float, float, float]]] = None
+    ligand: MMolecule
+    receptor: MMolecule
+    searchSpace: Optional[List[Tuple[float, float, float, float, float, float]]] = None
 
 class DockingPrepInput(DockingInput):
-    Ligand: Union[MMolecule, str]
-    Receptor: Union[MMolecule, str]
-    Flexible: Optional[Union[MMolecule, str]] = None
-
+    ligand: Union[ChemCode, FileInput, MMolecule]
+    receptor: Union[FileInput, MMolecule]
+    flexible: Optional[Union[MMolecule, FileInput]] = None
 
 class DockingSimInput(models.ProtoModel):
-    Docking_Input: DockingInput
-    Ligand: Union[List[str], List[MMolecule]]
-    Receptor: Union[str, MMolecule]
-    RotLigBonds: Optional[List[Tuple[int, int]]] = None 
-    RotRecBonds: Optional[List[Tuple[int, int]]] = None
-    SearchSpace: Optional[List[Tuple[float, float, float, float, float, float]]] = None
+    dockingInput: DockingInput
+    ligand: Union[List[str], List[MMolecule]]
+    receptor: Union[str, MMolecule]
+    rotLigBonds: Optional[List[Tuple[int, int]]] = None 
+    rotRecBonds: Optional[List[Tuple[int, int]]] = None
+    searchSpace: Optional[List[Tuple[float, float, float, float, float, float]]] = None
