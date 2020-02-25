@@ -20,11 +20,6 @@ class ConvertAutoDockComponent(ConvertComponent):
     def output(cls):
         return DockingInput
 
-    def build_input(
-        self, input_model: models.ProtoModel, config: "TaskConfig" = None, template: Optional[str] = None
-    ) -> Dict[str, Any]:
-        raise ValueError("build_input is not implemented for {}.", self.__class__)
-
     def execute(
         self,
         inputs: Dict[str, Any],
