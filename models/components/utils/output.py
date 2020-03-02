@@ -5,12 +5,15 @@ from pydantic import validator
 class CmdOutput(models.ProtoModel):
     Contents: str
 
-
 class FileOutput(models.ProtoModel):
     path: str
 
     @validator('path')
-    def exists(cls, v):
+    def _exists(cls, v):
         if os.path.isfile(v):
             raise IOError(f'File {v} already eixsts.')
         return v
+
+    @property
+    def ext(self):
+        return self.path.split('.')[-1]
