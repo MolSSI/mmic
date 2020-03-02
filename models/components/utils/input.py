@@ -9,11 +9,15 @@ class FileInput(models.ProtoModel):
     path: str
 
     @validator('path')
-    def exists(cls, v):
+    def _exists(cls, v):
         if not os.path.isfile(v):
             raise IOError(f'Input file {v} does not eixst.')
 
         return v
+
+    @property
+    def ext(self):
+        return self.path.split('.')[-1]
 
 class CmdInput(models.ProtoModel):
     fileInput: Union[FileInput, List[FileInput]]
