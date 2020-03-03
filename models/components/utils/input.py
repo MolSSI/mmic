@@ -4,6 +4,7 @@ from pydantic import validator
 import os
 
 from .output import FileOutput
+from pathlib import Path
 
 class FileInput(models.ProtoModel):
     path: str
@@ -17,7 +18,7 @@ class FileInput(models.ProtoModel):
 
     @property
     def ext(self):
-        return self.path.split('.')[-1]
+        return Path(self.path).suffix
 
 class CmdInput(models.ProtoModel):
     fileInput: Union[FileInput, List[FileInput]]

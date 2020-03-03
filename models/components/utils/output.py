@@ -1,6 +1,7 @@
 from qcelemental import models
 from typing import List, Optional, Union
 from pydantic import validator
+from pathlib import Path
 
 class CmdOutput(models.ProtoModel):
     Contents: str
@@ -16,4 +17,4 @@ class FileOutput(models.ProtoModel):
 
     @property
     def ext(self):
-        return self.path.split('.')[-1]
+        return Path(self.path).suffix
