@@ -1,6 +1,6 @@
 from typing import List, Optional, Tuple, Union
 from .input import DockingInput
-from models.domains.docking.molecule import MMolecule
+from models.domains.classmech.molecule import MMolecule
 from qcelemental import models
 from pydantic import Field
 
