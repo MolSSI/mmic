@@ -6,8 +6,8 @@ from pydantic import Field
 
 class DockingOutput(models.ProtoModel):
     dockingInput: DockingInput = Field(..., description="Docking input model.")
-    poses: List[MMolecule] = Field(..., description="Orientation of the ligand relative to the receptor as well as the conformation of the candidate ligand.")
-    flexible: Optional[List[MMolecule]] = Field(None, description="Orientation of the flexible side chains of the receptor relative to the ligand.")
+    poses: List[MMolecule] = Field(..., description="Conformation and orientation of the candidate ligand relative to the receptor.")
+    flexible: Optional[List[MMolecule]] = Field(None, description="Conformation and orientation of the flexible side chains of the receptor relative to the ligand.")
     scores: Optional[List[float]] = Field(None, description="A metric for evaluating a particular pose. Length of scores must be equal to length of poses.")
 
 class DockingSimOutput(models.ProtoModel):
