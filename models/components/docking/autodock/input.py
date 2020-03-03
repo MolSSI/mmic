@@ -1,5 +1,5 @@
 from typing import List, Optional, Tuple, Union
-from models.domains.docking.molecule import MMolecule
+from models.domains.classmech.molecule import MMolecule
 from qcelemental import models 
 
 class AutoDockSimInput(models.ProtoModel):
