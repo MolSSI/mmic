@@ -30,7 +30,7 @@ class WriterComponent(ProgramHarness):
             Returns True if the program was found, False otherwise.
         """
 
-    def build_input(
+    def parse_input(
         self, input_model: models.ProtoModel, config: "TaskConfig" = None, template: Optional[str] = None
     ) -> Dict[str, Any]:
         raise ValueError("build_input is not implemented for {}.", self.__class__)
