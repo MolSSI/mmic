@@ -77,4 +77,4 @@ class Grep(CmdComponent):
         
         output_file = outfiles['stdout']
 
-        return CmdOutput(Contents=output_file)
+        return CmdOutput(stdout=output_file)
