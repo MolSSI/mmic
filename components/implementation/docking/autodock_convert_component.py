@@ -6,9 +6,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from qcelemental import models
 
 from models.components.docking.input import DockingInput, DockingPrepInput
-from models.domains.docking.molecule import MMolecule
-
-from Bio.PDB import PDBParser
+from models.domains.classmech.molecule import MMolecule
 
 class ConvertAutoDockComponent(ConvertComponent):
 
@@ -28,24 +26,9 @@ class ConvertAutoDockComponent(ConvertComponent):
         scratch_name: Optional[str] = None,
         timeout: Optional[int] = None,
     ) -> Tuple[bool, Dict[str, Any]]:
-        ligand = MMolecule(symbols=['H'], geometry=[0.0, 0.0, 0.0], identifiers={'smiles': inputs.ligand.code})
 
-        parser = PDBParser()
-
-        filename = inputs.receptor.path.split('/')[-1]
-        struct_name = filename.split('.')[0]
-        structure = parser.get_structure(struct_name, inputs.receptor.path)
-        symb = []
-        geom = []
-        
-        for atom in structure.get_atoms():
-            symb.append(atom.element)
-            atom_x, atom_y, atom_z = atom.get_coord()
-            geom.append(atom_x)
-            geom.append(atom_y)
-            geom.append(atom_z)
-
-        receptor = MMolecule(symbols=symb, geometry=geom, extras={'filename':inputs.receptor.path, 'removeResidues': ['HOH']})
+        ligand = MMolecule(symbols=['C'], geometry=[0,0,0], identifiers={'smiles': inputs.ligand.code})
+        receptor = MMolecule.from_file(inputs.receptor.path)
 
         return True, DockingInput(ligand=ligand, receptor=receptor)
 
