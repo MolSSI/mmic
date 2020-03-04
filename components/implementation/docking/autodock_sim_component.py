@@ -60,7 +60,6 @@ class AutoDockSim(CmdComponent):
                 else:
                     cmd.append(str(val))
 
-        print(cmd)
         env = os.environ.copy()
 
         if config:
