@@ -38,13 +38,14 @@ class MMToRDKit:
         for index, symb in enumerate(mmol.symbols):
             atom = Chem.Atom(symb)
             resname, resnum = mmol.residues[index]
+            name = mmol.names[index]
             residue = Chem.AtomPDBResidueInfo()
             residue.SetResidueName(resname)
+            residue.SetName(name)
             residue.SetResidueNumber(resnum)
             residue.SetOccupancy(1.0)
             residue.SetTempFactor(0.0)
             atom.SetMonomerInfo(residue)
-            #atom.SetIdx(index+1)
             erdkmol.AddAtom(atom)
 
         for i,j,btype in mmol.connectivity:
