@@ -7,7 +7,7 @@ from components.base.base_component import ProgramHarness
 from typing import Any, Dict, List, Optional, Tuple
 from qcelemental import models
 
-class ConvertComponent(ProgramHarness):
+class GenericComponent(ProgramHarness):
 
     @classmethod
     def input(cls):
