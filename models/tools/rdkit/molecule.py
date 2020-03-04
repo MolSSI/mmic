@@ -6,11 +6,7 @@ except:
     raise ModuleNotFoundError('Make sure rdkit is installed for code validation.')
 
 class Bond:
-    """ RDKit-based bond order: {0: unspecified, 1: single, etc., up to 21} """
-    try:
-        from rdkit import Chem
-    except:
-        raise ModuleNotFoundError('Make sure rdkit is installed for code validation.')    
+    """ RDKit-based bond order: {0: unspecified, 1: single, etc., up to 21} """  
     orders = list(Chem.BondType.values.values())
 
 class RDKitMolecule(models.ProtoModel):
@@ -20,18 +16,8 @@ class RDKitMolecule(models.ProtoModel):
         arbitrary_types_allowed = True
 
 class MMToRDKit:
-    try:
-        from models.tools.rdkit.molecule import RDKitMolecule
-    except:
-        raise ModuleNotFoundError('Make sure rdkit is installed for code validation.')
-
     @staticmethod
     def convert(mmol: "MMolecule") -> RDKitMolecule:
-        try:
-            from rdkit import Chem
-        except:
-            raise ModuleNotFoundError('Make sure rdkit is installed for code validation.')
-        
         rdkmol = Chem.Mol()
         erdkmol = Chem.EditableMol(rdkmol)
 
