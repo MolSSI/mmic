@@ -26,7 +26,7 @@ class AutoDockPrep(DockSimPrepComponent):
     def execute(self, input_data: DockingInput, config: "TaskConfig" = None) -> Tuple[bool, AutoDockSimInput]:
         
         binput = self.build_input(input_data)
-        return True, AutoDockSimInput(**binput)
+        return True, AutoDockSimInput(dockingInput=input_data, **binput)
 
 
     def build_input(self, input_model: DockingInput, template: Optional[str] = None) -> Dict[str, Any]:
