@@ -23,18 +23,21 @@ class AutoDockPrep(DockSimPrepComponent):
     def output(cls):
         return AutoDockSimInput
 
-    def execute(self, input_data: DockingInput, config: "TaskConfig" = None) -> AutoDockSimInput:
+    def execute(self, input_data: DockingInput, config: "TaskConfig" = None) -> Tuple[bool, AutoDockSimInput]:
         
         binput = self.build_input(input_data)
-        return True, AutoDockSimInput(ligand=binput['ligand_pdbqt'], receptor=binput['receptor_pdbqt'])
+        return True, AutoDockSimInput(**binput)
 
 
     def build_input(self, input_model: DockingInput, template: Optional[str] = None) -> Dict[str, Any]:
 
         ligand_pdbqt = self.ligand_prep(smiles = input_model.ligand.identifiers.smiles)
         receptor_pdbqt = self.receptor_prep(receptor = input_model.receptor)
+        inputDict = self.checkSimParams(input_model)
+        inputDict['ligand'] = ligand_pdbqt
+        inputDict['receptor'] = receptor_pdbqt
 
-        return {'ligand_pdbqt': ligand_pdbqt, 'receptor_pdbqt': receptor_pdbqt}
+        return inputDict
 
     # helper functions
     def receptor_prep(self, receptor: molecule.MMolecule) -> str:
@@ -45,7 +48,7 @@ class AutoDockPrep(DockSimPrepComponent):
 
         # Assume protein is rigid and ass missing hydrogens
         obabel_input = OpenBabelInput(fileInput=FileInput(path=os.path.abspath(pdb_name)), outputExt='pdbqt', args=['-xrh'])
-        final_receptor = OpenBabel.compute(input_data=obabel_input).Contents
+        final_receptor = OpenBabel.compute(input_data=obabel_input).stdout
 
         os.remove(pdb_name)
 
@@ -67,7 +70,33 @@ class AutoDockPrep(DockSimPrepComponent):
 
         os.remove(smi_file)
 
-        return obabel_output.Contents        
+        return obabel_output.stdout        
+
+    def checkSimParams(self, input_model: DockingInput) -> Dict[str, Any]:
+
+        receptor = input_model.receptor
+        outputDict = {}
+        inputDict = input_model.dict()
+
+        if not (inputDict.get('center_x') and inputDict.get('size_x')):
+            xmin, xmax = receptor.geometry[:,0].min(), receptor.geometry[:,0].max()
+            outputDict['center_x'] = (xmin + xmax) / 2.0
+            outputDict['size_x'] = xmax - xmin
+
+        if not (inputDict.get('center_y') and inputDict.get('size_y')):
+            ymin, ymax = receptor.geometry[:,1].min(), receptor.geometry[:,1].max()
+            outputDict['center_y'] = (ymin + ymax) / 2.0
+            outputDict['size_y'] = ymax - ymin
+
+        if not (inputDict.get('center_z') and inputDict.get('size_z')):
+            zmin, zmax = receptor.geometry[:,2].min(), receptor.geometry[:,2].max()
+            outputDict['center_z'] = (zmin + zmax) / 2.0
+            outputDict['size_z'] = zmax - zmin
+
+        outputDict['out'] = os.path.abspath('autodock.pdbqt')
+        outputDict['log'] = os.path.abspath('autodock.log')
+
+        return outputDict
 
     @staticmethod
     def randomString(stringLength=10) -> str:
