@@ -63,4 +63,4 @@ class OpenBabel(CmdComponent):
         
         output_file = outfiles['tmp.' + input_model.outputExt]
 
-        return CmdOutput(Contents=output_file)
+        return CmdOutput(stdout=output_file)
