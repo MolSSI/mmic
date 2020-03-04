@@ -20,6 +20,10 @@ class FileInput(models.ProtoModel):
     def ext(self):
         return Path(self.path).suffix
 
+    def read(self) -> str:
+        with open(self.path, 'r') as fp:
+            return fp.read()
+
 class CmdInput(models.ProtoModel):
     fileInput: Union[FileInput, List[FileInput]]
     fileOutput: Optional[Union[FileOutput, List[FileOutput]]] = None
