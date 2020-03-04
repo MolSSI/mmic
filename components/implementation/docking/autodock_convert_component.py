@@ -1,14 +1,14 @@
 import sys
 
 from qcelemental import models
-from components.blueprints.utils.convert_component import ConvertComponent
+from components.blueprints.generic_component import GenericComponent
 from typing import Any, Dict, List, Optional, Tuple
 from qcelemental import models
 
 from models.components.docking.input import DockingInput, DockingPrepInput
 from models.domains.classmech.molecule import MMolecule
 
-class ConvertAutoDockComponent(ConvertComponent):
+class ConvertAutoDockComponent(GenericComponent):
 
     @classmethod
     def input(cls):
