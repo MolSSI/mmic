@@ -26,6 +26,7 @@ class MMolecule(qcelemental.models.Molecule):
     segments: Optional[Dict[str, List[int]]] = Field(None, description="A 2D list of atomic indices specifying which bonds in the ligand are rotatable.")
     identifiers: Optional[Identifiers] = Field(None, description="An optional dictionary of additional identifiers by which this MMolecule can be referenced, "
         "such as INCHI, SMILES, SMARTs, etc. See the :class:``Identifiers`` model for more details.")
+    names: Optional[List[str]] = Field(None, description="A list of atomic label names.")
 
     # Constructors
     @classmethod
@@ -93,7 +94,10 @@ class MMolecule(qcelemental.models.Molecule):
             assert isinstance(data, RDKitMolecule)
 
             symbs = [atom.GetSymbol() for atom in data.mol.GetAtoms()]
-            residues = [(atom.GetPDBResidueInfo().GetResidueName(), atom.GetPDBResidueInfo().GetResidueNumber()) for atom in data.mol.GetAtoms()]
+            residues = [(atom.GetPDBResidueInfo().GetResidueName(), 
+                        atom.GetPDBResidueInfo().GetResidueNumber()) 
+                        for atom in data.mol.GetAtoms()]
+            names = [atom.GetPDBResidueInfo().GetName() for atom in data.mol.GetAtoms()]
 
             connectivity = []
 
@@ -103,13 +107,17 @@ class MMolecule(qcelemental.models.Molecule):
 
             geo = data.mol.GetConformer(0).GetPositions()
 
-            input_dict = {'symbols': symbs, 'geometry': geo, 'residues': residues, 'connectivity': connectivity}
+            input_dict = {'symbols': symbs, 
+                          'geometry': geo, 
+                          'residues': residues, 
+                          'connectivity': connectivity,
+                          'names': names}
         else:
             return qcelemental.models.molecule.Molecule.from_data(data, dtype, orient=orient, validate=validate, **kwargs)
 
         input_dict.update(kwargs)
 
-        return cls(orient=False, validate=validate, **input_dict)
+        return cls(orient=orient, validate=validate, **input_dict)
 
     def to_file(self, filename: str, dtype: Optional[str] = None) -> None:
         """Writes the Molecule to a file.
