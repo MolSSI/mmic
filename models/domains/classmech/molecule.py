@@ -61,8 +61,10 @@ class MMolecule(qcelemental.models.Molecule):
     )
     residues: Optional[List[Tuple[str, int]]] = Field(
         None, 
-        description="A list of (residue_name, residue_num) of connected atoms constituting the building block (monomer) of a polymer. Order "
-        " follows atomic indices from 0 till Natoms-1. E.g. ('ALA', 1) means atom 0 belongs to aminoacid alanine with residue number 1. Residue number >= 1."
+        description="A list of (residue_name, residue_num) of connected atoms constituting the building block (monomer) "
+        "of a polymer. Order follows atomic indices from 0 till Natoms-1. "
+        "\n"
+        "E.g. ('ALA', 1) means atom 0 belongs to aminoacid alanine with residue number 1. Residue number >= 1."
         )
     chains: Optional[Dict[str, List[int]]] = Field(
         None, description="A sequence of connected residues."
