@@ -3,7 +3,7 @@ import sys
 from models.components.docking.autodock.input import AutoDockSimInput
 from models.components.docking.input import DockingInput
 from models.components.utils.input import OpenBabelInput, FileInput
-import models.domains.docking.molecule as molecule
+import models.domains.classmech.molecule as molecule
 
 from components.blueprints.docking.docking_sim_prep_component import DockSimPrepComponent
 
@@ -41,7 +41,7 @@ class AutoDockPrep(DockSimPrepComponent):
 
         pdb_name = AutoDockPrep.randomString() + '.pdb'
 
-        receptor.write(pdb_name)
+        receptor.to_file(pdb_name)
 
         # Assume protein is rigid and ass missing hydrogens
         obabel_input = OpenBabelInput(fileInput=FileInput(path=os.path.abspath(pdb_name)), outputExt='pdbqt', args=['-xrh'])
