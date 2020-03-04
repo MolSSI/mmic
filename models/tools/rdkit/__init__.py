@@ -1,5 +1,6 @@
 try:
-    from rdkit import Chem
+    from rdkit import rdBase, Chem
+    from rdkit.Chem import AllChem
 except:
     raise ModuleNotFoundError('Make sure rdkit is installed for code validation.')
 
