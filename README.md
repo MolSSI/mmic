@@ -29,7 +29,7 @@ Applications of docking include:
 ## Docking Component: AutoDock
 
 <p align="center">
-<img src="imgs/autodock.png">
+<img src="imgs/autodock.png" width="1077" height="500">
 </p>
 
 ```python
