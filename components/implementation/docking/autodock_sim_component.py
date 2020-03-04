@@ -1,6 +1,8 @@
 from typing import Any, Dict, List, Optional, Tuple
 from models.components.docking.autodock.input import AutoDockSimInput
 from models.components.docking.autodock.output import AutoDockSimOutput
+from models.components.utils.output import CmdOutput
+from models.components.utils.input import FileInput
 from components.blueprints.utils.cmd_component import CmdComponent
 import os
 
@@ -12,7 +14,7 @@ class AutoDockSim(CmdComponent):
 
     @classmethod
     def output(cls):
-        return AutoDickSimOutput
+        return AutoDockSimOutput
 
     def execute(self,
         inputs: Dict[str, Any],
@@ -20,7 +22,6 @@ class AutoDockSim(CmdComponent):
         extra_commands: Optional[List[str]] = None,
         scratch_name: Optional[str] = None,
         timeout: Optional[int] = None,) -> Tuple[bool, Dict[str, Any]]:
-
 
         receptor, ligand = inputs.receptor, inputs.ligand
 
@@ -31,20 +32,27 @@ class AutoDockSim(CmdComponent):
             fp.write(ligand)
 
         input_model = inputs.dict()
+        del input_model['dockingInput']
+
         input_model['receptor'] = os.path.abspath('receptor.pdbqt')
         input_model['ligand'] = os.path.abspath('ligand.pdbqt')
-
-        input_model['out'] = os.path.abspath('autodock.pdbqt')
-        input_model['log'] = os.path.abspath('autodock.log')
 
         execute_input = self.build_input(input_model)
 
         exe_success, proc = self.run(execute_input)
 
         if exe_success:
-            return True, self.parse_output(proc, inputs)
+            output = True, self.parse_output(proc, inputs)
+            self.cleanup()
+            return output
         else:
+            self.cleanup()
             raise ValueError(proc["stderr"])
+
+    def cleanup(self):
+        for file in ['receptor.pdbqt', 'ligand.pdbqt', 'autodock.pdbqt', 'autodock.log']:
+            if os.path.isfile(file):
+                os.remove(file)
 
     def build_input(
         self, input_model: Dict[str, Any], config: Optional["TaskConfig"] = None, template: Optional[str] = None
@@ -71,13 +79,26 @@ class AutoDockSim(CmdComponent):
         return {
             "command": cmd,
             "infiles": None,
-            "outfiles": ['system.pdbqt', 'autodock.log'],
+            "outfiles": [os.path.abspath('autodock.pdbqt'), os.path.abspath('autodock.log')],
             "scratch_directory": scratch_directory,
             "environment": env
         }
 
-    def parse_output(self, outfiles: Dict[str, str], input_model: AutoDockSimInput) -> "CmdOutput":
-        
-        output_file = outfiles['stdout']
+    def parse_output(self, output: Dict[str, str], input_model: AutoDockSimInput) -> AutoDockSimOutput:
+        stdout = output['stdout']
+        stderr = output['stderr']
+        outfiles = output['outfiles']
 
-        return CmdOutput(Contents=output_file)
+        if stderr:
+            print("Error from AutoDock Vina:")
+            print("=========================")
+            for line in stderr.split('\n'):
+                print(line)
+
+        system, log = outfiles
+        cmdout = CmdOutput(stdout=stdout, stderr=stderr, log=FileInput(path=log).read())
+
+        return AutoDockSimOutput(cmdout=cmdout, system=FileInput(path=system).read(), scores=[1.0,2.0,3.0], dockingInput=input_model.dockingInput)
+
+    def parse_scores(self, input: CmdOutput) -> List[float]:
+        pass
