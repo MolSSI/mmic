@@ -72,7 +72,7 @@ class ConvertComponent(ProgramHarness):
             timeout=timeout,
             environment=inputs.get("environment", None)
         )
-        
+
         return exe_success, proc
 
     def parse_output(self, outfiles: Dict[str, str], input_model: models.ProtoModel) -> models.ProtoModel:
