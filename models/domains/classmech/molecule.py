@@ -12,10 +12,26 @@ from models.components.utils.input import FileInput
 from pathlib import Path
 
 class Identifiers(qcelemental.models.molecule.Identifiers):
-    smarts: Optional[ChemCode] = None
-    sequence: Optional[ChemCode] = None
-    fasta: Optional[ChemCode] = None
-    helm: Optional[ChemCode] = None
+    """ 
+    An extension of the qcelemental.models.molecule.Identifiers for RDKit constructors.
+    See `link <https://rdkit.org/docs/source/rdkit.Chem.rdmolfiles.html>`_ for more info. 
+    """
+    smarts: Optional[ChemCode] = Field(
+        None,
+        description="A SMILES arbitrary target specification code for defining substructures."
+    )
+    sequence: Optional[ChemCode] = Field(
+        None,
+        description="A sequence code from RDKit (currently only supports peptides)."
+    )
+    fasta: Optional[ChemCode] = Field(
+        None,
+        description="A FASTA code (currently only supports peptides)."
+    )
+    helm: Optional[ChemCode] = Field(
+        None,
+        description="A HELM code (currently only supports peptides)."
+    )
 
 class MMolecule(qcelemental.models.Molecule):
     """
@@ -24,7 +40,6 @@ class MMolecule(qcelemental.models.Molecule):
     Molecule objects geometry, masses, and charges are truncated to 8, 6, and 4 decimal places respectively 
     to assist with duplicate detection.
     """
-
     symbols: Array[str] = Field(
         None,
         description="An ordered (nat,) array-like object of atomic elemental symbols of shape (nat,). The index of "
