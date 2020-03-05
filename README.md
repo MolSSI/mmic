@@ -29,6 +29,10 @@ Applications of docking include:
 ## Docking Component
 ### Preparing Input
 
+<p align="center">
+<img src="data/imgs/autodockconv.png">
+</p>
+
 ```python
 # Import converter component for autodock vina
 from components.implementation.docking.autodock_convert_component import ConvertAutoDockComponent
