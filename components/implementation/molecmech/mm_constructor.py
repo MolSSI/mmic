@@ -7,10 +7,7 @@ from models.molecmech.chem.codes import ChemCode
 from models.components.utils.input import FileInput
 
 class MMConstructorComponent(GenericComponent):
-
-    @classmethod
-    def input(cls):
-        return ProtoModel
+    """ Class for constructing MMolecule from ChemCode or FileInput. """
 
     @classmethod
     def output(cls):
