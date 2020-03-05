@@ -14,31 +14,14 @@ class Grep(CmdComponent):
     def output(cls):
         return CmdOutput
 
-    def execute(self,
-        inputs: Dict[str, Any],
-        extra_outfiles: Optional[List[str]] = None,
-        extra_commands: Optional[List[str]] = None,
-        scratch_name: Optional[str] = None,
-        timeout: Optional[int] = None,) -> Tuple[bool, Dict[str, Any]]:
-
-        args = inputs.args
-
-        input_model = {'input': inputs.fileInput.path, 'pattern': inputs.pattern, 'args': args}
-
-        execute_input = self.build_input(input_model)
-
-        exe_success, proc = self.run(execute_input)
-
-        if exe_success:
-            return True, self.parse_output(proc, inputs)
-        else:
-            raise ValueError(proc["stderr"])
-
     def build_input(
-        self, input_model: Dict[str, Any], config: Optional["TaskConfig"] = None, template: Optional[str] = None
+        self, inputs: Dict[str, Any], config: Optional["TaskConfig"] = None, template: Optional[str] = None
     ) -> Dict[str, Any]:
         
         cmd = ["grep"]
+
+        args = inputs.args
+        input_model = {'input': inputs.fileInput.path, 'pattern': inputs.pattern, 'args': args}
 
         if input_model['args']:
             for arg in input_model['args']:
