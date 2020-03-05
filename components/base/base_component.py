@@ -1,10 +1,6 @@
 import abc
 from typing import Any, Dict, List, Optional, Tuple
-
-import sys
-sys.path.insert(0, '..')
 from config import TaskConfig
-
 from qcelemental import models
 
 class ProgramHarness(models.ProtoModel, abc.ABC):
@@ -34,7 +30,7 @@ class ProgramHarness(models.ProtoModel, abc.ABC):
         return models.ProtoModel
 
     @classmethod
-    def compute(cls, input_data: models.ProtoModel, config: "TaskConfig" = None) -> models.ProtoModel:
+    def compute(cls, input_data: models.ProtoModel, config: TaskConfig = None) -> models.ProtoModel:
         
         #Validate the input model
         if isinstance(input_data, cls.input()):
@@ -85,7 +81,7 @@ class ProgramHarness(models.ProtoModel, abc.ABC):
 
     ## Computers
     def build_input(
-        self, input_model: models.ProtoModel, config: "TaskConfig" = None, template: Optional[str] = None
+        self, input_model: models.ProtoModel, config: TaskConfig = None, template: Optional[str] = None
     ) -> Dict[str, Any]:
         raise NotImplementedError("build_input is not implemented for {}.", self.__class__)
 
