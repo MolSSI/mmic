@@ -31,6 +31,6 @@ class CmdInput(models.ProtoModel):
 
 class OpenBabelInput(CmdInput):
     outputExt: str
-    
+
 class GrepInput(CmdInput):
     pattern: str
