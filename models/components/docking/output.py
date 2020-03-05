@@ -16,7 +16,7 @@ class DockingOutput(models.ProtoModel):
         ...,
         description = "Conformation and orientation of the candidate ligand relative to the receptor."
     )
-    scores: Optional[List[float]] = Field(
+    scores: List[float] = Field(
         ...,
         description = "A metric for evaluating a particular pose. Length of scores must be equal to length of poses."
     )
@@ -31,21 +31,21 @@ class DockingSimOutput(models.ProtoModel):
         description = "Docking input model."
     )
     scores: List[float] = Field(
-        ..., 
+        None, 
         description = "A metric for evaluating a particular pose. Length of scores must be equal to length of poses."
     )
-    poses: Optional[List[FileInput]] = Field(
+    poses: Optional[List[str]] = Field(
         None, 
-        description = "Conformation and orientation of the candidate ligand relative to the receptor."
+        description = "List of file strings defining the conformation and orientation of the candidate ligand relative to the receptor."
     )
-    flexible: Optional[List[FileInput]] = Field(
+    flexible: Optional[List[str]] = Field(
         None,
-        description = "Input file defining the conformation and orientation of the flexible side chains in the receptor "
+        description = "List of file strings defining the conformation and orientation of the flexible side chains in the receptor "
         "relative to the ligand."
     )
     system: Optional[str] = Field(
         None,
-        description = "Input file string storing the ligand poses."
+        description = "Input file string storing the ligand poses with (optionally) the flexible receptor side-chains."
     )
     cmdout: Optional[CmdOutput] = Field(
         None,
