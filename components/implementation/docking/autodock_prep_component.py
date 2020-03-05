@@ -1,15 +1,16 @@
 from models.components.docking.autodock.input import AutoDockSimInput
 from models.components.docking.input import DockingInput
 from models.components.utils.input import OpenBabelInput, FileInput
+from models.components.utils.output import FileOutput
 from models.molecmech.molecules.mm_molecule import MMolecule
 
-from components.blueprints.docking.docking_sim_prep_component import DockSimPrepComponent
+from components.blueprints.docking.docking_prep_component import DockPrepComponent
 from components.implementation.utils.openbabel_component import OpenBabel
 
 from typing import Any, Dict, List, Optional, Tuple
 import os
 
-class AutoDockPrep(DockSimPrepComponent):
+class AutoDockPrepComponent(DockPrepComponent):
 
     @classmethod
     def output(cls):
@@ -30,13 +31,14 @@ class AutoDockPrep(DockSimPrepComponent):
 
     # helper functions
     def receptor_prep(self, receptor: MMolecule) -> str:
-        pdb_name = DockSimPrepComponent.randomString() + '.pdb'
-        receptor.to_file(pdb_name)
+        pdb_name = DockPrepComponent.randomString() + '.pdb'
+        fo = FileOutput(path=os.path.abspath(pdb_name))
+        receptor.to_file(fo.path)
 
         # Assume protein is rigid and ass missing hydrogens
-        obabel_input = OpenBabelInput(fileInput=FileInput(path=os.path.abspath(pdb_name)), outputExt='pdbqt', args=['-xrh'])
+        obabel_input = OpenBabelInput(fileInput=FileInput(path=fo.path), outputExt='pdbqt', args=['-xrh'])
         final_receptor = OpenBabel.compute(input_data=obabel_input).stdout
-        os.remove(pdb_name)
+        fo.remove()
 
         return final_receptor
 
@@ -44,7 +46,7 @@ class AutoDockPrep(DockSimPrepComponent):
         return self.smi_to_pdbqt(smiles.code)
 
     def smi_to_pdbqt(self, smiles: str) -> str:
-        smi_file = os.path.abspath(DockSimPrepComponent.randomString() + '.smi')
+        smi_file = os.path.abspath(DockPrepComponent.randomString() + '.smi')
 
         with open(smi_file, 'w') as fp:
             fp.write(smiles)
