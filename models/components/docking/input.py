@@ -20,14 +20,14 @@ class DockingInput(models.ProtoModel):
         "The search space effectively restricts where the movable atoms, including those in the flexible side chains, should lie."
     )
 
-class DockingPrepInput(DockingInput):
-    ligand: Union[ChemCode, FileInput, MMolecule] = Field(
+class DockingRawInput(models.ProtoModel):
+    ligand: str = Field(
         ..., 
-        description = "Molecule model for candidate ligand (e.g. drug)."
+        description = "Path to ligand (e.g. drug) input file, or chemical code (e.g. smiles)."
     )
-    receptor: Union[FileInput, MMolecule] = Field(
+    receptor: str = Field(
         ..., 
-        description = "Molecule model for receptor (e.g. protein)."
+        description = "Path to receptor (e.g. protein) input file, or chemical code (e.g. smiles, sequence, ...)."
     )
 
 class DockingSimInput(models.ProtoModel):
