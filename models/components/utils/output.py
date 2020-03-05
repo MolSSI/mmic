@@ -2,6 +2,7 @@ from qcelemental import models
 from typing import List, Optional, Union
 from pydantic import validator, Field
 from pathlib import Path
+import os
 
 class CmdOutput(models.ProtoModel):
     stdout_: str = Field(
@@ -57,3 +58,7 @@ class FileOutput(models.ProtoModel):
     def write(self, contents: str):
         with open(self.path, 'w') as fp:
             fp.write(contents)
+
+    def remove(self):
+        if os.path.isfile(self.path):
+            os.remove(self.path)
