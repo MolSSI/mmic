@@ -60,7 +60,6 @@ class ProgramHarness(models.ProtoModel, abc.ABC):
         return exec_output
 
     @staticmethod
-    @abc.abstractmethod
     def found(raise_error: bool = False) -> bool:
         """
         Checks if the program can be found.
@@ -85,24 +84,20 @@ class ProgramHarness(models.ProtoModel, abc.ABC):
         """
 
     ## Computers
-
-    @classmethod
     def build_input(
-        cls, input_model: models.ProtoModel, config: "TaskConfig" = None, template: Optional[str] = None
+        self, input_model: models.ProtoModel, config: "TaskConfig" = None, template: Optional[str] = None
     ) -> Dict[str, Any]:
-        raise ValueError("build_input is not implemented for {}.", self.__class__)
+        raise NotImplementedError("build_input is not implemented for {}.", self.__class__)
 
-    @classmethod
     def execute(
-        cls,
+        self,
         inputs: Dict[str, Any],
         extra_outfiles: Optional[List[str]] = None,
         extra_commands: Optional[List[str]] = None,
         scratch_name: Optional[str] = None,
         timeout: Optional[int] = None,
     ) -> Tuple[bool, Dict[str, Any]]:
-        raise ValueError("execute is not implemented for {}.", self.__class__)
+        raise NotImplementedError("execute is not implemented for {}.", self.__class__)
 
-    @classmethod
-    def parse_output(cls, outfiles: Dict[str, str], input_model: models.ProtoModel) -> models.ProtoModel:
-        raise ValueError("parse_output is not implemented for {}.", self.__class__)
+    def parse_output(self, outfiles: Dict[str, str], input_model: models.ProtoModel) -> models.ProtoModel:
+        raise NotImplementedError("parse_output is not implemented for {}.", self.__class__)

@@ -1,21 +1,23 @@
+try:
+    from rdkit import rdBase, Chem
+    from rdkit.Chem import AllChem
+except:
+    raise ModuleNotFoundError('Make sure rdkit is installed for code validation.')
 
-from rdkit import Chem
-from rdkit.Chem import AllChem
+from qcelemental.models import ProtoModel
+from typing import List, Optional, Any, Dict, Tuple
 
-from qcelemental import models
-from typing import List, Optional, Any, Dict, Union, Tuple
-
-from components.blueprints.utils.reader_component import ReaderComponent
+from components.blueprints.generic_component import GenericComponent
 
 from models.components.utils.input import FileInput
 from models.molecmech.molecules.rdkit_molecule import RDKitMolecule
 from models.molecmech.chem.codes import ChemCode
 
-class MMoleculeReaderInput(models.ProtoModel):
+class MMoleculeReaderInput(ProtoModel):
     file: FileInput = None
     code: ChemCode = None
 
-class MMoleculeReader(ReaderComponent):
+class MMoleculeReader(GenericComponent):
 
     _extension_map = {
         ".npy": "numpy",

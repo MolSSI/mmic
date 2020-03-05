@@ -1,14 +1,8 @@
-import sys
-
-from qcelemental import models
 from components.implementation.molecmech.mm_constructor import MMConstructorComponent
 from typing import Any, Dict, List, Optional, Tuple
-from qcelemental import models
 
 from models.components.docking.input import DockingInput, DockingPrepInput
 from models.molecmech.molecules.mm_molecule import MMolecule
-from models.molecmech.chem.codes import ChemCode
-from models.components.utils.input import FileInput
 
 class ConvertAutoDockComponent(MMConstructorComponent):
 

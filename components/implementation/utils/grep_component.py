@@ -1,6 +1,3 @@
-import sys
-sys.path.insert(0, '..')
-
 from components.blueprints.utils.cmd_component import CmdComponent
 from typing import Any, Dict, List, Optional, Tuple
 import os

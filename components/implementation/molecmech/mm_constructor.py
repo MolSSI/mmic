@@ -1,11 +1,7 @@
-import sys
-
-from qcelemental import models
+from qcelemental.models import ProtoModel
 from components.blueprints.generic_component import GenericComponent
 from typing import Any, Dict, List, Optional, Tuple
-from qcelemental import models
 
-from models.components.docking.input import DockingInput, DockingPrepInput
 from models.molecmech.molecules.mm_molecule import MMolecule
 from models.molecmech.chem.codes import ChemCode
 from models.components.utils.input import FileInput
@@ -14,7 +10,7 @@ class MMConstructorComponent(GenericComponent):
 
     @classmethod
     def input(cls):
-        return models.ProtoModel
+        return ProtoModel
 
     @classmethod
     def output(cls):
@@ -31,7 +27,7 @@ class MMConstructorComponent(GenericComponent):
 
         return True, self.constructor(inputs)
 
-    def constructor(self, model: models.ProtoModel) -> MMolecule:
+    def constructor(self, model: ProtoModel) -> MMolecule:
         if isinstance(model, ChemCode):
             ctype = str(model.codeType).lower()
             return MMolecule(symbols=['C'], geometry=[0,0,0], identifiers={ctype: model})

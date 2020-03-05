@@ -1,21 +1,13 @@
-import sys
-
 from models.components.docking.autodock.input import AutoDockSimInput
 from models.components.docking.input import DockingInput
 from models.components.utils.input import OpenBabelInput, FileInput
 from models.molecmech.molecules.mm_molecule import MMolecule
 
 from components.blueprints.docking.docking_sim_prep_component import DockSimPrepComponent
-
-# Import utility components
-from components.implementation.utils.grep_component import Grep
 from components.implementation.utils.openbabel_component import OpenBabel
 
 from typing import Any, Dict, List, Optional, Tuple
 import os
-import pymol
-import random
-import string
 
 class AutoDockPrep(DockSimPrepComponent):
 
@@ -24,13 +16,10 @@ class AutoDockPrep(DockSimPrepComponent):
         return AutoDockSimInput
 
     def execute(self, input_data: DockingInput, config: "TaskConfig" = None) -> Tuple[bool, AutoDockSimInput]:
-        
         binput = self.build_input(input_data)
         return True, AutoDockSimInput(dockingInput=input_data, **binput)
 
-
     def build_input(self, input_model: DockingInput, template: Optional[str] = None) -> Dict[str, Any]:
-
         ligand_pdbqt = self.ligand_prep(smiles = input_model.ligand.identifiers.smiles)
         receptor_pdbqt = self.receptor_prep(receptor = input_model.receptor)
         inputDict = self.checkSimParams(input_model)
@@ -41,25 +30,20 @@ class AutoDockPrep(DockSimPrepComponent):
 
     # helper functions
     def receptor_prep(self, receptor: MMolecule) -> str:
-
         pdb_name = DockSimPrepComponent.randomString() + '.pdb'
-
         receptor.to_file(pdb_name)
 
         # Assume protein is rigid and ass missing hydrogens
         obabel_input = OpenBabelInput(fileInput=FileInput(path=os.path.abspath(pdb_name)), outputExt='pdbqt', args=['-xrh'])
         final_receptor = OpenBabel.compute(input_data=obabel_input).stdout
-
         os.remove(pdb_name)
 
         return final_receptor
 
     def ligand_prep(self, smiles: "ChemCode") -> str:
-
         return self.smi_to_pdbqt(smiles.code)
 
     def smi_to_pdbqt(self, smiles: str) -> str:
-
         smi_file = os.path.abspath(DockSimPrepComponent.randomString() + '.smi')
 
         with open(smi_file, 'w') as fp:
@@ -73,7 +57,6 @@ class AutoDockPrep(DockSimPrepComponent):
         return obabel_output.stdout        
 
     def checkSimParams(self, input_model: DockingInput) -> Dict[str, Any]:
-
         receptor = input_model.receptor
         outputDict = {}
         inputDict = input_model.dict()
