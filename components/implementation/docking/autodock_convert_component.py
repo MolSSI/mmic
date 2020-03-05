@@ -1,14 +1,16 @@
 import sys
 
 from qcelemental import models
-from components.blueprints.generic_component import GenericComponent
+from components.implementation.molecmech.mm_constructor import MMConstructorComponent
 from typing import Any, Dict, List, Optional, Tuple
 from qcelemental import models
 
 from models.components.docking.input import DockingInput, DockingPrepInput
-from models.domains.classmech.molecule import MMolecule
+from models.molecmech.molecules.mm_molecule import MMolecule
+from models.molecmech.chem.codes import ChemCode
+from models.components.utils.input import FileInput
 
-class ConvertAutoDockComponent(GenericComponent):
+class ConvertAutoDockComponent(MMConstructorComponent):
 
     @classmethod
     def input(cls):
@@ -27,10 +29,7 @@ class ConvertAutoDockComponent(GenericComponent):
         timeout: Optional[int] = None,
     ) -> Tuple[bool, Dict[str, Any]]:
 
-        ligand = MMolecule(symbols=['C'], geometry=[0,0,0], identifiers={'smiles': inputs.ligand.code})
-        receptor = MMolecule.from_file(inputs.receptor.path)
+        ligand = self.constructor(inputs.ligand)
+        receptor = self.constructor(inputs.receptor)
 
         return True, DockingInput(ligand=ligand, receptor=receptor)
-
-    def parse_input(self):
-        pass
