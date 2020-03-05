@@ -29,10 +29,6 @@ Applications of docking include:
 ## Docking Component
 ### Preparing Input
 
-<p align="center">
-<img src="data/imgs/autodock.png">
-</p>
-
 ```python
 # Import converter component for autodock vina
 from components.implementation.docking.autodock_convert_component import ConvertAutoDockComponent
@@ -40,21 +36,28 @@ from components.implementation.docking.autodock_convert_component import Convert
 # Import docking data model
 from models.components.docking.input import DockingRawInput
 
-# Construct docking input
-receptor = 'data/dialanine/dialanine.pdb'
-ligand = 'CCC' # smiles code for propane
-dockRawInput = DockingRawInput(ligand=ligand, receptor=receptor)
-dockInput = ConvertAutoDockComponent.compute(dockRawInput)
+# Read raw docking input
+receptor_data   = smiles_code or smarts_code or pdb_file ...
+ligand_data     = smiles_code or smarts_code or pdb_file ...
+dock_raw_input  = DockingRawInput(ligand=ligand_data, receptor=receptor_data)
+
+# Convert raw docking input to a docking data object
+dock_input = ConvertAutoDockComponent.compute(dock_raw_input)
 ```
 
 ### Running Docking with AutoDock Vina
+
+<p align="center">
+<img src="data/imgs/autodock.png">
+</p>
+
 ```python
 # Import docking simulation component for autodock vina
 from components.implementation.docking.autodock_component import AutoDockComponent
 
 # Run autodock vina
-dockOutput = AutoDockComponent.compute(dockInput)
+dock_output = AutoDockComponent.compute(dock_input)
 
 # Extract output
-scores, poses = dockOutput.scores, dockOutput.poses
+scores, poses = dock_output.scores, dock_output.poses
 ```
