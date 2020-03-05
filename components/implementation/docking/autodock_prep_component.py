@@ -3,7 +3,7 @@ import sys
 from models.components.docking.autodock.input import AutoDockSimInput
 from models.components.docking.input import DockingInput
 from models.components.utils.input import OpenBabelInput, FileInput
-import models.domains.classmech.molecule as molecule
+from models.molecmech.molecules.mm_molecule import MMolecule
 
 from components.blueprints.docking.docking_sim_prep_component import DockSimPrepComponent
 
@@ -40,9 +40,9 @@ class AutoDockPrep(DockSimPrepComponent):
         return inputDict
 
     # helper functions
-    def receptor_prep(self, receptor: molecule.MMolecule) -> str:
+    def receptor_prep(self, receptor: MMolecule) -> str:
 
-        pdb_name = AutoDockPrep.randomString() + '.pdb'
+        pdb_name = DockSimPrepComponent.randomString() + '.pdb'
 
         receptor.to_file(pdb_name)
 
@@ -54,13 +54,13 @@ class AutoDockPrep(DockSimPrepComponent):
 
         return final_receptor
 
-    def ligand_prep(self, smiles: str) -> str:
+    def ligand_prep(self, smiles: "ChemCode") -> str:
 
-        return self.smi_to_pdbqt(smiles)
+        return self.smi_to_pdbqt(smiles.code)
 
     def smi_to_pdbqt(self, smiles: str) -> str:
 
-        smi_file = os.path.abspath(AutoDockPrep.randomString() + '.smi')
+        smi_file = os.path.abspath(DockSimPrepComponent.randomString() + '.smi')
 
         with open(smi_file, 'w') as fp:
             fp.write(smiles)
@@ -97,8 +97,3 @@ class AutoDockPrep(DockSimPrepComponent):
         outputDict['log'] = os.path.abspath('autodock.log')
 
         return outputDict
-
-    @staticmethod
-    def randomString(stringLength=10) -> str:
-       letters = string.ascii_lowercase
-       return ''.join(random.choice(letters) for i in range(stringLength))
