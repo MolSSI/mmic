@@ -1,53 +1,31 @@
 import sys
-import numpy
 import os
 
 sys.path.insert(0, os.getcwd())
-
 debug = False
 
-# import models
-from models.components.docking.input import DockingPrepInput
-from models.components.docking.autodock.input import AutoDockSimInput
-from models.components.utils.input import FileInput, OpenBabelInput, GrepInput
+# Import models
+from models.components.docking.input import DockingRawInput
+from models.components.utils.input import FileInput
 from models.molecmech.chem.codes import ChemCode
 
-# Test input file
-receptor = FileInput(path=os.path.abspath('data/dialanine/dialanine.pdb'))
-ligand = ChemCode(code='CCC')
-
-dockingInputData = DockingPrepInput(ligand=ligand, receptor=receptor)
+# Construct docking input
+receptor = os.path.abspath('data/dialanine/dialanine.pdb')
+ligand = 'CCC'
+dockRawInput = DockingRawInput(ligand=ligand, receptor=receptor)
 
 # Import components
-from components.implementation.utils.openbabel_component import OpenBabel
-from components.implementation.utils.grep_component import Grep
-from components.implementation.docking.autodock_sim_component import AutoDockSim
-from components.implementation.docking.autodock_prep_component import AutoDockPrep
 from components.implementation.docking.autodock_convert_component import ConvertAutoDockComponent
+from components.implementation.docking.autodock_component import AutoDockComponent
 
-# Test for ConvertAutoDockComponent
-dockingInput = ConvertAutoDockComponent.compute(dockingInputData)
+# Test for AutoDock Vina
+dockInput  = ConvertAutoDockComponent.compute(dockRawInput)
+dockOutput = AutoDockComponent.compute(dockInput)
 
-# Test for openbabel
-obabel_input = OpenBabelInput(fileInput=receptor, outputExt='pdbqt')
-obabel_output = OpenBabel.compute(obabel_input)
+print("Scores: ")
+print("========")
+print(dockOutput.scores)
 
-if debug:
-	print("==============================")
-	print("OBABEL OUTPUT:")
-	print("==============================")
-	print(obabel_output.stdout)
-
-# Test for grep
-grep_input = GrepInput(fileInput=receptor, pattern='ATOM')
-grep_output = Grep.compute(grep_input)
-
-if debug:
-	print("==============================")
-	print("GREP OUTPUT:")
-	print("==============================")
-	print(grep_output.stdout)
-
-# Test for AutodockPrep
-simInput  = AutoDockPrep.compute(input_data=dockingInput)
-simOutput = AutoDockSim.compute(input_data=simInput)
+print("Poses: ")
+print("========")
+print(dockOutput.poses)
