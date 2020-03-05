@@ -6,7 +6,7 @@ from models.components.utils.input import FileInput
 from components.blueprints.utils.cmd_component import CmdComponent
 import os
 
-class AutoDockSim(CmdComponent):
+class AutoDockSimComponent(CmdComponent):
     
     @classmethod
     def input(cls):
@@ -97,32 +97,8 @@ class AutoDockSim(CmdComponent):
         system, log = outfiles
         cmdout = CmdOutput(stdout=stdout, stderr=stderr, log=FileInput(path=log).read())
 
-        _, scores = self.parse_scores(cmdout)
-
         return AutoDockSimOutput(
                     cmdout=cmdout, 
                     system=FileInput(path=system).read(),
-                    scores=scores,
                     dockingInput=input_model.dockingInput
                 )
-
-    def parse_scores(self, cmdout: CmdOutput) -> Tuple[List[int], List[float]]:
-        """ 
-        Extracts scores from autodock vina command-line output. 
-        .. todo:: Extract and return RMSD values. 
-        """
-        read_scores = False
-        scores, trials = [], []
-
-        for line in cmdout.stdout.split('\n'):
-            if line == '-----+------------+----------+----------':
-                read_scores = True
-                continue
-            elif 'Writing output' in line:
-                break
-            if read_scores:
-                trial, score, _, _ = line.split()
-                trials.append(int(trial))
-                scores.append(float(score))
-
-        return trials, scores
