@@ -92,13 +92,37 @@ class AutoDockSim(CmdComponent):
         if stderr:
             print("Error from AutoDock Vina:")
             print("=========================")
-            for line in stderr.split('\n'):
-                print(line)
+            print(stderr)
 
         system, log = outfiles
         cmdout = CmdOutput(stdout=stdout, stderr=stderr, log=FileInput(path=log).read())
 
-        return AutoDockSimOutput(cmdout=cmdout, system=FileInput(path=system).read(), scores=[1.0,2.0,3.0], dockingInput=input_model.dockingInput)
+        _, scores = self.parse_scores(cmdout)
 
-    def parse_scores(self, input: CmdOutput) -> List[float]:
-        pass
+        return AutoDockSimOutput(
+                    cmdout=cmdout, 
+                    system=FileInput(path=system).read(),
+                    scores=scores,
+                    dockingInput=input_model.dockingInput
+                )
+
+    def parse_scores(self, cmdout: CmdOutput) -> Tuple[List[int], List[float]]:
+        """ 
+        Extracts scores from autodock vina command-line output. 
+        .. todo:: Extract and return RMSD values. 
+        """
+        read_scores = False
+        scores, trials = [], []
+
+        for line in cmdout.stdout.split('\n'):
+            if line == '-----+------------+----------+----------':
+                read_scores = True
+                continue
+            elif 'Writing output' in line:
+                break
+            if read_scores:
+                trial, score, _, _ = line.split()
+                trials.append(int(trial))
+                scores.append(float(score))
+
+        return trials, scores
