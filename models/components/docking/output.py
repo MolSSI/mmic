@@ -1,6 +1,6 @@
 from typing import List, Optional, Tuple, Union
 from .input import DockingInput
-from models.domains.classmech.molecule import MMolecule
+from models.molecmech.molecules.mm_molecule import MMolecule
 from models.components.utils.output import CmdOutput 
 from models.components.utils.input import FileInput
 

@@ -1,7 +1,7 @@
 from typing import List, Optional, Tuple, Union
 from qcelemental import models
-from models.domains.classmech.molecule import MMolecule
-from models.tools.rdkit.codes import ChemCode
+from models.molecmech.molecules.mm_molecule import MMolecule
+from models.molecmech.chem.codes import ChemCode
 from models.components.utils.input import FileInput
 from pydantic import Field
 
