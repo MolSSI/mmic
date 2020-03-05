@@ -26,20 +26,35 @@ Applications of docking include:
 - Enzymatic reaction mechanisms
 - Protein engineering
 
-## Docking Component: AutoDock
+## Docking Component
+### Preparing Input
 
 <p align="center">
 <img src="data/imgs/autodock.png">
 </p>
 
 ```python
-from models.components.docking.input import DockingInput
+# Import converter component for autodock vina
+from components.implementation.docking.autodock_convert_component import ConvertAutoDockComponent
 
-from components.implementation.autodock_component import AutoDockComponent
+# Import docking data model
+from models.components.docking.input import DockingRawInput
 
-dockingIn = DockingInput(Ligand, Receptor)
+# Construct docking input
+receptor = 'data/dialanine/dialanine.pdb'
+ligand = 'CCC' # smiles code for propane
+dockRawInput = DockingRawInput(ligand=ligand, receptor=receptor)
+dockInput = ConvertAutoDockComponent.compute(dockRawInput)
+```
 
-dockingOut = AutoDockComponent.compute(dockingIn)
+### Running Docking with AutoDock Vina
+```python
+# Import docking simulation component for autodock vina
+from components.implementation.docking.autodock_component import AutoDockComponent
 
-scores, poses = dockingOut.scores, dockingOut.poses
+# Run autodock vina
+dockOutput = AutoDockComponent.compute(dockInput)
+
+# Extract output
+scores, poses = dockOutput.scores, dockOutput.poses
 ```
