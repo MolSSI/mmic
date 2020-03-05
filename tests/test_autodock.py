@@ -10,7 +10,7 @@ debug = False
 from models.components.docking.input import DockingPrepInput
 from models.components.docking.autodock.input import AutoDockSimInput
 from models.components.utils.input import FileInput, OpenBabelInput, GrepInput
-from models.tools.rdkit.codes import ChemCode
+from models.molecmech.chem.codes import ChemCode
 
 # Test input file
 receptor = FileInput(path=os.path.abspath('data/dialanine/dialanine.pdb'))
@@ -36,7 +36,7 @@ if debug:
 	print("==============================")
 	print("OBABEL OUTPUT:")
 	print("==============================")
-	print(obabel_output.Contents)
+	print(obabel_output.stdout)
 
 # Test for grep
 grep_input = GrepInput(fileInput=receptor, pattern='ATOM')
@@ -46,7 +46,7 @@ if debug:
 	print("==============================")
 	print("GREP OUTPUT:")
 	print("==============================")
-	print(grep_output.Contents)
+	print(grep_output.stdout)
 
 # Test for AutodockPrep
 simInput  = AutoDockPrep.compute(input_data=dockingInput)

@@ -7,12 +7,11 @@ debug = False
 
 # import models
 from models.components.utils.input import FileInput
-from models.domains.classmech.molecule import MMolecule
-from models.tools.rdkit.codes import ChemCode
-
+from models.molecmech.molecules.mm_molecule import MMolecule
+from models.molecmech.chem.codes import ChemCode
 
 # import converter component
-from components.implementation.utils.mm_reader import MMoleculeReader, MMoleculeReaderInput
+from components.implementation.molecmech.mm_reader import MMoleculeReader, MMoleculeReaderInput
 
 # Test input file
 pdbFile = FileInput(path=os.path.abspath('data/dialanine/dialanine.pdb'))
