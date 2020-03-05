@@ -14,21 +14,6 @@ class OpenBabel(CmdComponent):
     def output(cls):
         return CmdOutput
 
-    def execute(self,
-        inputs: Dict[str, Any],
-        extra_outfiles: Optional[List[str]] = None,
-        extra_commands: Optional[List[str]] = None,
-        scratch_name: Optional[str] = None,
-        timeout: Optional[int] = None,) -> Tuple[bool, Dict[str, Any]]:
-
-        execute_input = self.build_input(inputs)
-        exe_success, proc = self.run(execute_input)
-
-        if exe_success:
-            return True, self.parse_output(proc['outfiles'], inputs)
-        else:
-            raise ValueError(proc["stderr"]) 
-
     def build_input(
         self, input_model: OpenBabelInput, config: "TaskConfig" = None, template: Optional[str] = None
     ) -> Dict[str, Any]:
@@ -56,8 +41,8 @@ class OpenBabel(CmdComponent):
             "environment": env
         }
 
-    def parse_output(self, outfiles: Dict[str, str], input_model: OpenBabelInput) -> CmdOutput:
+    def parse_output(self, outfiles: Dict[str, Dict[str, str]], input_model: OpenBabelInput) -> CmdOutput:
         
-        output_file = outfiles['tmp.' + input_model.outputExt]
+        output_file = outfiles['outfiles']['tmp.' + input_model.outputExt]
 
         return CmdOutput(stdout=output_file)
