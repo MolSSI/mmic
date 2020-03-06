@@ -15,8 +15,8 @@ class ProgramHarness(models.ProtoModel, abc.ABC):
     extras: Optional[Dict[str, Any]]
 
     class Config:
-        allow_mutation: False
-        extra: "forbid"
+        allow_mutation = False
+        extra = "forbid"
 
     def __init__(self, **kwargs):
         super().__init__(**{**self._defaults, **kwargs})
