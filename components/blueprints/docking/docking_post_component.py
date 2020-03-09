@@ -1,5 +1,5 @@
 from components.base.base_component import ProgramHarness
-from models.components.docking.output import DockingOutput, DockingSimOutput
+from models.components.docking.output import DockingOutput, DockingComputeOutput
 from typing import Any, List
 
 class DockPostComponent(ProgramHarness):
@@ -7,7 +7,7 @@ class DockPostComponent(ProgramHarness):
 
     @classmethod
     def input(cls):
-        return DockingSimOutput
+        return DockingComputeOutput
 
     @classmethod
     def output(cls):

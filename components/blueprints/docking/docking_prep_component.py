@@ -1,5 +1,5 @@
 from components.base.base_component import ProgramHarness
-from models.components.docking.input import DockingInput, DockingSimInput
+from models.components.docking.input import DockingInput, DockingComputeInput
 from models.molecmech.molecules.mm_molecule import MMolecule
 
 from typing import Any
@@ -14,7 +14,7 @@ class DockPrepComponent(ProgramHarness):
 
     @classmethod
     def output(cls):
-        return DockingSimInput
+        return DockingComputeInput
 
     # helper functions
     def receptor_prep(self, receptor: MMolecule) -> Any:
