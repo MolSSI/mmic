@@ -1,8 +1,8 @@
 from typing import List, Optional, Tuple, Union
 from .input import DockingInput
 from models.molecmech.molecules.mm_molecule import MMolecule
-from models.components.utils.output import CmdOutput 
 from models.components.utils.input import FileInput
+from models.components.utils.output import ComputeOutput
 
 from qcelemental import models
 from pydantic import Field
@@ -25,7 +25,7 @@ class DockingOutput(models.ProtoModel):
         description = "Conformation and orientation of the flexible side chains in the receptor relative to the ligand."
     )
 
-class DockingSimOutput(models.ProtoModel):
+class DockingComputeOutput(ComputeOutput):
     dockingInput: DockingInput = Field(
         ..., 
         description = "Docking input model."
@@ -46,8 +46,4 @@ class DockingSimOutput(models.ProtoModel):
     system: Optional[str] = Field(
         None,
         description = "Input file string storing the ligand poses with (optionally) the flexible receptor side-chains."
-    )
-    cmdout: Optional[CmdOutput] = Field(
-        None,
-        description = "Command-line output class which provides stdout, stderr, and log info."
     )
