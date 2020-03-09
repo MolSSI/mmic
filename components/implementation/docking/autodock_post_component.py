@@ -1,4 +1,4 @@
-from models.components.docking.autodock.output import AutoDockSimOutput
+from models.components.docking.autodock.output import AutoDockComputeOutput
 from models.components.docking.output import DockingOutput
 from models.components.utils.input import OpenBabelInput, FileInput
 from models.components.utils.output import FileOutput
@@ -17,9 +17,9 @@ class AutoDockPostComponent(DockPostComponent, CmdComponent):
 
     @classmethod
     def input(cls):
-        return AutoDockSimOutput
+        return AutoDockComputeOutput
 
-    def build_input(self, input_model: AutoDockSimOutput, config: "TaskConfig" = None, 
+    def build_input(self, input_model: AutoDockComputeOutput, config: "TaskConfig" = None, 
         template: Optional[str] = None) -> Dict[str, Any]:
         """ Builds input files for autodock vina_split. """
 
@@ -46,7 +46,7 @@ class AutoDockPostComponent(DockPostComponent, CmdComponent):
             "clean_files": fsystem
         }
 
-    def parse_output(self, outfiles: Dict[str, Dict[str, str]], input_model: AutoDockSimOutput) -> DockingOutput:
+    def parse_output(self, outfiles: Dict[str, Dict[str, str]], input_model: AutoDockComputeOutput) -> DockingOutput:
         """ Parses output from vina_split. """
 
         ligands = outfiles['outfiles']['ligand*']
@@ -87,4 +87,3 @@ class AutoDockPostComponent(DockPostComponent, CmdComponent):
                 scores.append(float(score))
 
         return scores
-

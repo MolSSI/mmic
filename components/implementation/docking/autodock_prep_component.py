@@ -1,4 +1,4 @@
-from models.components.docking.autodock.input import AutoDockSimInput
+from models.components.docking.autodock.input import AutoDockComputeInput
 from models.components.docking.input import DockingInput
 from models.components.utils.input import OpenBabelInput, FileInput
 from models.components.utils.output import FileOutput
@@ -14,16 +14,16 @@ class AutoDockPrepComponent(DockPrepComponent):
 
     @classmethod
     def output(cls):
-        return AutoDockSimInput
+        return AutoDockComputeInput
 
-    def execute(self, input_data: DockingInput, config: "TaskConfig" = None) -> Tuple[bool, AutoDockSimInput]:
+    def execute(self, input_data: DockingInput, config: "TaskConfig" = None) -> Tuple[bool, AutoDockComputeInput]:
         binput = self.build_input(input_data)
-        return True, AutoDockSimInput(dockingInput=input_data, **binput)
+        return True, AutoDockComputeInput(dockingInput=input_data, **binput)
 
     def build_input(self, input_model: DockingInput, template: Optional[str] = None) -> Dict[str, Any]:
         ligand_pdbqt = self.ligand_prep(smiles = input_model.ligand.identifiers.smiles)
         receptor_pdbqt = self.receptor_prep(receptor = input_model.receptor)
-        inputDict = self.checkSimParams(input_model)
+        inputDict = self.checkComputeParams(input_model)
         inputDict['ligand'] = ligand_pdbqt
         inputDict['receptor'] = receptor_pdbqt
 
@@ -58,7 +58,7 @@ class AutoDockPrepComponent(DockPrepComponent):
 
         return obabel_output.stdout        
 
-    def checkSimParams(self, input_model: DockingInput) -> Dict[str, Any]:
+    def checkComputeParams(self, input_model: DockingInput) -> Dict[str, Any]:
         receptor = input_model.receptor
         outputDict = {}
         inputDict = input_model.dict()

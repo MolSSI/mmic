@@ -1,6 +1,6 @@
 from components.blueprints.docking.docking_component import DockingComponent
 from components.implementation.docking.autodock_prep_component import AutoDockPrepComponent
-from components.implementation.docking.autodock_sim_component import AutoDockSimComponent
+from components.implementation.docking.autodock_compute_component import AutoDockComputeComponent
 from components.implementation.docking.autodock_post_component import AutoDockPostComponent
 
 from typing import Any, Dict, List, Optional, Tuple
@@ -15,8 +15,8 @@ class AutoDockComponent(DockingComponent):
         timeout: Optional[int] = None
     ) -> Tuple[bool, Dict[str, Any]]:
 
-        simInput   = AutoDockPrepComponent.compute(input_data=inputs)
-        simOutput  = AutoDockSimComponent.compute(input_data=simInput)
-        dockOutput = AutoDockPostComponent.compute(input_data=simOutput)
+        compInput   = AutoDockPrepComponent.compute(input_data=inputs)
+        compOutput  = AutoDockComputeComponent.compute(input_data=compInput)
+        dockOutput  = AutoDockPostComponent.compute(input_data=compOutput)
 
         return True, dockOutput
