@@ -9,8 +9,8 @@ from components.implementation.docking.autodock_convert_component import Convert
 from models.components.docking.input import DockingRawInput
 
 # Construct docking input
-receptor = 'data/dialanine/dialanine.pdb'
-ligand = 'CCC' # smiles code for propane
+receptor = 'data/PHIPA_C2/PHIPA_C2_apo.pdb'
+ligand = 'CC(C)CC1=CC=C(C=C1)C(C)C(=O)O' # smiles code for ibuprofen
 dockRawInput = DockingRawInput(ligand=ligand, receptor=receptor)
 dockInput = ConvertAutoDockComponent.compute(dockRawInput)
 
@@ -25,8 +25,8 @@ scores, poses = dockOutput.scores, dockOutput.poses
 
 print("Scores: ")
 print("========")
-print(dockOutput.scores)
+print(scores)
 
 print("Poses: ")
 print("========")
-print(dockOutput.poses)
+print(poses)
