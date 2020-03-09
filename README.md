@@ -65,3 +65,13 @@ dock_output = AutoDockComponent.compute(dock_input)
 # Extract output
 scores, poses = dock_output.scores, dock_output.poses
 ```
+
+### Copyright
+
+Copyright (c) 2020, MolSSI
+
+
+#### Acknowledgements
+
+Project based on the
+[Computational Molecular Science Python Cookiecutter](https://github.com/molssi/cookiecutter-cms) version 1.1.
