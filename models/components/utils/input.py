@@ -1,6 +1,6 @@
 from typing import List, Optional, Union
 from qcelemental import models
-from pydantic import validator
+from pydantic import validator, Field
 import os
 
 from .output import FileOutput
@@ -25,12 +25,27 @@ class FileInput(models.ProtoModel):
             return fp.read()
 
 class CmdInput(models.ProtoModel):
-    fileInput: Union[FileInput, List[FileInput]]
-    fileOutput: Optional[Union[FileOutput, List[FileOutput]]] = None
-    args: Optional[List[str]] = None
+    fileInput: Union[FileInput, List[FileInput]] = Field(
+        ..., 
+        description = 'FileInput object or list of FileInut objects. See the :class: ``FileInput``.'
+    )
+    fileOutput: Optional[Union[FileOutput, List[FileOutput]]] = Field(
+        None,
+        description = 'FileOutput object or list of FileOutput objects. See the :class: ``FileOutput``.'
+    )
+    args: Optional[List[str]] = Field(
+        None,
+        description = 'List of additional command-line arguments.'
+    )
 
 class OpenBabelInput(CmdInput):
-    outputExt: str
+    outputExt: str = Field(
+        ..., 
+        description = 'File output extension.'
+    )
 
 class GrepInput(CmdInput):
-    pattern: str
+    pattern: str = Field(
+        ...,
+        description = 'Pattern to search for in input file.'
+    )
