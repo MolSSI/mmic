@@ -23,8 +23,7 @@ class AutoDockPostComponent(DockPostComponent, CmdComponent):
         template: Optional[str] = None) -> Dict[str, Any]:
         """ Builds input files for autodock vina_split. """
 
-        cmdout, system = input_model.cmdout, input_model.system
-        _, scores = self.parse_scores(cmdout)
+        system = input_model.system
 
         fsystem = FileOutput(path=os.path.abspath('system.pdbqt'))
         fsystem.write(system)
@@ -54,32 +53,28 @@ class AutoDockPostComponent(DockPostComponent, CmdComponent):
         poses = []
 
         for ligname in ligands:
-            pdbqt = FileOutput(path=os.path.abspath(ligname))
-            pdbqt.write(ligands[ligname])
+            with FileOutput(path=os.path.abspath(ligname)) as pdbqt:
+                pdbqt.write(ligands[ligname])
             
-            obabel_input = OpenBabelInput(fileInput=FileInput(path=pdbqt.path), outputExt='pdb')
-            
-            ligand_pdb = OpenBabel.compute(input_data=obabel_input).stdout
-            pdb = FileOutput(path=os.path.abspath('ligand.pdb'))
-            pdb.write(ligand_pdb)
-
-            poses.append(MMolecule.from_file(pdb.path))
-            pdbqt.remove()
-            pdb.remove()
+                obabel_input = OpenBabelInput(fileInput=FileInput(path=pdbqt.path), outputExt='pdb')
+                
+                ligand_pdb = OpenBabel.compute(input_data=obabel_input).stdout
+                with FileOutput(path=os.path.abspath('ligand.pdb')) as pdb:
+                    pdb.write(ligand_pdb)
+                    poses.append(MMolecule.from_file(pdb.path))
 
         cmdout = input_model.cmdout
-        _, scores = self.parse_scores(cmdout)
+        scores = self.get_scores(cmdout)
 
         return DockingOutput(dockingInput=input_model.dockingInput, poses=poses, scores=scores)
 
-    # Helper methods
-    def parse_scores(self, cmdout: CmdOutput) -> Tuple[List[int], List[float]]:
+    def get_scores(self, cmdout: CmdOutput) -> List[float]:
         """ 
         Extracts scores from autodock vina command-line output. 
         .. todo:: Extract and return RMSD values. 
         """
         read_scores = False
-        scores, trials = [], []
+        scores = []
 
         for line in cmdout.stdout.split('\n'):
             if line == '-----+------------+----------+----------':
@@ -89,8 +84,7 @@ class AutoDockPostComponent(DockPostComponent, CmdComponent):
                 break
             if read_scores:
                 trial, score, _, _ = line.split()
-                trials.append(int(trial))
                 scores.append(float(score))
 
-        return trials, scores
+        return scores
 
