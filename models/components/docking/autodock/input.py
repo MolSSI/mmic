@@ -1,9 +1,9 @@
 from typing import List, Optional, Tuple, Union
-from models.components.docking.input import DockingSimInput
+from models.components.docking.input import DockingComputeInput
 from qcelemental import models 
 from pydantic import Field
 
-class AutoDockSimInput(DockingSimInput):
+class AutoDockComputeInput(DockingComputeInput):
     exhaustiveness: Optional[int]  = Field(
         8, 
         description = "Exhaustiveness of the global search (roughly proportional to time)"
