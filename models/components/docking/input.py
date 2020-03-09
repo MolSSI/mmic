@@ -30,7 +30,7 @@ class DockingRawInput(models.ProtoModel):
         description = "Path to receptor (e.g. protein) input file, or chemical code (e.g. smiles, sequence, ...)."
     )
 
-class DockingSimInput(models.ProtoModel):
+class DockingComputeInput(models.ProtoModel):
     dockingInput: DockingInput = Field(
         ..., 
         description = "Docking input model."
