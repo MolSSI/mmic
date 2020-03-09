@@ -43,7 +43,10 @@ class CmdOutput(models.ProtoModel):
         return super().dict(*args, **kwargs)
 
 class FileOutput(models.ProtoModel):
-    path: str
+    path: str = Field(
+        ...,
+        description='path to output file.'
+    )
 
     @validator('path')
     def _exists(cls, v):
@@ -55,6 +58,9 @@ class FileOutput(models.ProtoModel):
     def ext(self):
         return Path(self.path).suffix
 
+    def __enter__(self):
+        return self
+
     def write(self, contents: str):
         with open(self.path, 'w') as fp:
             fp.write(contents)
@@ -62,3 +68,9 @@ class FileOutput(models.ProtoModel):
     def remove(self):
         if os.path.isfile(self.path):
             os.remove(self.path)
+
+    def __exit__(self, type, value, tb):
+        if not tb:
+            self.remove()
+        else:
+            raise Exception
