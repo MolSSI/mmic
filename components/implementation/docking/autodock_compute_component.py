@@ -1,20 +1,20 @@
 from typing import Any, Dict, List, Optional, Tuple
-from models.components.docking.autodock.input import AutoDockSimInput
-from models.components.docking.autodock.output import AutoDockSimOutput
+from models.components.docking.autodock.input import AutoDockComputeInput
+from models.components.docking.autodock.output import AutoDockComputeOutput
 from models.components.utils.output import CmdOutput
 from models.components.utils.input import FileInput
 from components.blueprints.utils.cmd_component import CmdComponent
 import os
 
-class AutoDockSimComponent(CmdComponent):
+class AutoDockComputeComponent(CmdComponent):
     
     @classmethod
     def input(cls):
-        return AutoDockSimInput
+        return AutoDockComputeInput
 
     @classmethod
     def output(cls):
-        return AutoDockSimOutput
+        return AutoDockComputeOutput
 
     def execute(self,
         inputs: Dict[str, Any],
@@ -84,7 +84,7 @@ class AutoDockSimComponent(CmdComponent):
             "environment": env
         }
 
-    def parse_output(self, output: Dict[str, str], input_model: AutoDockSimInput) -> AutoDockSimOutput:
+    def parse_output(self, output: Dict[str, str], input_model: AutoDockComputeInput) -> AutoDockComputeOutput:
         stdout = output['stdout']
         stderr = output['stderr']
         outfiles = output['outfiles']
@@ -97,7 +97,7 @@ class AutoDockSimComponent(CmdComponent):
         system, log = outfiles
         cmdout = CmdOutput(stdout=stdout, stderr=stderr, log=FileInput(path=log).read())
 
-        return AutoDockSimOutput(
+        return AutoDockComputeOutput(
                     cmdout=cmdout, 
                     system=FileInput(path=system).read(),
                     dockingInput=input_model.dockingInput
