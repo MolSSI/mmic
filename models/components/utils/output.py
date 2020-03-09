@@ -74,3 +74,9 @@ class FileOutput(models.ProtoModel):
             self.remove()
         else:
             raise Exception
+
+class ComputeOutput(models.ProtoModel):
+    cmdout: Optional[CmdOutput] = Field(
+        None,
+        description = "Command-line output class which provides stdout, stderr, and log info."
+    )
