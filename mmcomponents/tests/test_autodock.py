@@ -5,18 +5,18 @@ sys.path.insert(0, os.getcwd())
 debug = False
 
 # Import models
-from models.components.docking.input import DockingRawInput
-from models.components.utils.input import FileInput
-from models.molecmech.chem.codes import ChemCode
+from mmcomponents.models.docking.input import DockingRawInput
+from mmelemental.models.util.input import FileInput
+from mmelemental.models.chem.codes import ChemCode
 
 # Construct docking input
-receptor = os.path.abspath('data/dialanine/dialanine.pdb')
+receptor = os.path.abspath('mmcomponents/data/dialanine/dialanine.pdb')
 ligand = 'CCC'
 dockRawInput = DockingRawInput(ligand=ligand, receptor=receptor)
 
 # Import components
-from components.implementation.docking.autodock_convert_component import ConvertAutoDockComponent
-from components.implementation.docking.autodock_component import AutoDockComponent
+from mmcomponents.components.implementation.docking.autodock_convert_component import ConvertAutoDockComponent
+from mmcomponents.components.implementation.docking.autodock_component import AutoDockComponent
 
 # Test for AutoDock Vina
 dockInput  = ConvertAutoDockComponent.compute(dockRawInput)
