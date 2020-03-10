@@ -1,4 +1,4 @@
-from mmelemental.components.mm_constructor import MMConstructorComponent
+from mmelemental.components.constructor_component import MolConstructorComponent
 from typing import Any, Dict, List, Optional, Tuple
 import os
 
@@ -7,7 +7,7 @@ from mmelemental.models.molecule.mm_molecule import MMolecule
 from mmelemental.models.util.input import FileInput
 from mmelemental.models.chem.codes import ChemCode
 
-class ConvertAutoDockComponent(MMConstructorComponent):
+class ConvertAutoDockComponent(MolConstructorComponent):
 
     @classmethod
     def input(cls):
