@@ -50,11 +50,11 @@ class CmdComponent(ProgramHarness):
         infiles = inputs["infiles"]
 
         outfiles = inputs["outfiles"]
-        if extra_outfiles is not None:
+        if extra_outfiles:
             outfiles.extend(extra_outfiles)
 
         command = inputs["command"]
-        if extra_commands is not None:
+        if extra_commands:
             command.extend(extra_commands)
 
         exe_success, proc = execute(
