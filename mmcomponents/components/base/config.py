@@ -2,7 +2,6 @@
 TaskConfig Model
 """
 from typing import Any, Dict, Optional, Union
-
 import pydantic
 
 class TaskConfig(pydantic.BaseModel):
