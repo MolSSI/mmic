@@ -5,7 +5,7 @@ A short description of the project.
 
 # Add imports here
 from .mmcomponents import *
-from . import models, components, config
+from . import models, components
 
 # Handle versioneer
 from ._version import get_versions

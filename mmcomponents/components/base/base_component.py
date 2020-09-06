@@ -1,22 +1,44 @@
 import abc
 from typing import Any, Dict, List, Optional, Tuple
-from mmcomponents.config import TaskConfig
+from .config import TaskConfig
 from qcelemental import models
+from pydantic import Field
 
 class ProgramHarness(models.ProtoModel, abc.ABC):
 
-    _defaults: Dict[str, Any] = {}
-    name: str
-    scratch: bool
-    thread_safe: bool
-    thread_parallel: bool
-    node_parallel: bool
-    managed_memory: bool
-    extras: Optional[Dict[str, Any]]
-
+    name: str = Field(
+        ..., 
+        description='...'
+    )
+    scratch: bool = Field(
+        ..., 
+        description='...'
+    )
+    thread_safe: bool = Field(
+        ..., 
+        description='...'
+    )
+    thread_parallel: bool = Field(
+        ..., 
+        description='...'
+    )
+    node_parallel: bool = Field(
+        ..., 
+        description='...'
+    )
+    managed_memory: bool = Field(
+        ..., 
+        description='...'
+    )
+    extras: Optional[Dict[str, Any]] = Field(
+        None, 
+        description='...'
+    )
+    _defaults: Dict[str, Any] =  {}
+    
     class Config:
-        allow_mutation: False
-        extra: "forbid"
+        allow_mutation = False
+        extra = "forbid"
 
     def __init__(self, **kwargs):
         super().__init__(**{**self._defaults, **kwargs})

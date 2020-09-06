@@ -1,7 +1,7 @@
 from qcengine.util import execute
 from qcelemental import models
-from models.components.utils.output import FileOutput
-from components.base.base_component import ProgramHarness
+from mmelemental.models.util.output import FileOutput
+from mmcomponents.components.base.base_component import ProgramHarness
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 class CmdComponent(ProgramHarness):
@@ -50,11 +50,11 @@ class CmdComponent(ProgramHarness):
         infiles = inputs["infiles"]
 
         outfiles = inputs["outfiles"]
-        if extra_outfiles:
+        if extra_outfiles is not None:
             outfiles.extend(extra_outfiles)
 
         command = inputs["command"]
-        if extra_commands:
+        if extra_commands is not None:
             command.extend(extra_commands)
 
         exe_success, proc = execute(

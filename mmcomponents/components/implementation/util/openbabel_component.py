@@ -1,8 +1,8 @@
-from mmcomponents.components.blueprints.utils.cmd_component import CmdComponent
+from mmcomponents.components.blueprints.util.cmd_component import CmdComponent
 from typing import Any, Dict, List, Optional, Tuple
 import os
-from mmcomponents.models.components.utils.input import OpenBabelInput
-from mmcomponents.models.components.utils.output import CmdOutput
+from mmelemental.models.util.input import OpenBabelInput
+from mmelemental.models.util.output import CmdOutput
 
 class OpenBabel(CmdComponent):
 
