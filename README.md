@@ -8,3 +8,15 @@ This allows reproducibility from statically defined and shareable components, ex
 </p>
 
 We construct an abstract Base Component that is inherited by all MMComponent blueprints. For each scientific problem, a blueprint is defined that specifies what the component seeks to achieve, along with the necessary inputs and outputs. This component is implemented to satisfy the scientific problem by any number of users/developers.
+
+# Components being developed
+
+## Engines
+- [Autodock vina](https://github.com/MolSSI/MMComponents_autodock): molecular docking engine based on [Autodock Vina](http://vina.scripps.edu)
+- [AutoMartini](https://github.com/MolSSI/MMComponents_automartini): automatic generation of Martini forcefield parameters for small organic molecules
+- [NAMD](https://github.com/MolSSI/MMComponents_namd): molecular dynamics engine based on the [NAMD](https://www.ks.uiuc.edu/Research/namd) simulator
+
+## Translators
+- [RDKit](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/rdkit_component.py): RDKit to/from MMSchema converter
+- [ParmEd](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/parmed_component.py): ParmEd to/from MMSchema converter
+- [MDAnalysis](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/mdanalysis_component.py): MDAnalysis to/from MMSchema converter
