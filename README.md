@@ -11,10 +11,12 @@ We construct an abstract Base Component that is inherited by all MMComponent blu
 
 # Components being developed
 
-## Engines
+## Simulators
 - [Autodock vina](https://github.com/MolSSI/MMComponents_autodock): molecular docking engine based on [Autodock Vina](http://vina.scripps.edu)
-- [AutoMartini](https://github.com/MolSSI/MMComponents_automartini): automatic generation of Martini forcefield parameters for small organic molecules
 - [NAMD](https://github.com/MolSSI/MMComponents_namd): molecular dynamics engine based on the [NAMD](https://www.ks.uiuc.edu/Research/namd) simulator
+
+## Builders
+- [AutoMartini](https://github.com/MolSSI/MMComponents_automartini): automatic generation of Martini forcefield parameters for small organic molecules
 
 ## Translators
 - [RDKit](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/rdkit_component.py): RDKit to/from MMSchema converter
