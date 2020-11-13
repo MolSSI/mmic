@@ -21,4 +21,4 @@ We construct an abstract Base Component that is inherited by all MMComponent blu
 ## Translators
 - [RDKit](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/rdkit_component.py): RDKit to/from MMSchema converter
 - [ParmEd](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/parmed_component.py): ParmEd to/from MMSchema converter
-- [MDAnalysis](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/mdanalysis_component.py): MDAnalysis to/from MMSchema converter
+- [MDAnalysis](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/mda_component.py): MDAnalysis to/from MMSchema converter
