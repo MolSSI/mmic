@@ -1,5 +1,5 @@
 """
-mmcomponents
+mmic
 A short description of the project.
 """
 import sys
@@ -21,7 +21,7 @@ except:
 
 setup(
     # Self-descriptive entries which should always be present
-    name='mmcomponents',
+    name='mmic',
     author='MolSSI',
     description=short_description[0],
     version=versioneer.get_version(),

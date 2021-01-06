@@ -1,4 +1,4 @@
-from mmcomponents.components.base.base_component import ProgramHarness
+from mmic.components.base.base_component import ProgramHarness
 from qcelemental import models
 
 class GenericComponent(ProgramHarness):

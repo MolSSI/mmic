@@ -1,11 +1,10 @@
 """
-mmcomponents
+mmic
 A short description of the project.
 """
 
 # Add imports here
-from .mmcomponents import *
-from . import models, components
+from . import components
 
 # Handle versioneer
 from ._version import get_versions
