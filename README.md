@@ -12,18 +12,18 @@ We construct an abstract Base Component that is inherited by all MMComponent blu
 # Components being developed
 
 ## Simulators
-- [Molecular Docking](https://github.com/MolSSI/MMComponents_docking): molecular docking engine based on [Autodock Vina](http://vina.scripps.edu)
-- [Molecular Dynamics](https://github.com/MolSSI/MMComponents_dynamics): molecular dynamics engine based on the [NAMD](https://www.ks.uiuc.edu/Research/namd) simulator
+- [Molecular Docking](https://github.com/MolSSI/mmic_docking): molecular docking engine based on [Autodock Vina](http://vina.scripps.edu)
+- [Molecular Dynamics](https://github.com/MolSSI/mmic_namd): molecular dynamics engine based on the [NAMD](https://www.ks.uiuc.edu/Research/namd) simulator
 
-## Generators
-- [ForceField](https://github.com/MolSSI/MMComponents_forcefield): automatic generation of Martini forcefield parameters for small organic molecules
+## Assemblers
+- [ForceField](https://github.com/MolSSI/mmic_param): parameterization of molecules from existing force fields
 
 ## Translators
-### Topology converters:
-- [RDKit](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/rdkit_component.py): RDKit to/from MMSchema structure/topology converter
-- [ParmEd](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/parmed_component.py): ParmEd to/from MMSchema structure/topology converter
-- [MDAnalysis](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/mda_component.py): MDAnalysis to/from MMSchema structure/topology converter
+### Structure/Topology converters:
+- [RDKit](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/trans/rdkit_component.py): RDKit to/from MMSchema structure/topology converter
+- [ParmEd](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/trans/parmed_component.py): ParmEd to/from MMSchema structure/topology converter
+- [MDAnalysis](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/trans/mda_component.py): MDAnalysis to/from MMSchema structure/topology converter
 ### Trajectory converters
-- [MDAnalysis](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/mda_component.py): MDAnalysis to/from MMSchema trajectory converter
+- [MDAnalysis](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/trans/mda_component.py): MDAnalysis to/from MMSchema trajectory converter
 ### Forcefield converters
-- [Gromacs](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/gro_component.py): Gromacs to/from MMSchema force field converter
+- [Gromacs](https://github.com/MolSSI/MMElemental/blob/master/mmelemental/components/trans/gro_component.py): Gromacs to/from MMSchema force field converter
