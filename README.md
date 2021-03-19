@@ -1,3 +1,8 @@
+[//]: # (Badges)
+[![CI](https://github.com/MolSSI/mmic/actions/workflows/test.yaml/badge.svg)](https://github.com/MolSSI/mmic/actions/workflows/test.yaml)[![codecov]
+(https://codecov.io/gh/MolSSI/mmic/branch/main/graph/badge.svg)](https://codecov.io/gh/MolSSI/MMElemental/branch/main)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/MolSSI/mmic.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/MolSSI/mmic/context:python)
+
 # What is MMIC?
 The Molecular Mechanics Interoperable Components (MMIC) project provides a standard for input and output of MM programs by defining the scientific and computational stages of classical MM pipelines, but leaving the implementation up to the developer/user. MMIC attempts to define the "what" of scientific stages without restricting the "how" i.e. MMIC defines only the input and output the implementation must conform to so that end-users can swap out different implementations with minimal effort in their existing pipelines, or workflow tools of their preference. The components themselves allow users to speed up most of their pipelines by integrating the expertise from component developers, letting them focus on the parts of their research they are experts in.
 
