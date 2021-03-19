@@ -4,6 +4,7 @@ TaskConfig Model
 from typing import Any, Dict, Optional, Union
 import pydantic
 
+
 class TaskConfig(pydantic.BaseModel):
     """Description of the configuration used to launch a task."""
 
@@ -13,7 +14,9 @@ class TaskConfig(pydantic.BaseModel):
     memory: float  # Amount of memory in GiB per node
     scratch_directory: Optional[str]  # What location to use as scratch
     retries: int  # Number of retries on random failures
-    mpiexec_command: Optional[str]  # Command used to launch MPI tasks, see NodeDescriptor
+    mpiexec_command: Optional[
+        str
+    ]  # Command used to launch MPI tasks, see NodeDescriptor
     use_mpiexec: bool = False  # Whether it is necessary to use MPI to run an executable
     cores_per_rank: int = pydantic.Field(1, description="Number of cores per MPI rank")
 
