@@ -18,6 +18,10 @@ def test_mmic_generic():
         def execute(self):
             pass
 
+        @property
+        def supported_comps(self):
+            return set()
+
     f = Foo(
         name="foo",
         scratch=False,
@@ -33,3 +37,7 @@ def test_mmic_validation():
     class Foo(mmic.components.blueprints.generic_component.GenericComponent):
         def execute(self, inputs):
             return True, self.output()()
+
+        @property
+        def supported_comps(self):
+            return set()
