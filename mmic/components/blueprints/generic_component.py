@@ -44,15 +44,6 @@ class GenericComponent(ProgramHarness):
         comp_mod = importlib.import_module(comp)
         return True, comp_mod._mainComponent.compute(inputs)
 
-    def get_version(self) -> str:
-        """Finds program, extracts version, returns normalized version string.
-        Returns
-        -------
-        str
-            Return a valid, safe python version string.
-        """
-        raise NotImplementedError
-
     @staticmethod
     def found(raise_error: bool = False) -> bool:
         """
@@ -69,16 +60,6 @@ class GenericComponent(ProgramHarness):
         raise NotImplementedError
 
     @property
-    @abc.abstractmethod
-    def supported_comps(self) -> Set[str]:
-        """Returns the supported components e.g. set(['mmic_mda',...]).
-        Returns
-        -------
-        Set[str]
-        """
-        ...
-
-    @property
     def installed_comps(self) -> List[str]:
         """Returns module spec if it exists.
         Returns
@@ -92,3 +73,23 @@ class GenericComponent(ProgramHarness):
                 "No components are available. Solve by registering one via register_comps.add(your_component)."
             )
         return [spec for spec in self.supported_comps if importlib.util.find_spec(spec)]
+
+    @abc.abstractmethod
+    def get_version(self) -> str:
+        """Finds program, extracts version, returns normalized version string.
+        Returns
+        -------
+        str
+            Return a valid, safe python version string.
+        """
+        raise NotImplementedError
+
+    @property
+    @abc.abstractmethod
+    def supported_comps(self) -> Set[str]:
+        """Returns the supported components e.g. set(['mmic_mda',...]).
+        Returns
+        -------
+        Set[str]
+        """
+        raise NotImplementedError
