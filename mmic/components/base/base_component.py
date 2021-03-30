@@ -2,7 +2,6 @@ import abc
 from typing import Any, Dict, List, Optional, Tuple
 from .config import TaskConfig
 from qcelemental import models
-from pydantic import Field
 
 
 class ProgramHarness(models.ProtoModel, abc.ABC):
