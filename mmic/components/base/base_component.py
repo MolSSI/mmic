@@ -4,7 +4,7 @@ from .config import TaskConfig
 from qcelemental import models
 
 
-class ProgramHarness(models.ProtoModel, abc.ABC):
+class ProgramHarness(models.ProtoModel, abc.ABC, metaclass=abc.ABCMeta):
 
     _defaults: Dict[str, Any] = {}
     name: str
@@ -23,12 +23,14 @@ class ProgramHarness(models.ProtoModel, abc.ABC):
         super().__init__(**{**self._defaults, **kwargs})
 
     @classmethod
+    @abc.abstractmethod
     def input(cls):
-        return models.ProtoModel
+        ...
 
     @classmethod
+    @abc.abstractmethod
     def output(cls):
-        return models.ProtoModel
+        ...
 
     @classmethod
     def compute(
