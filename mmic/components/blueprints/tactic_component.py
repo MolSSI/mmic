@@ -1,19 +1,10 @@
 from ..base.base_component import ProgramHarness
-from qcelemental import models
 
 
-__all__ = ["SpecificComponent"]
+__all__ = ["TacticComponent"]
 
 
-class SpecificComponent(ProgramHarness):
-    @classmethod
-    def input(cls):
-        return models.ProtoModel
-
-    @classmethod
-    def output(cls):
-        return models.ProtoModel
-
+class TacticComponent(ProgramHarness):
     def get_version(self) -> str:
         """Finds program, extracts version, returns normalized version string.
         Returns
