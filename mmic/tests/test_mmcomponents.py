@@ -18,8 +18,33 @@ def test_mmic_generic():
         def execute(self):
             pass
 
-        @property
-        def supported_comps(self):
+    f = Foo(
+        name="foo",
+        scratch=False,
+        thread_safe=False,
+        thread_parallel=False,
+        node_parallel=False,
+        managed_memory=False,
+        extras=None,
+    )
+
+
+def test_mmic_strategy():
+    class Foo(mmic.components.blueprints.strategy_component.StrategyComponent):
+        @classmethod
+        def input(cls):
+            return {}
+
+        @classmethod
+        def output(cls):
+            return {}
+
+        @classmethod
+        def get_version(cls):
+            return ""
+
+        @classmethod
+        def tactic_comps(cls):
             return set()
 
     f = Foo(
@@ -33,11 +58,33 @@ def test_mmic_generic():
     )
 
 
-def test_mmic_validation():
-    class Foo(mmic.components.blueprints.generic_component.GenericComponent):
-        def execute(self, inputs):
-            return True, self.output()()
+def test_mmic_tactic():
+    class Foo(mmic.components.blueprints.tactic_component.TacticComponent):
+        @classmethod
+        def input(cls):
+            return {}
 
-        @property
-        def supported_comps(self):
-            return set()
+        @classmethod
+        def output(cls):
+            return {}
+
+        @classmethod
+        def get_version(cls):
+            return ""
+
+        @classmethod
+        def strategy_comp(cls):
+            return ""
+
+        def execute(self):
+            pass
+
+    f = Foo(
+        name="foo",
+        scratch=False,
+        thread_safe=False,
+        thread_parallel=False,
+        node_parallel=False,
+        managed_memory=False,
+        extras=None,
+    )
