@@ -1,11 +1,13 @@
 from ..base.base_component import ProgramHarness
-
+import abc
 
 __all__ = ["TacticComponent"]
 
 
 class TacticComponent(ProgramHarness):
-    def get_version(self) -> str:
+    @classmethod
+    @abc.abstractmethod
+    def get_version(cls) -> str:
         """Finds program, extracts version, returns normalized version string.
         Returns
         -------
@@ -26,5 +28,15 @@ class TacticComponent(ProgramHarness):
         -------
         bool
             Returns True if the program was found, False otherwise.
+        """
+        raise NotImplementedError
+
+    @classmethod
+    @abc.abstractmethod
+    def strategy_comp(cls) -> str:
+        """Returns the strategy component this (tactic) component belongs to.
+        Returns
+        -------
+        Set[str]
         """
         raise NotImplementedError
