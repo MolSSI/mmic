@@ -4,7 +4,7 @@ from .config import TaskConfig
 from qcelemental import models
 
 
-class ProgramHarness(models.ProtoModel, abc.ABC, metaclass=abc.ABCMeta):
+class ProgramHarness(models.ProtoModel, metaclass=abc.ABCMeta):
 
     _defaults: Dict[str, Any] = {}
     name: str
