@@ -27,10 +27,10 @@ class StrategyComponent(ProgramHarness):
                     comp_mod = importlib.import_module(inputs.component)
                     return True, comp_mod._mainComponent.compute(inputs)
 
-        if not len(self.installed_comps):
+        if not len(self.installed_comps()):
             raise ModuleNotFoundError(
                 "No supported component is installed. Solve by installing any of the following components:\n"
-                + f"{self.supported_comps}"
+                + f"{self.tactic_comps}"
             )
 
         comp_mod = importlib.import_module(comp)
@@ -51,23 +51,24 @@ class StrategyComponent(ProgramHarness):
         """
         raise NotImplementedError
 
-    @property
-    def installed_comps(self) -> List[str]:
+    @classmethod
+    def installed_comps(cls) -> List[str]:
         """Returns module spec if it exists.
         Returns
         -------
         List[str]
             Component names that are installed.
         """
-        if self.supported_comps is None:
+        if cls.tactic_comps() is None:
             raise NotImplementedError
             (
-                "No components are available. Solve by registering one via register_comps.add(your_component)."
+                f"No components are available. Solve by installing any of the supported components: {cls.tactic_comps()}."
             )
-        return [spec for spec in self.supported_comps if importlib.util.find_spec(spec)]
+        return [spec for spec in cls.tactic_comps() if importlib.util.find_spec(spec)]
 
+    @classmethod
     @abc.abstractmethod
-    def get_version(self) -> str:
+    def get_version(cls) -> str:
         """Finds program, extracts version, returns normalized version string.
         Returns
         -------
@@ -76,10 +77,10 @@ class StrategyComponent(ProgramHarness):
         """
         raise NotImplementedError
 
-    @property
+    @classmethod
     @abc.abstractmethod
-    def supported_comps(self) -> Set[str]:
-        """Returns the supported components e.g. set(['mmic_mda',...]).
+    def tactic_comps(cls) -> Set[str]:
+        """Returns the supported tactic components e.g. set(['mmic_mda',...]).
         Returns
         -------
         Set[str]

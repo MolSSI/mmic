@@ -96,7 +96,6 @@ class ProgramHarness(models.ProtoModel, metaclass=abc.ABCMeta):
         """
 
     ## Utility
-
     @abc.abstractmethod
     def get_version(self) -> str:
         """Finds program, extracts version, returns normalized version string.
