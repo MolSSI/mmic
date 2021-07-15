@@ -1,7 +1,7 @@
 import abc
 from typing import Any, Dict, List, Optional, Tuple
 from .config import TaskConfig
-from qcelemental import models
+from cmselemental import models
 
 
 class ProgramHarness(models.ProtoModel, metaclass=abc.ABCMeta):

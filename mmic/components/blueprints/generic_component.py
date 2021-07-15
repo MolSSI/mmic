@@ -1,5 +1,5 @@
 from ..base.base_component import ProgramHarness
-from qcelemental import models
+from cmselemental import models
 
 __all__ = ["GenericComponent"]
 
