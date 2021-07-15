@@ -60,8 +60,7 @@ class StrategyComponent(ProgramHarness):
             Component names that are installed.
         """
         if cls.tactic_comps() is None:
-            raise NotImplementedError
-            (
+            raise NotImplementedError(
                 f"No components are available. Solve by installing any of the supported components: {cls.tactic_comps()}."
             )
         return [spec for spec in cls.tactic_comps() if importlib.util.find_spec(spec)]
