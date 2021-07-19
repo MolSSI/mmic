@@ -25,6 +25,7 @@ setup(
     author="MolSSI",
     author_email="support@molssi.org",
     description=short_description[0],
+    url="https://github.com/MolSSI/mmic",
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     long_description=long_description,
@@ -37,6 +38,7 @@ setup(
     include_package_data=True,
     # Allows `setup.py test` to work correctly with pytest
     setup_requires=[] + pytest_runner,
+    install_requires=['pydantic','cmselemental'],
     # Additional entries you may want simply uncomment the lines you want and fill in the data
     # url='http://www.my_package.com',  # Website
     # install_requires=[],              # Required packages, pulls from pip if needed; do not use for Conda deployment
