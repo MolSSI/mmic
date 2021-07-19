@@ -23,6 +23,7 @@ setup(
     # Self-descriptive entries which should always be present
     name="mmic",
     author="MolSSI",
+    author_email="support@molssi.org",
     description=short_description[0],
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
