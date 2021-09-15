@@ -73,7 +73,7 @@ def test_mmic_tactic():
             return ""
 
         @classmethod
-        def strategy_comp(cls):
+        def strategy_comps(cls):
             return ""
 
         def execute(self):
