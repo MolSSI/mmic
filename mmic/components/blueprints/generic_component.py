@@ -28,7 +28,8 @@ class GenericComponent(ProgramHarness):
         """
         raise NotImplementedError
 
-    def get_version(self) -> str:
+    @classmethod
+    def get_version(cls) -> str:
         """Finds program, extracts version, returns normalized version string.
         Returns
         -------
