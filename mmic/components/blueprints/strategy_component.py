@@ -1,5 +1,6 @@
 from ..base.base_component import ProgramHarness
-from typing import Dict, List, Set, Optional, Any, Tuple
+from typing import Dict, List, Set, Optional, Any, Tuple, Set
+from cmselemental.util.decorators import classproperty
 import importlib
 import abc
 
@@ -51,7 +52,7 @@ class StrategyComponent(ProgramHarness):
         """
         raise NotImplementedError
 
-    @classmethod
+    @classproperty
     def installed_comps(cls) -> List[str]:
         """Returns module spec if it exists.
         Returns
@@ -59,11 +60,11 @@ class StrategyComponent(ProgramHarness):
         List[str]
             Component names that are installed.
         """
-        if cls.tactic_comps() is None:
+        if cls.tactic_comps is None:
             raise NotImplementedError(
                 f"No components are available. Solve by installing any of the supported components: {cls.tactic_comps()}."
             )
-        return [spec for spec in cls.tactic_comps() if importlib.util.find_spec(spec)]
+        return [spec for spec in cls.tactic_comps if importlib.util.find_spec(spec)]
 
     @classmethod
     @abc.abstractmethod
@@ -76,7 +77,7 @@ class StrategyComponent(ProgramHarness):
         """
         raise NotImplementedError
 
-    @classmethod
+    @classproperty
     @abc.abstractmethod
     def tactic_comps(cls) -> Set[str]:
         """Returns the supported tactic components e.g. set(['mmic_mda',...]).
