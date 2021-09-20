@@ -28,7 +28,7 @@ class StrategyComponent(ProgramHarness):
                     comp_mod = importlib.import_module(inputs.component)
                     return True, comp_mod._mainComponent.compute(inputs)
 
-        if not len(self.installed_comps()):
+        if not len(self.installed_comps):
             raise ModuleNotFoundError(
                 "No supported component is installed. Solve by installing any of the following components:\n"
                 + f"{self.tactic_comps}"
