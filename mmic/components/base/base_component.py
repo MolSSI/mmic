@@ -100,7 +100,6 @@ class ProgramHarness(ProtoModel, metaclass=abc.ABCMeta):
     ## Utility
 
     @classproperty
-    @abc.abstractmethod
     def version(cls) -> str:
         """Returns distutils-style version string.
 
@@ -115,7 +114,7 @@ class ProgramHarness(ProtoModel, metaclass=abc.ABCMeta):
             Return a dist-utils valid version string.
 
         """
-        pass
+        raise NotImplementedError
 
     ## Computers
     def build_input(
