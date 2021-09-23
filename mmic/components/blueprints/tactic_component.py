@@ -1,7 +1,6 @@
 from ..base.base_component import ProgramHarness
 from cmselemental.util.decorators import classproperty
 from typing import Set
-import abc
 
 __all__ = ["TacticComponent"]
 
@@ -19,15 +18,16 @@ class TacticComponent(ProgramHarness):
         -------
         bool
             Returns True if the program was found, False otherwise.
+
         """
         raise NotImplementedError
 
     @classproperty
-    @abc.abstractmethod
     def strategy_comps(cls) -> Set[str]:
-        """Returns the strategy component(s) this (tactic) component belongs to.
+        """Returns the strategy component(s) this (tactic) component is compliant with.
         Returns
         -------
-        Set[str]
+        set[str]
+            A set of strategy component names.
         """
         raise NotImplementedError
