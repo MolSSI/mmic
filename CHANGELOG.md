@@ -8,4 +8,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 - Initial release of mmic
 
 ## [0.1.1] - 2021-XX-XX
-- ([`:pr:1`])(https://github.com/MolSSI/mmic/pull/1) Renamed `TacticComponent.strategy_comp` to `TacticComponent.strategy_comps`, added classproperty from cmsel.
+- ([`:pr:1`])(https://github.com/MolSSI/mmic/pull/1) Minor updates/fixes to blueprint components.
+- ([`:pr:2`])(https://github.com/MolSSI/mmic/pull/2) Replaced classmethod `get_verion` with classproperty `version` in all components.
