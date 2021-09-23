@@ -7,25 +7,6 @@ __all__ = ["TacticComponent"]
 
 
 class TacticComponent(ProgramHarness):
-    @classmethod
-    @abc.abstractmethod
-    def get_version(cls) -> str:
-        """Returns distutils-style version string.
-
-        Examples
-        --------
-        The string ">1.0, !=1.5.1, <2.0" implies any version after 1.0 and before 2.0
-        is compatible, except 1.5.1
-
-        Returns
-        -------
-        str
-            Return a dist-utils valid version string.
-
-        """
-
-        raise NotImplementedError
-
     @staticmethod
     def found(raise_error: bool = False) -> bool:
         """

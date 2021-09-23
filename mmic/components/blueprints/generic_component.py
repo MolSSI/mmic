@@ -1,5 +1,6 @@
 from ..base.base_component import ProgramHarness
-from cmselemental import models
+from cmselemental.models import ProtoModel
+from cmselemental.util.decorators import classproperty
 
 __all__ = ["GenericComponent"]
 
@@ -7,11 +8,11 @@ __all__ = ["GenericComponent"]
 class GenericComponent(ProgramHarness):
     @classmethod
     def input(cls):
-        return models.ProtoModel
+        return ProtoModel
 
     @classmethod
     def output(cls):
-        return models.ProtoModel
+        return ProtoModel
 
     @staticmethod
     def found(raise_error: bool = False) -> bool:
@@ -25,15 +26,5 @@ class GenericComponent(ProgramHarness):
         -------
         bool
             Returns True if the program was found, False otherwise.
-        """
-        raise NotImplementedError
-
-    @classmethod
-    def get_version(cls) -> str:
-        """Finds program, extracts version, returns normalized version string.
-        Returns
-        -------
-        str
-            Return a valid, safe python version string.
         """
         raise NotImplementedError

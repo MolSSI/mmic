@@ -66,17 +66,6 @@ class StrategyComponent(ProgramHarness):
             )
         return [spec for spec in cls.tactic_comps if importlib.util.find_spec(spec)]
 
-    @classmethod
-    @abc.abstractmethod
-    def get_version(cls) -> str:
-        """Finds program, extracts version, returns normalized version string.
-        Returns
-        -------
-        str
-            Return a valid, safe python version string.
-        """
-        raise NotImplementedError
-
     @classproperty
     @abc.abstractmethod
     def tactic_comps(cls) -> Set[str]:
