@@ -14,9 +14,10 @@ def test_mmic_imported():
 
 
 def test_mmic_generic():
-    class Foo(mmic.components.blueprints.generic_component.GenericComponent):
-        def execute(self):
-            pass
+
+    Foo = type(
+        "Foo", (mmic.components.blueprints.GenericComponent,), {"execute": lambda: ...}
+    )
 
     f = Foo(
         name="foo",
@@ -30,22 +31,16 @@ def test_mmic_generic():
 
 
 def test_mmic_strategy():
-    class Foo(mmic.components.blueprints.strategy_component.StrategyComponent):
-        @classmethod
-        def input(cls):
-            return {}
-
-        @classmethod
-        def output(cls):
-            return {}
-
-        @classmethod
-        def get_version(cls):
-            return ""
-
-        @classmethod
-        def tactic_comps(cls):
-            return set()
+    Foo = type(
+        "Foo",
+        (mmic.components.blueprints.StrategyComponent,),
+        {
+            "version": "",
+            "tactic_comps": lambda: set(),
+            "input": lambda: {},
+            "output": lambda: {},
+        },
+    )
 
     f = Foo(
         name="foo",
@@ -59,25 +54,17 @@ def test_mmic_strategy():
 
 
 def test_mmic_tactic():
-    class Foo(mmic.components.blueprints.tactic_component.TacticComponent):
-        @classmethod
-        def input(cls):
-            return {}
-
-        @classmethod
-        def output(cls):
-            return {}
-
-        @classmethod
-        def get_version(cls):
-            return ""
-
-        @classmethod
-        def strategy_comps(cls):
-            return ""
-
-        def execute(self):
-            pass
+    Foo = type(
+        "Foo",
+        (mmic.components.blueprints.TacticComponent,),
+        {
+            "version": "",
+            "strategy_comps": lambda: set(),
+            "input": lambda: {},
+            "output": lambda: {},
+            "execute": lambda: ...,
+        },
+    )
 
     f = Foo(
         name="foo",
