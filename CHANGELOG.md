@@ -9,4 +9,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## [0.1.1] - 2021-XX-XX
 - ([`:pr:1`])(https://github.com/MolSSI/mmic/pull/1) Minor updates/fixes to blueprint components.
-- ([`:pr:2`])(https://github.com/MolSSI/mmic/pull/2) Replaced classmethod `get_verion` with classproperty `version` in all components.
+- ([`:pr:2`])(https://github.com/MolSSI/mmic/pull/2) Replaces classmethod `get_verion` with classproperty `version` in all components. Removes abc methods from blueprint components.
