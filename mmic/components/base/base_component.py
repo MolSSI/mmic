@@ -1,10 +1,11 @@
 import abc
 from typing import Any, Dict, List, Optional, Tuple
 from .config import TaskConfig
-from cmselemental import models
+from cmselemental.models import ProtoModel
+from cmselemental.util.decorators import classproperty
 
 
-class ProgramHarness(models.ProtoModel, metaclass=abc.ABCMeta):
+class ProgramHarness(ProtoModel, metaclass=abc.ABCMeta):
 
     _defaults: Dict[str, Any] = {}
     name: str
@@ -35,7 +36,7 @@ class ProgramHarness(models.ProtoModel, metaclass=abc.ABCMeta):
     @classmethod
     def compute(
         cls,
-        input_data: models.ProtoModel,
+        input_data: ProtoModel,
         config: Optional[TaskConfig] = None,
         scratch: Optional[bool] = False,
         thread_safe: Optional[bool] = False,
@@ -43,7 +44,7 @@ class ProgramHarness(models.ProtoModel, metaclass=abc.ABCMeta):
         node_parallel: Optional[bool] = False,
         managed_memory: Optional[bool] = False,
         extras: Optional[Dict[str, Any]] = None,
-    ) -> models.ProtoModel:
+    ) -> ProtoModel:
 
         # Validate the input model
         if isinstance(input_data, cls.input()):
@@ -94,22 +95,32 @@ class ProgramHarness(models.ProtoModel, metaclass=abc.ABCMeta):
         bool
             Returns True if the program was found, False otherwise.
         """
+        pass
 
     ## Utility
+
+    @classproperty
     @abc.abstractmethod
-    def get_version(self) -> str:
-        """Finds program, extracts version, returns normalized version string.
+    def version(cls) -> str:
+        """Returns distutils-style version string.
+
+        Examples
+        --------
+        The string ">1.0, !=1.5.1, <2.0" implies any version after 1.0 and before 2.0
+        is compatible, except 1.5.1
+
         Returns
         -------
         str
-            Return a valid, safe python version string.
+            Return a dist-utils valid version string.
+
         """
         pass
 
     ## Computers
     def build_input(
         self,
-        input_model: models.ProtoModel,
+        input_model: ProtoModel,
         config: TaskConfig = None,
         template: Optional[str] = None,
     ) -> Dict[str, Any]:
@@ -129,8 +140,8 @@ class ProgramHarness(models.ProtoModel, metaclass=abc.ABCMeta):
         raise NotImplementedError(f"execute is not implemented for {self.__class__}.")
 
     def parse_output(
-        self, outfiles: Dict[str, str], input_model: models.ProtoModel
-    ) -> models.ProtoModel:
+        self, outfiles: Dict[str, str], input_model: ProtoModel
+    ) -> ProtoModel:
         raise NotImplementedError(
             f"parse_output is not implemented for {self.__class__}."
         )
