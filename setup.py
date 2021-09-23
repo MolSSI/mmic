@@ -38,7 +38,7 @@ setup(
     include_package_data=True,
     # Allows `setup.py test` to work correctly with pytest
     setup_requires=[] + pytest_runner,
-    install_requires=['pydantic','cmselemental'],
+    install_requires=["pydantic", "cmselemental"],
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
     ],
