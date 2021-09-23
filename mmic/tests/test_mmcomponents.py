@@ -35,7 +35,7 @@ def test_mmic_strategy():
         "Foo",
         (mmic.components.blueprints.StrategyComponent,),
         {
-            "version": "",
+            "version": lambda: "",
             "tactic_comps": lambda: set(),
             "input": lambda: {},
             "output": lambda: {},
@@ -58,7 +58,7 @@ def test_mmic_tactic():
         "Foo",
         (mmic.components.blueprints.TacticComponent,),
         {
-            "version": "",
+            "version": lambda: "",
             "strategy_comps": lambda: set(),
             "input": lambda: {},
             "output": lambda: {},
