@@ -23,13 +23,13 @@ class ProgramHarness(ProtoModel, metaclass=abc.ABCMeta):
     def __init__(self, **kwargs):
         super().__init__(**{**self._defaults, **kwargs})
 
-    @classmethod
-    @abc.abstractmethod
+    @abc.abstractproperty
+    @classproperty
     def input(cls):
         ...
 
-    @classmethod
-    @abc.abstractmethod
+    @abc.abstractproperty
+    @classproperty
     def output(cls):
         ...
 
@@ -47,10 +47,10 @@ class ProgramHarness(ProtoModel, metaclass=abc.ABCMeta):
     ) -> ProtoModel:
 
         # Validate the input model
-        if isinstance(input_data, cls.input()):
-            cls.input()(**input_data.dict())
+        if isinstance(input_data, cls.input):
+            cls.input(**input_data.dict())
         elif isinstance(input_data, dict):
-            cls.input()(**input_data)
+            cls.input(**input_data)
         else:
             raise TypeError(
                 f"{type(input_data)} is not a valid input type for the {cls.__name__} component."
@@ -70,10 +70,10 @@ class ProgramHarness(ProtoModel, metaclass=abc.ABCMeta):
         _, exec_output = program.execute(input_data)
 
         # Validate the output model
-        if isinstance(exec_output, cls.output()):
-            cls.output()(**exec_output.dict())
+        if isinstance(exec_output, cls.output):
+            cls.output(**exec_output.dict())
         elif isinstance(exec_output, dict):
-            cls.output()(**exec_output)
+            cls.output(**exec_output)
         else:
             raise TypeError(
                 f"{type(exec_output)} is not a valid output type for the {cls.__name__} component."
@@ -95,10 +95,11 @@ class ProgramHarness(ProtoModel, metaclass=abc.ABCMeta):
         bool
             Returns True if the program was found, False otherwise.
         """
-        pass
+        ...
 
     ## Utility
 
+    @abc.abstractproperty
     @classproperty
     def version(cls) -> str:
         """Returns distutils-style version string.
@@ -114,7 +115,7 @@ class ProgramHarness(ProtoModel, metaclass=abc.ABCMeta):
             Return a dist-utils valid version string.
 
         """
-        raise NotImplementedError
+        ...
 
     ## Computers
     def build_input(
