@@ -4,19 +4,15 @@ Unit and regression test for the mmic package.
 
 # Import package, test suite, and other packages as needed
 import mmic
-import pytest
 import sys
-
-
-def test_mmic_imported():
-    """Sample test, will always pass so long as import statement worked"""
-    assert "mmic" in sys.modules
 
 
 def test_mmic_generic():
 
     Foo = type(
-        "Foo", (mmic.components.blueprints.GenericComponent,), {"execute": lambda: ...}
+        "Foo",
+        (mmic.components.blueprints.GenericComponent,),
+        {"version": lambda: ..., "execute": lambda: ...},
     )
 
     f = Foo(
@@ -35,10 +31,10 @@ def test_mmic_strategy():
         "Foo",
         (mmic.components.blueprints.StrategyComponent,),
         {
-            "version": lambda: "",
-            "tactic_comps": lambda: set(),
-            "input": lambda: {},
-            "output": lambda: {},
+            "version": lambda: ...,
+            "tactic_comps": lambda: ...,
+            "input": lambda: ...,
+            "output": lambda: ...,
         },
     )
 
@@ -58,10 +54,10 @@ def test_mmic_tactic():
         "Foo",
         (mmic.components.blueprints.TacticComponent,),
         {
-            "version": lambda: "",
-            "strategy_comps": lambda: set(),
-            "input": lambda: {},
-            "output": lambda: {},
+            "version": lambda: ...,
+            "strategy_comps": lambda: ...,
+            "input": lambda: ...,
+            "output": lambda: ...,
             "execute": lambda: ...,
         },
     )
