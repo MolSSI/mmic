@@ -1,4 +1,5 @@
 from ..base.base_component import ProgramHarness
+import abc
 from cmselemental.util.decorators import classproperty
 from typing import Set
 
@@ -22,6 +23,7 @@ class TacticComponent(ProgramHarness):
         """
         raise NotImplementedError
 
+    @abc.abstractproperty
     @classproperty
     def strategy_comps(cls) -> Set[str]:
         """Returns the strategy component(s) this (tactic) component is compliant with.
@@ -30,4 +32,4 @@ class TacticComponent(ProgramHarness):
         set[str]
             A set of strategy component names.
         """
-        raise NotImplementedError
+        ...
