@@ -6,11 +6,11 @@ __all__ = ["GenericComponent"]
 
 
 class GenericComponent(ProgramHarness):
-    @classmethod
+    @classproperty
     def input(cls):
         return ProtoModel
 
-    @classmethod
+    @classproperty
     def output(cls):
         return ProtoModel
 
