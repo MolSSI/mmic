@@ -1,4 +1,5 @@
 from ..base.base_component import ProgramHarness
+import abc
 from typing import Dict, List, Set, Optional, Any, Tuple, Set
 from cmselemental.util.decorators import classproperty
 import importlib
@@ -69,6 +70,7 @@ class StrategyComponent(ProgramHarness):
             )
         return [spec for spec in cls.tactic_comps if importlib.util.find_spec(spec)]
 
+    @abc.abstractproperty
     @classproperty
     def tactic_comps(cls) -> Set[str]:
         """Returns the tactic components this strategy component supports.
@@ -79,4 +81,4 @@ class StrategyComponent(ProgramHarness):
             A set of compliant tactic component names.
 
         """
-        raise NotImplementedError
+        ...
