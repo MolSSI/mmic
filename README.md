@@ -1,6 +1,6 @@
 [//]: # (Badges)
 [![GitHub Actions Build Status](https://github.com/MolSSI/mmic/workflows/CI/badge.svg)](https://github.com/MolSSI/mmic/actions?query=workflow%3ACI)
-[![codecov](https://codecov.io/gh/MolSSI/mmic/branch/main/graph/badge.svg)](https://codecov.io/gh/MolSSI/MMElemental/branch/main)
+[![codecov](https://codecov.io/gh/MolSSI/mmic/branch/main/graph/badge.svg)](https://codecov.io/gh/MolSSI/mmic/branch/main)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/MolSSI/mmic.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/MolSSI/mmic/context:python)
 
 # What is MMIC?
