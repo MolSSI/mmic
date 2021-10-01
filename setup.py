@@ -23,7 +23,7 @@ setup(
     # Self-descriptive entries which should always be present
     name="mmic",
     author="MolSSI",
-    author_email="support@molssi.org",
+    author_email="mmic@molssi.org",
     description=short_description[0],
     url="https://github.com/MolSSI/mmic",
     version=versioneer.get_version(),
@@ -38,9 +38,9 @@ setup(
     include_package_data=True,
     # Allows `setup.py test` to work correctly with pytest
     setup_requires=[] + pytest_runner,
-    install_requires=["pydantic", "cmselemental"],
+    install_requires=["pydantic", "cmselemental==0.2.0"],
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 3 - Alpha",
     ],
     # Additional entries you may want simply uncomment the lines you want and fill in the data
     # url='http://www.my_package.com',  # Website
